@@ -50,7 +50,7 @@ namespace sql {
 
     bool ResultSet::State::get ( const State& bits )
     {
-        return (myBits & bits.myBits);
+        return ((myBits & bits.myBits) != 0);
     }
 
     ResultSet::State::operator bool () const

@@ -1,37 +1,14 @@
-// Copyright (c) 2009, Andre Caron
+// Copyright(c) Andre Caron, 2009-2010
 //
-// This package is free software; you can redistribute it and/or modify it
-// under the terms of a Berkely Software Distribution (BSD) license.
-//
-// This package is distributed in the hope that it will be useful, but
-// WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-// or FITNESS FOR A PARTICULAR PURPOSE. See the accompanying "license.txt" file
-// for more details.
-//
-
-/*!
- * @file sql/python/_sql.cpp
- * @author Andre Caron
- *
- * @brief Python bindings for the sql library.
- */
+// This document is covered by the Artistic License 2.0 (Open Source Initiative
+// approved license). A copy of the license should have been provided alongside
+// this software package (see "license.rtf"). If not, the license is available
+// online at "http://www.opensource.org/licenses/artistic-license-2.0.php".
 
 #include <boost/python.hpp>
-#include <sql/Diagnostic.hpp>
-#include <sql/DirectStatement.hpp>
-#include <sql/Connection.hpp>
-#include <sql/ConnectionString.hpp>
-#include <sql/Date.hpp>
-#include <sql/Driver.hpp>
-#include <sql/Environment.hpp>
-#include <sql/Guid.hpp>
-#include <sql/PreformattedConnectionString.hpp>
-#include <sql/PreparedStatement.hpp>
-#include <sql/Statement.hpp>
-#include <sql/string.hpp>
-#include <sql/Time.hpp>
-#include <sql/Version.hpp>
+#include <sql.hpp>
 #include <sql/firebird.hpp>
+#include <sql/mysql.hpp>
 #include <sql/sqlite.hpp>
 #include <sstream>
 
@@ -54,7 +31,7 @@ namespace {
 
 }
 
-BOOST_PYTHON_MODULE(_sql)
+BOOST_PYTHON_MODULE(pysql)
 {
         // Export general library exceptions.
     boost::python::register_exception_translator
@@ -104,13 +81,13 @@ BOOST_PYTHON_MODULE(_sql)
         boost::python::bases< sql::Statement >
         > DirectStatement
         ( "DirectStatement",
-          boost::python::init< sql::Connection&, const char* >() );
+          boost::python::init< sql::Connection&, const std::string& >() );
     boost::python::class_<
         sql::PreparedStatement, boost::noncopyable,
         boost::python::bases< sql::Statement >
         > PreparedStatement
         ( "PreparedStatement",
-          boost::python::init< sql::Connection&, const char* >() );
+          boost::python::init< sql::Connection&, const std::string& >() );
 
         // Export connection string class.
     boost::python::class_< sql::ConnectionString, boost::noncopyable >
