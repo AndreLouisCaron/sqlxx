@@ -1,32 +1,30 @@
-// Copyright (c) 2009, Andre Caron
+// Copyright(c) Andre Caron, 2009-2010
 //
-// This package is free software; you can redistribute it and/or modify it
-// under the terms of a Berkely Software Distribution (BSD) license.
-//
-// This package is distributed in the hope that it will be useful, but
-// WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-// or FITNESS FOR A PARTICULAR PURPOSE. See the accompanying "license.txt" file
-// for more details.
-//
-
-/*!
- * @file sqlite.cpp
- * @author Andre Caron
- */
+// This document is covered by the Artistic License 2.0 (Open Source Initiative
+// approved license). A copy of the license should have been provided alongside
+// this software package (see "license.rtf"). If not, the license is available
+// online at "http://www.opensource.org/licenses/artistic-license-2.0.php".
 
 #include <sql/sqlite.hpp>
+#include <sstream>
+
+namespace {
+
+    sql::string format ( const sql::string& database )
+    {
+        std::ostringstream how;
+        how << "Driver={SQLite ODBC Driver};"
+            << "Database=" << database << ';';
+        return (how.str());
+    }
+
+}
 
 namespace sql { namespace sqlite {
 
-    std::ostream& ConnectionString::put ( std::ostream& out ) const
+    Connection::Connection ( Environment& environment, const string& database )
+        : Driver(environment, ::format(database))
     {
-        std::ostream::sentry ok(out);
-        if ( ok )
-        {
-            out << "Driver={SQLite ODBC Driver};"
-                << "Database=" << database() << ';';
-        }
-        return (out);
     }
 
 } }

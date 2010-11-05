@@ -6,22 +6,31 @@
 // online at "http://www.opensource.org/licenses/artistic-license-2.0.php".
 
 #include <sql/mysql.hpp>
+#include <sstream>
+
+namespace {
+
+    sql::string format ( const sql::string& database,
+        const sql::string& username, const sql::string& password )
+    {
+        std::ostringstream how;
+        how << "Driver={MySQL ODBC 5.1 Driver};"
+            << "Server=localhost;"
+            << "Database=" << database << ';'
+            << "User=" << username << ';'
+            << "Password=" << password << ';'
+            << "Option=3;";
+        return (how.str());
+    }
+
+}
 
 namespace sql { namespace mysql {
 
-    std::ostream& LocalConnectionString::put ( std::ostream& out ) const
+    Connection::Connection ( Environment& environment, const string& database,
+        const string& username, const string& password )
+        : Driver(environment, ::format(database, username, password))
     {
-        std::ostream::sentry ok(out);
-        if ( ok )
-        {
-            out << "Driver={MySQL ODBC 5.1 Driver};"
-                << "Server=localhost;"
-                << "Database=" << database() << ';'
-                << "User=" << user() << ';'
-                << "Password=" << password() << ';'
-                << "Option=3;";
-        }
-        return (out);
     }
 
 } }

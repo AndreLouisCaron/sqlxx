@@ -154,10 +154,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ConnectionString.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Date.cpp"
 				>
 			</File>
@@ -248,10 +244,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ConnectionString.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Date.hpp"
 				>
 			</File>
@@ -293,10 +285,6 @@
 			</File>
 			<File
 				RelativePath=".\Numeric.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PreformattedConnectionString.hpp"
 				>
 			</File>
 			<File

@@ -11,16 +11,13 @@
 
 namespace sql {
 
-    Driver::Driver ( Environment& environment, const ConnectionString& string )
+    Driver::Driver ( Environment& environment, const string& how )
         : Connection(environment)
     {
-        std::ostringstream configuration;
-        configuration << string;
-
         character outbuf[256];
         ::SQLSMALLINT end = 0;
         const ::SQLRETURN result = ::SQLDriverConnect(
-            handle().value(), NULL, (character*)(configuration.str().c_str()),
+            handle().value(), NULL, const_cast<character*>(how.data()),
             SQL_NTS, outbuf, 256, &end, SQL_DRIVER_NOPROMPT
             );
         if ( result != SQL_SUCCESS ) {

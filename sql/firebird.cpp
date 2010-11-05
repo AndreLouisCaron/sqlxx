@@ -6,21 +6,30 @@
 // online at "http://www.opensource.org/licenses/artistic-license-2.0.php".
 
 #include <sql/firebird.hpp>
+#include <sstream>
+
+namespace {
+
+    sql::string format ( const sql::string& database,
+        const sql::string& username, const sql::string& password )
+    {
+        std::ostringstream how;
+        how << "DRIVER={Firebird/Interbase(r) Driver (*.fdb)};"
+            << "DATABASE=" << database << ';'
+            << "USER=" << username << ';'
+            << "PASSWORD=" << password << ';'
+            << "CHARSET=WIN1250;";
+        return (how.str());
+    }
+
+}
 
 namespace sql { namespace firebird {
 
-    std::ostream& ConnectionString::put ( std::ostream& out ) const
+    Connection::Connection ( Environment& environment, const string& database,
+        const string& username, const string& password )
+        : Driver(environment, ::format(database, username, password))
     {
-        std::ostream::sentry ok(out);
-        if ( ok )
-        {
-            out << "DRIVER={Firebird/Interbase(r) Driver (*.fdb)};"
-                << "DATABASE=" << database() << ';'
-                << "USER=" << user() << ';'
-                << "PASSWORD=" << password() << ';'
-                << "CHARSET=WIN1250;";
-        }
-        return (out);
     }
 
 } }

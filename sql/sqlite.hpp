@@ -16,32 +16,12 @@ namespace sql { namespace sqlite {
          * @brief Groups fields used in the connection string passed to the ODBC
          *   driver to open the connection.
          */
-    class ConnectionString :
-        public sql::ConnectionString
+    class Connection :
+        public Driver
     {
-        /* data. */
-    private:
-        string myDatabase;
-
         /* construction. */
     public:
-        ConnectionString ( const string& database )
-            : myDatabase(database)
-        {}
-
-        /* methods. */
-    public:
-        const string& database () const {
-            return (myDatabase);
-        }
-
-        void database ( const string& value ) {
-            myDatabase = value;
-        }
-
-        /* overrides. */
-    protected:
-        virtual std::ostream& put ( std::ostream& out ) const;
+        Connection ( Environment& environment, const string& database );
     };
 
 } }

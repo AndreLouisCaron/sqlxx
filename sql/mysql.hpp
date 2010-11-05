@@ -12,56 +12,15 @@
 
 namespace sql { namespace mysql {
 
-        /*!
-         * @brief Groups fields used in the connection string passed to the ODBC
-         *   driver to open the connection.
-         */
-    class LocalConnectionString :
-        public sql::ConnectionString
+    class Connection :
+        public Driver
     {
-        /* data. */
-    private:
-        string myDatabase;
-        string myUser;
-        string myPassword;
-
         /* construction. */
     public:
-        LocalConnectionString (
-            const string& database, const string& user, const string& password
-            )
-            : myDatabase(database), myUser(user), myPassword(password)
-        {}
-
-        /* methods. */
-    public:
-        const string& database () const {
-            return (myDatabase);
-        }
-
-        void database ( const string& value ) {
-            myDatabase = value;
-        }
-
-        const string& user () const {
-            return (myUser);
-        }
-
-        void user ( const string& value ) {
-            myUser = value;
-        }
-
-        const string& password () const {
-            return (myPassword);
-        }
-
-        void password ( const string& value ) {
-            myPassword = value;
-        }
-
-        /* overrides. */
-    protected:
-        virtual std::ostream& put ( std::ostream& out ) const;
+        Connection (
+            Environment& environment, const string& database,
+            const string& username, const string& password
+            );
     };
 
 } }

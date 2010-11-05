@@ -10,8 +10,8 @@
 
 #include "__configure__.hpp"
 #include <sql/types.hpp>
+#include <sql/string.hpp>
 #include <sql/Connection.hpp>
-#include <sql/ConnectionString.hpp>
 
 namespace sql {
 
@@ -32,13 +32,13 @@ namespace sql {
              * @brief Attemps to open a database connection.
              *
              * @param environment General SQL/ODBC parameters.
-             * @param string Connection string which specifies which driver to
+             * @param how Connection string which specifies which driver to
              *    use and more parameters that depend strongly on that specific
              *    driver. For drivers who support remote access (some don't),
              *    the hostname or protocol information are required by the
              *    driver to open the connection.
              */
-        Driver ( Environment& environment, const ConnectionString& string );
+        Driver ( Environment& environment, const string& how );
 
             /*!
              * @brief Closes the connection to the database.
