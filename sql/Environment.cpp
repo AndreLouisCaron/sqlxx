@@ -27,18 +27,8 @@ namespace {
 
 namespace sql {
 
-    Environment::Handle::Handle ( Value value )
-        : sql::Handle(value,SQL_HANDLE_ENV)
-    {
-    }
-
-    Environment::Handle::~Handle ()
-    {
-        free();
-    }
-
     Environment::Environment ( const Version& version )
-        : myHandle(allocate())
+        : myHandle(::allocate(), SQL_HANDLE_ENV, &Handle::claim)
     {
         const ::SQLRETURN result = ::SQLSetEnvAttr(
             myHandle.value(), SQL_ATTR_ODBC_VERSION, version.value(), 0
@@ -48,7 +38,7 @@ namespace sql {
         }
     }
 
-    const Environment::Handle& Environment::handle () const throw()
+    const Handle& Environment::handle () const throw()
     {
         return (myHandle);
     }

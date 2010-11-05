@@ -25,17 +25,6 @@ namespace sql {
     class Statement :
         private NotCopyable
     {
-        /* nested types. */
-    public:
-        class Handle :
-            public sql::Handle
-        {
-            /* construction. */
-        public:
-            explicit Handle ( Value value );
-            virtual ~Handle ();
-        };
-
         /* members. */
     private:
             // Hold (and automagically release) the connection data.

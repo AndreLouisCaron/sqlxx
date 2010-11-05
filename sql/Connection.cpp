@@ -27,18 +27,8 @@ namespace {
 
 namespace sql {
 
-    Connection::Handle::Handle ( Value value )
-        : sql::Handle(value,SQL_HANDLE_DBC)
-    {
-    }
-
-    Connection::Handle::~Handle ()
-    {
-        free();
-    }
-
     Connection::Connection ( Environment& environment )
-        : myHandle(::allocate(environment))
+        : myHandle(::allocate(environment), SQL_HANDLE_DBC, &Handle::claim)
     {
     }
 
@@ -46,7 +36,7 @@ namespace sql {
     {
     }
 
-    const Connection::Handle& Connection::handle () const throw()
+    const Handle& Connection::handle () const throw()
     {
         return (myHandle);
     }

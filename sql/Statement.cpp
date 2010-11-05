@@ -26,21 +26,12 @@ namespace {
 
 namespace sql {
 
-    Statement::Handle::Handle ( Value value )
-        : sql::Handle(value,SQL_HANDLE_STMT)
-    {
-    }
-
-    Statement::Handle::~Handle ()
-    {
-        free();
-    }
-
     Statement::Statement ( Connection& connection )
-        : myHandle(::allocate(connection))
-    {}
+        : myHandle(::allocate(connection), SQL_HANDLE_STMT, &Handle::claim)
+    {
+    }
 
-    const Statement::Handle& Statement::handle () const throw()
+    const Handle& Statement::handle () const throw()
     {
         return (myHandle);
     }

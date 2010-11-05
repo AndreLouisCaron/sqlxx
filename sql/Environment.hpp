@@ -27,15 +27,6 @@ namespace sql {
     {
         /* nested types. */
     public:
-        class Handle :
-            public sql::Handle
-        {
-            /* construction. */
-        public:
-            explicit Handle ( Value value );
-            virtual ~Handle ();
-        };
-
             /*!
              * @brief Thrown in the *highly unlikely* case where the environment
              *    allocation fails. In this case, there is no standard means of

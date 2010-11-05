@@ -9,13 +9,26 @@
 
 namespace sql {
 
-    Handle::Handle ( Value value, Type type )
-        : myValue(value), myType(type)
+    void Handle::proxy ( Value value, Type type )
+    {
+    }
+
+    void Handle::claim ( Value value, Type type )
+    {
+        if ( value != SQL_NULL_HANDLE ) {
+            ::SQLFreeHandle(type, value);
+        }
+    }
+
+    Handle::Handle ( Value value, Type type, Cleanup cleanup )
+        : myValue(value), myType(type), myCleanup(cleanup)
     {
     }
 
     Handle::~Handle ()
     {
+            // Invoke appropriate cleanup function.
+        (*myCleanup)(myValue, myType);
     }
 
     bool Handle::bad () const throw()
@@ -36,16 +49,6 @@ namespace sql {
     Handle::Type Handle::type () const throw()
     {
         return (myType);
-    }
-
-    void Handle::free () throw()
-    {
-        if ( ok() )
-        {
-            ::SQLFreeHandle(myType,myValue);
-            myType = SQL_HANDLE_ENV;
-            myValue = SQL_NULL_HANDLE;
-        }
     }
 
 }

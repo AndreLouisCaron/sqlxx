@@ -32,17 +32,23 @@ namespace sql {
         typedef ::SQLHANDLE Value;
         typedef ::SQLSMALLINT Type;
 
+        typedef void(*Cleanup)(Value,Type);
+
+        /* class methods. */
+    public:
+        static void claim ( Value value, Type type );
+        static void proxy ( Value value, Type type );
+
         /* data. */
     private:
        Value myValue;
        Type myType;
+       Cleanup myCleanup;
 
         /* construction. */
-    protected:
-        Handle ( Value value, Type type );
-
     public:
-        virtual ~Handle ();
+        Handle ( Value value, Type type, Cleanup cleanup );
+        ~Handle ();
 
         /* methods. */
     public:
@@ -71,11 +77,6 @@ namespace sql {
              * @return The handle's typecode.
              */
         Type type () const throw();
-
-            /*!
-             * @brief Releases the handle back to the environment.
-             */
-        void free () throw();
     };
 
 }
