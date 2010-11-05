@@ -190,6 +190,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\odbc.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\PreparedStatement.cpp"
 				>
 			</File>
@@ -285,6 +289,10 @@
 			</File>
 			<File
 				RelativePath=".\Numeric.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\odbc.hpp"
 				>
 			</File>
 			<File
