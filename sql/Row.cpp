@@ -7,7 +7,7 @@
 
 #include <sql/Row.hpp>
 #include <sql/Diagnostic.hpp>
-#include <sql/ResultSet.hpp>
+#include <sql/Results.hpp>
 
 namespace {
 
@@ -24,17 +24,17 @@ namespace sql {
 
     Row& Row::operator>> ( int8& value )
     {
-        if ( myResultSet == 0 ) {
+        if ( myResults == 0 ) {
             return (*this);
         }
 
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLGetData(
-            myResultSet->handle().value(), myColumn, SQL_C_STINYINT,
+            myResults->handle().value(), myColumn, SQL_C_STINYINT,
             &value, sizeof(value), &length
             );
         if ( result != SQL_SUCCESS ) {
-            myResultSet = 0;
+            myResults = 0;
         }
         ++myColumn;
         return (*this);
@@ -42,17 +42,17 @@ namespace sql {
 
     Row& Row::operator>> ( uint8& value )
     {
-        if ( myResultSet == 0 ) {
+        if ( myResults == 0 ) {
             return (*this);
         }
 
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLGetData(
-            myResultSet->handle().value(), myColumn, SQL_C_UTINYINT,
+            myResults->handle().value(), myColumn, SQL_C_UTINYINT,
             &value, sizeof(value), &length
             );
         if ( result != SQL_SUCCESS ) {
-            myResultSet = 0;
+            myResults = 0;
         }
         ++myColumn;
         return (*this);
@@ -60,17 +60,17 @@ namespace sql {
 
     Row& Row::operator>> ( int16& value )
     {
-        if ( myResultSet == 0 ) {
+        if ( myResults == 0 ) {
             return (*this);
         }
 
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLGetData(
-            myResultSet->handle().value(), myColumn, SQL_C_SSHORT,
+            myResults->handle().value(), myColumn, SQL_C_SSHORT,
             &value, sizeof(value), &length
             );
         if ( result != SQL_SUCCESS ) {
-            myResultSet = 0;
+            myResults = 0;
         }
         ++myColumn;
         return (*this);
@@ -78,17 +78,17 @@ namespace sql {
 
     Row& Row::operator>> ( uint16& value )
     {
-        if ( myResultSet == 0 ) {
+        if ( myResults == 0 ) {
             return (*this);
         }
 
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLGetData(
-            myResultSet->handle().value(), myColumn, SQL_C_USHORT,
+            myResults->handle().value(), myColumn, SQL_C_USHORT,
             &value, sizeof(value), &length
             );
         if ( result != SQL_SUCCESS ) {
-            myResultSet = 0;
+            myResults = 0;
         }
         ++myColumn;
         return (*this);
@@ -96,17 +96,17 @@ namespace sql {
 
     Row& Row::operator>> ( int32& value )
     {
-        if ( myResultSet == 0 ) {
+        if ( myResults == 0 ) {
             return (*this);
         }
 
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLGetData(
-            myResultSet->handle().value(), myColumn, SQL_C_SLONG,
+            myResults->handle().value(), myColumn, SQL_C_SLONG,
             &value, sizeof(value), &length
             );
         if ( result != SQL_SUCCESS ) {
-            myResultSet = 0;
+            myResults = 0;
         }
         ++myColumn;
         return (*this);
@@ -114,17 +114,17 @@ namespace sql {
 
     Row& Row::operator>> ( uint32& value )
     {
-        if ( myResultSet == 0 ) {
+        if ( myResults == 0 ) {
             return (*this);
         }
 
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLGetData(
-            myResultSet->handle().value(), myColumn, SQL_C_ULONG,
+            myResults->handle().value(), myColumn, SQL_C_ULONG,
             &value, sizeof(value), &length
             );
         if ( result != SQL_SUCCESS ) {
-            myResultSet = 0;
+            myResults = 0;
         }
         ++myColumn;
         return (*this);
@@ -132,17 +132,17 @@ namespace sql {
 
     Row& Row::operator>> ( int64& value )
     {
-        if ( myResultSet == 0 ) {
+        if ( myResults == 0 ) {
             return (*this);
         }
 
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLGetData(
-            myResultSet->handle().value(), myColumn, SQL_C_SBIGINT,
+            myResults->handle().value(), myColumn, SQL_C_SBIGINT,
             &value, sizeof(value), &length
             );
         if ( result != SQL_SUCCESS ) {
-            myResultSet = 0;
+            myResults = 0;
         }
         ++myColumn;
         return (*this);
@@ -150,17 +150,17 @@ namespace sql {
 
     Row& Row::operator>> ( uint64& value )
     {
-        if ( myResultSet == 0 ) {
+        if ( myResults == 0 ) {
             return (*this);
         }
 
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLGetData(
-            myResultSet->handle().value(), myColumn, SQL_C_UBIGINT,
+            myResults->handle().value(), myColumn, SQL_C_UBIGINT,
             &value, sizeof(value), &length
             );
         if ( result != SQL_SUCCESS ) {
-            myResultSet = 0;
+            myResults = 0;
         }
         ++myColumn;
         return (*this);
@@ -168,17 +168,17 @@ namespace sql {
 
     Row& Row::operator>> ( float& value )
     {
-        if ( myResultSet == 0 ) {
+        if ( myResults == 0 ) {
             return (*this);
         }
 
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLGetData(
-            myResultSet->handle().value(), myColumn, SQL_C_FLOAT,
+            myResults->handle().value(), myColumn, SQL_C_FLOAT,
             &value, sizeof(value), &length
             );
         if ( result != SQL_SUCCESS ) {
-            myResultSet = 0;
+            myResults = 0;
         }
         ++myColumn;
         return (*this);
@@ -186,17 +186,17 @@ namespace sql {
 
     Row& Row::operator>> ( double& value )
     {
-        if ( myResultSet == 0 ) {
+        if ( myResults == 0 ) {
             return (*this);
         }
 
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLGetData(
-            myResultSet->handle().value(), myColumn, SQL_C_DOUBLE,
+            myResults->handle().value(), myColumn, SQL_C_DOUBLE,
             &value, sizeof(value), &length
             );
         if ( result != SQL_SUCCESS ) {
-            myResultSet = 0;
+            myResults = 0;
         }
         ++myColumn;
         return (*this);
@@ -206,7 +206,7 @@ namespace sql {
     {
         value.clear();
 
-        if ( myResultSet == 0 ) {
+        if ( myResults == 0 ) {
             return (*this);
         }
 
@@ -220,14 +220,14 @@ namespace sql {
             {
                 ::SQLLEN length = 0;
                 result = ::SQLGetData(
-                    myResultSet->handle().value(), myColumn, SQL_C_CHAR,
+                    myResults->handle().value(), myColumn, SQL_C_CHAR,
                     buffer, sizeof(buffer), &length
                     );
                 value += buffer;
             }
             __except (::filter(GetExceptionCode(),GetExceptionInformation()))
             {
-                myResultSet = 0;
+                myResults = 0;
                 return (*this);
             }
         }
@@ -235,7 +235,7 @@ namespace sql {
         while ( result == SQL_SUCCESS_WITH_INFO );
 
         if ( result != SQL_SUCCESS ) {
-            myResultSet = 0;
+            myResults = 0;
         }
 
         ++myColumn;
@@ -246,7 +246,7 @@ namespace sql {
     {
         value.clear();
 
-        if ( myResultSet == 0 ) {
+        if ( myResults == 0 ) {
             return (*this);
         }
 
@@ -256,7 +256,7 @@ namespace sql {
         {
             ::SQLLEN length = 0;
             result = ::SQLGetData(
-                myResultSet->handle().value(), myColumn, SQL_C_WCHAR, buffer,
+                myResults->handle().value(), myColumn, SQL_C_WCHAR, buffer,
                 sizeof(buffer), &length
                 );
             value += buffer;
@@ -265,7 +265,7 @@ namespace sql {
         while ( result == SQL_SUCCESS_WITH_INFO );
 
         if ( result != SQL_SUCCESS ) {
-            myResultSet = 0;
+            myResults = 0;
         }
 
         ++myColumn;
@@ -274,17 +274,17 @@ namespace sql {
 
     Row& Row::operator>> ( Date& date )
     {
-        if ( myResultSet == 0 ) {
+        if ( myResults == 0 ) {
             return (*this);
         }
 
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLGetData(
-            myResultSet->handle().value(), myColumn, SQL_C_TYPE_DATE,
+            myResults->handle().value(), myColumn, SQL_C_TYPE_DATE,
             &date.value(), sizeof(::SQL_DATE_STRUCT), &length
             );
         if ( result != SQL_SUCCESS ) {
-            myResultSet = 0;
+            myResults = 0;
         }
         ++myColumn;
         return (*this);
@@ -292,17 +292,17 @@ namespace sql {
 
     Row& Row::operator>> ( Guid& guid )
     {
-        if ( myResultSet == 0 ) {
+        if ( myResults == 0 ) {
             return (*this);
         }
 
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLGetData(
-            myResultSet->handle().value(), myColumn, SQL_C_GUID, &guid.value(),
+            myResults->handle().value(), myColumn, SQL_C_GUID, &guid.value(),
             sizeof(::SQLGUID), &length
             );
         if ( result != SQL_SUCCESS ) {
-            myResultSet = 0;
+            myResults = 0;
         }
         ++myColumn;
         return (*this);
@@ -310,17 +310,17 @@ namespace sql {
 
     Row& Row::operator>> ( Numeric& numeric )
     {
-        if ( myResultSet == 0 ) {
+        if ( myResults == 0 ) {
             return (*this);
         }
 
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLGetData(
-            myResultSet->handle().value(), myColumn, SQL_C_NUMERIC,
+            myResults->handle().value(), myColumn, SQL_C_NUMERIC,
             &numeric.value(), sizeof(::SQL_NUMERIC_STRUCT), &length
             );
         if ( result != SQL_SUCCESS ) {
-            myResultSet = 0;
+            myResults = 0;
         }
         ++myColumn;
         return (*this);
@@ -328,17 +328,17 @@ namespace sql {
 
     Row& Row::operator>> ( Time& time )
     {
-        if ( myResultSet == 0 ) {
+        if ( myResults == 0 ) {
             return (*this);
         }
 
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLGetData(
-            myResultSet->handle().value(), myColumn, SQL_C_TYPE_TIME,
+            myResults->handle().value(), myColumn, SQL_C_TYPE_TIME,
             &time.value(), sizeof(::SQL_TIME_STRUCT), &length
             );
         if ( result != SQL_SUCCESS ) {
-            myResultSet = 0;
+            myResults = 0;
         }
         ++myColumn;
         return (*this);
@@ -346,17 +346,17 @@ namespace sql {
 
     Row& Row::operator>> ( Timestamp& timestamp )
     {
-        if ( myResultSet == 0 ) {
+        if ( myResults == 0 ) {
             return (*this);
         }
 
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLGetData(
-            myResultSet->handle().value(), myColumn, SQL_C_TYPE_TIMESTAMP,
+            myResults->handle().value(), myColumn, SQL_C_TYPE_TIMESTAMP,
             &timestamp.value(), sizeof(::SQL_TIMESTAMP_STRUCT), &length
             );
         if ( result != SQL_SUCCESS ) {
-            myResultSet = 0;
+            myResults = 0;
         }
         ++myColumn;
         return (*this);

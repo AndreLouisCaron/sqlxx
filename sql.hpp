@@ -23,8 +23,7 @@ namespace sql {}
 #include <sql/PreformattedConnectionString.hpp>
 #include <sql/PreparedStatement.hpp>
 #include <sql/PreparedUpdate.hpp>
-#include <sql/ResultSet.hpp>
-#include <sql/ResultSet.hpp>
+#include <sql/Results.hpp>
 #include <sql/Row.hpp>
 #include <sql/Statement.hpp>
 #include <sql/Status.hpp>

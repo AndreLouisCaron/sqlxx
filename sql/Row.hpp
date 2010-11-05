@@ -46,13 +46,13 @@ namespace sql {
 
         /* data. */
     private:
-        ResultSet * myResultSet;
+        Results * myResults;
         ::SQLUSMALLINT myColumn;
 
         /* construction. */
     public:
         Row ()
-            : myResultSet(0), myColumn(0)
+            : myResults(0), myColumn(0)
         {}
 
         /* methods. */
@@ -79,7 +79,7 @@ namespace sql {
              * should not rely on this being a pointer at all.
              */
         operator const void* () const {
-            return (myResultSet);
+            return (myResults);
         }
 
             /*!

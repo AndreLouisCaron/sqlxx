@@ -1,5 +1,5 @@
-#ifndef _sql_ResultSet_hpp__
-#define _sql_ResultSet_hpp__
+#ifndef _sql_Results_hpp__
+#define _sql_Results_hpp__
 
 // Copyright(c) Andre Caron, 2009-2010
 //
@@ -29,7 +29,7 @@ namespace sql {
 
     extern const Null null;
 
-    class ResultSet;
+    class Results;
 
         /*!
          * @brief Convenient utility for reading the results returned by an SQL
@@ -39,7 +39,7 @@ namespace sql {
          * a result set in other libraries. Note that in this case, results on
          * a given row a read by \c Row objects.
          */
-    class ResultSet :
+    class Results :
         private NotCopyable
     {
         /* nested types. */
@@ -50,7 +50,7 @@ namespace sql {
              * Manipulators may be inserted into the stream among other read
              * operations, just like manipulators for standard i/o streams.
              */
-        typedef ResultSet&(*Manipulator)(ResultSet&);
+        typedef Results&(*Manipulator)(Results&);
 
         class State
         {
@@ -96,7 +96,7 @@ namespace sql {
 
         /* construction. */
     public:
-        ResultSet ( Statement& statement )
+        Results ( Statement& statement )
             : myStatement(statement), myState(), myColumn(0)
         {}
 
@@ -134,69 +134,69 @@ namespace sql {
             /*!
              * @brief Applies a manipulator to the row.
              */
-        ResultSet& operator>> ( Manipulator manipulator ) {
+        Results& operator>> ( Manipulator manipulator ) {
             return ((*manipulator)(*this));
         }
 
             /*!
              * @brief Fetches the next row in the results.
              */
-        ResultSet& operator>> ( const Row& );
+        Results& operator>> ( const Row& );
 
             /*!
              * @brief Reads the next value if it's null.
              */
-        ResultSet& operator>> ( const Null& );
+        Results& operator>> ( const Null& );
 
             /*!
              * @brief Reads the next column as a signed 8-bit integer field.
              */
-        ResultSet& operator>> ( int8& value );
+        Results& operator>> ( int8& value );
 
             /*!
              * @brief Reads the next column as an unsigned 8-bit integer field.
              */
-        ResultSet& operator>> ( uint8& value );
+        Results& operator>> ( uint8& value );
 
             /*!
              * @brief Reads the next column as a signed 16-bit integer field.
              */
-        ResultSet& operator>> ( int16& value );
+        Results& operator>> ( int16& value );
 
             /*!
              * @brief Reads the next column as an unsigned 16-bit integer field.
              */
-        ResultSet& operator>> ( uint16& value );
+        Results& operator>> ( uint16& value );
 
             /*!
              * @brief Reads the next column as a signed 32-bit integer field.
              */
-        ResultSet& operator>> ( int32& value );
+        Results& operator>> ( int32& value );
 
             /*!
              * @brief Reads the next column as an unsigned 32-bit integer field.
              */
-        ResultSet& operator>> ( uint32& value );
+        Results& operator>> ( uint32& value );
 
             /*!
              * @brief Reads the next column as a signed 64-bit integer field.
              */
-        ResultSet& operator>> ( int64& value );
+        Results& operator>> ( int64& value );
 
             /*!
              * @brief Reads the next column as an unsigned 64-bit integer field.
              */
-        ResultSet& operator>> ( uint64& value );
+        Results& operator>> ( uint64& value );
 
             /*!
              * @brief Reads the next column as a 32-bit floating point field.
              */
-        ResultSet& operator>> ( float& value );
+        Results& operator>> ( float& value );
 
             /*!
              * @brief Reads the next column as a 64-bit floating point field.
              */
-        ResultSet& operator>> ( double& value );
+        Results& operator>> ( double& value );
 
             /*!
              * @brief Reads the next column as a string field.
@@ -205,7 +205,7 @@ namespace sql {
              * is. For instance, reading a fixed lenght string field will yield
              * a string with exactly that length.
              */
-        ResultSet& operator>> ( string& value );
+        Results& operator>> ( string& value );
 
             /*!
              * @brief Reads the next column as a wide string field.
@@ -214,34 +214,34 @@ namespace sql {
              * is. For instance, reading a fixed lenght string field will yield
              * a string with exactly that length.
              */
-        ResultSet& operator>> ( wstring& value );
+        Results& operator>> ( wstring& value );
 
             /*!
              * @brief Reads the next column as a date field.
              */
-        ResultSet& operator>> ( Date& value );
+        Results& operator>> ( Date& value );
 
             /*!
              * @brief Reads the next column as a unique identifier field.
              */
-        ResultSet& operator>> ( Guid& value );
+        Results& operator>> ( Guid& value );
 
             /*!
              * @brief Reads the next column as a numeric field.
              */
-        ResultSet& operator>> ( Numeric& value );
+        Results& operator>> ( Numeric& value );
 
             /*!
              * @brief Reads the next column as a time field.
              */
-        ResultSet& operator>> ( Time& value );
+        Results& operator>> ( Time& value );
 
             /*!
              * @brief Reads the next column as a timestamp field.
              */
-        ResultSet& operator>> ( Timestamp& value );
+        Results& operator>> ( Timestamp& value );
     };
 
 }
 
-#endif /* _sql_ResultSet_hpp__ */
+#endif /* _sql_Results_hpp__ */

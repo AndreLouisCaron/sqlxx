@@ -198,7 +198,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ResultSet.cpp"
+				RelativePath=".\Results.cpp"
 				>
 			</File>
 			<File
@@ -304,7 +304,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ResultSet.hpp"
+				RelativePath=".\Results.hpp"
 				>
 			</File>
 			<File

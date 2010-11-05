@@ -5,7 +5,7 @@
 // this software package (see "license.rtf"). If not, the license is available
 // online at "http://www.opensource.org/licenses/artistic-license-2.0.php".
 
-#include <sql/ResultSet.hpp>
+#include <sql/Results.hpp>
 #include <sql/Diagnostic.hpp>
 
 #include <iostream>
@@ -24,61 +24,61 @@ namespace sql {
     const Row row;
     const Null null;
 
-    const ResultSet::State ResultSet::State::good(0);
-    const ResultSet::State ResultSet::State::null(1);
-    const ResultSet::State ResultSet::State::fail(2);
+    const Results::State Results::State::good(0);
+    const Results::State Results::State::null(1);
+    const Results::State Results::State::fail(2);
 
-    ResultSet::State::State ( unsigned int bits )
+    Results::State::State ( unsigned int bits )
         : myBits(bits)
     {
     }
 
-    ResultSet::State::State ()
+    Results::State::State ()
         : myBits(0)
     {
     }
 
-    void ResultSet::State::set ( const State& bits )
+    void Results::State::set ( const State& bits )
     {
         myBits |= bits.myBits;
     }
 
-    void ResultSet::State::clear ( const State& bits )
+    void Results::State::clear ( const State& bits )
     {
         myBits &= bits.myBits;
     }
 
-    bool ResultSet::State::get ( const State& bits )
+    bool Results::State::get ( const State& bits )
     {
         return ((myBits & bits.myBits) != 0);
     }
 
-    ResultSet::State::operator bool () const
+    Results::State::operator bool () const
     {
         return (myBits == 0);
     }
 
-    ResultSet::State& ResultSet::State::operator&= ( const State& other )
+    Results::State& Results::State::operator&= ( const State& other )
     {
         clear(other); return (*this);
     }
 
-    ResultSet::State& ResultSet::State::operator|= ( const State& other )
+    Results::State& Results::State::operator|= ( const State& other )
     {
         set(other); return (*this);
     }
 
-    ResultSet::State ResultSet::State::operator& ( const State& other ) const
+    Results::State Results::State::operator& ( const State& other ) const
     {
         return (State(myBits & other.myBits));
     }
 
-    ResultSet::State ResultSet::State::operator| ( const State& other ) const
+    Results::State Results::State::operator| ( const State& other ) const
     {
         return (State(myBits | other.myBits));
     }
 
-    long ResultSet::rows () const
+    long Results::rows () const
     {
         long count = 0;
         const ::SQLRETURN result = ::SQLRowCount(
@@ -90,7 +90,7 @@ namespace sql {
         return (count);
     }
 
-    ResultSet& ResultSet::operator>> ( const Row& )
+    Results& Results::operator>> ( const Row& )
     {
         if ( !myState ) {
             return (*this);
@@ -104,7 +104,7 @@ namespace sql {
         return (*this);
     }
 
-    ResultSet& ResultSet::operator>> ( const Null& )
+    Results& Results::operator>> ( const Null& )
     {
         if ( !myState ) {
             return (*this);
@@ -121,7 +121,7 @@ namespace sql {
         return (*this);
     }
 
-    ResultSet& ResultSet::operator>> ( int8& value )
+    Results& Results::operator>> ( int8& value )
     {
         if ( !myState ) {
             return (*this);
@@ -139,7 +139,7 @@ namespace sql {
         return (*this);
     }
 
-    ResultSet& ResultSet::operator>> ( uint8& value )
+    Results& Results::operator>> ( uint8& value )
     {
         if ( !myState ) {
             return (*this);
@@ -157,7 +157,7 @@ namespace sql {
         return (*this);
     }
 
-    ResultSet& ResultSet::operator>> ( int16& value )
+    Results& Results::operator>> ( int16& value )
     {
         if ( !myState ) {
             return (*this);
@@ -175,7 +175,7 @@ namespace sql {
         return (*this);
     }
 
-    ResultSet& ResultSet::operator>> ( uint16& value )
+    Results& Results::operator>> ( uint16& value )
     {
         if ( !myState ) {
             return (*this);
@@ -193,7 +193,7 @@ namespace sql {
         return (*this);
     }
 
-    ResultSet& ResultSet::operator>> ( int32& value )
+    Results& Results::operator>> ( int32& value )
     {
         if ( !myState ) {
             return (*this);
@@ -211,7 +211,7 @@ namespace sql {
         return (*this);
     }
 
-    ResultSet& ResultSet::operator>> ( uint32& value )
+    Results& Results::operator>> ( uint32& value )
     {
         if ( !myState ) {
             return (*this);
@@ -229,7 +229,7 @@ namespace sql {
         return (*this);
     }
 
-    ResultSet& ResultSet::operator>> ( int64& value )
+    Results& Results::operator>> ( int64& value )
     {
         if ( !myState ) {
             return (*this);
@@ -247,7 +247,7 @@ namespace sql {
         return (*this);
     }
 
-    ResultSet& ResultSet::operator>> ( uint64& value )
+    Results& Results::operator>> ( uint64& value )
     {
         if ( !myState ) {
             return (*this);
@@ -265,7 +265,7 @@ namespace sql {
         return (*this);
     }
 
-    ResultSet& ResultSet::operator>> ( float& value )
+    Results& Results::operator>> ( float& value )
     {
         if ( !myState ) {
             return (*this);
@@ -283,7 +283,7 @@ namespace sql {
         return (*this);
     }
 
-    ResultSet& ResultSet::operator>> ( double& value )
+    Results& Results::operator>> ( double& value )
     {
         if ( !myState ) {
             return (*this);
@@ -301,7 +301,7 @@ namespace sql {
         return (*this);
     }
 
-    ResultSet& ResultSet::operator>> ( string& value )
+    Results& Results::operator>> ( string& value )
     {
         value.clear();
 
@@ -341,7 +341,7 @@ namespace sql {
         return (*this);
     }
 
-    ResultSet& ResultSet::operator>> ( wstring& value )
+    Results& Results::operator>> ( wstring& value )
     {
         value.clear();
 
@@ -370,7 +370,7 @@ namespace sql {
         return (*this);
     }
 
-    ResultSet& ResultSet::operator>> ( Date& date )
+    Results& Results::operator>> ( Date& date )
     {
         if ( !myState ) {
             return (*this);
@@ -388,7 +388,7 @@ namespace sql {
         return (*this);
     }
 
-    ResultSet& ResultSet::operator>> ( Guid& guid )
+    Results& Results::operator>> ( Guid& guid )
     {
         if ( !myState ) {
             return (*this);
@@ -406,7 +406,7 @@ namespace sql {
         return (*this);
     }
 
-    ResultSet& ResultSet::operator>> ( Numeric& numeric )
+    Results& Results::operator>> ( Numeric& numeric )
     {
         if ( !myState ) {
             return (*this);
@@ -424,7 +424,7 @@ namespace sql {
         return (*this);
     }
 
-    ResultSet& ResultSet::operator>> ( Time& time )
+    Results& Results::operator>> ( Time& time )
     {
         if ( !myState ) {
             return (*this);
@@ -442,7 +442,7 @@ namespace sql {
         return (*this);
     }
 
-    ResultSet& ResultSet::operator>> ( Timestamp& timestamp )
+    Results& Results::operator>> ( Timestamp& timestamp )
     {
         if ( !myState ) {
             return (*this);
