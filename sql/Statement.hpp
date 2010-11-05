@@ -61,13 +61,9 @@ namespace sql {
         void cancel ();
 
             /*!
-             * @brief Initiates communication between the client and the
-             *    database.
-             *
-             * To process information sent back by the database, use a
-             * ResultSet.
+             * @brief Executes as a prepared statement, and \c reset()s.
              */
-        virtual void execute () = 0;
+        virtual void execute ();
     };
 
 }

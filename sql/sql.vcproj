@@ -166,10 +166,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\DirectStatement.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Driver.cpp"
 				>
 			</File>
@@ -199,10 +195,6 @@
 			</File>
 			<File
 				RelativePath=".\PreparedStatement.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PreparedUpdate.cpp"
 				>
 			</File>
 			<File
@@ -268,10 +260,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\DirectStatement.hpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Driver.hpp"
 				>
 			</File>
@@ -313,10 +301,6 @@
 			</File>
 			<File
 				RelativePath=".\PreparedStatement.hpp"
-				>
-			</File>
-			<File
-				RelativePath=".\PreparedUpdate.hpp"
 				>
 			</File>
 			<File

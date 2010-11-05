@@ -14,7 +14,6 @@ namespace sql {}
 #include <sql/ConnectionString.hpp>
 #include <sql/Date.hpp>
 #include <sql/Diagnostic.hpp>
-#include <sql/DirectStatement.hpp>
 #include <sql/Driver.hpp>
 #include <sql/Environment.hpp>
 #include <sql/execute.hpp>
@@ -23,7 +22,6 @@ namespace sql {}
 #include <sql/Numeric.hpp>
 #include <sql/PreformattedConnectionString.hpp>
 #include <sql/PreparedStatement.hpp>
-#include <sql/PreparedUpdate.hpp>
 #include <sql/Results.hpp>
 #include <sql/Row.hpp>
 #include <sql/Statement.hpp>

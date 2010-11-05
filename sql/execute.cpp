@@ -7,13 +7,22 @@
 
 #include <sql/execute.hpp>
 #include <sql/Connection.hpp>
-#include <sql/DirectStatement.hpp>
+#include <sql/Diagnostic.hpp>
+#include <sql/Statement.hpp>
 
 namespace sql {
 
     void execute ( Connection& connection, const string& update )
     {
-        sql::DirectStatement(connection,update).execute();
+        sql::Statement statement(connection);
+        const ::SQLRETURN result = ::SQLExecDirect(
+            statement.handle().value(),
+            const_cast<character*>(update.data()), SQL_NTS
+            );
+        if ( result != SQL_SUCCESS ) {
+            throw (Diagnostic(statement.handle()));
+        }
+
     }
 
 }

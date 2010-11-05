@@ -77,12 +77,6 @@ BOOST_PYTHON_MODULE(pysql)
         .def( "execute", &sql::Statement::execute )
         ;
     boost::python::class_<
-        sql::DirectStatement, boost::noncopyable,
-        boost::python::bases< sql::Statement >
-        > DirectStatement
-        ( "DirectStatement",
-          boost::python::init< sql::Connection&, const std::string& >() );
-    boost::python::class_<
         sql::PreparedStatement, boost::noncopyable,
         boost::python::bases< sql::Statement >
         > PreparedStatement
