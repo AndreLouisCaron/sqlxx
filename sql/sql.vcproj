@@ -178,6 +178,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\execute.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\firebird.cpp"
 				>
 			</File>
@@ -273,6 +277,10 @@
 			</File>
 			<File
 				RelativePath=".\Environment.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\execute.hpp"
 				>
 			</File>
 			<File

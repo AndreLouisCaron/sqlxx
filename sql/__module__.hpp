@@ -17,6 +17,7 @@ namespace sql {}
 #include <sql/DirectStatement.hpp>
 #include <sql/Driver.hpp>
 #include <sql/Environment.hpp>
+#include <sql/execute.hpp>
 #include <sql/Guid.hpp>
 #include <sql/Handle.hpp>
 #include <sql/Numeric.hpp>
