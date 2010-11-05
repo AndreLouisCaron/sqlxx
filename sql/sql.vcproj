@@ -146,6 +146,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\__module__.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Connection.cpp"
 				>
 			</File>
@@ -237,6 +241,10 @@
 			>
 			<File
 				RelativePath=".\__configure__.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\__module__.hpp"
 				>
 			</File>
 			<File
