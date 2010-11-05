@@ -83,33 +83,13 @@ BOOST_PYTHON_MODULE(pysql)
         ( "PreparedStatement",
           boost::python::init< sql::Connection&, const std::string& >() );
 
-        // Export connection string class.
-    boost::python::class_< sql::ConnectionString, boost::noncopyable >
-        ConnectionString ( "ConnectionString", boost::python::no_init );
-    ConnectionString
-        .def( "__str__", &sql::ConnectionString::operator std::string )
-        ;
-
-        // Export pre-formatted connection string class.
-    boost::python::class_<
-        sql::PreformattedConnectionString, boost::noncopyable,
-        boost::python::bases< sql::ConnectionString >
-    >
-    PreformattedConnectionString (
-        "PreformattedConnectionString",
-        boost::python::init<const sql::string&>()
-        );
-    PreformattedConnectionString
-        .def( boost::python::init<const char*>() )
-        ;
-
         // Export driver connection class.
     boost::python::class_<
         sql::Driver, boost::noncopyable,
         boost::python::bases< sql::Connection >
     > driver (
         "Driver",
-        boost::python::init<sql::Environment&,const sql::ConnectionString&>()
+        boost::python::init<sql::Environment&,const sql::string&>()
         );
 
         // Export string class.
@@ -144,12 +124,30 @@ BOOST_PYTHON_MODULE(pysql)
 
         // Export firebird connection string class.
     boost::python::class_<
-        sql::firebird::ConnectionString,
-        boost::python::bases< sql::ConnectionString >
+        sql::firebird::Connection,
+        boost::python::bases< sql::Driver >,
+        boost::noncopyable
         >
         firebirdconnection (
-            "FirebirdConnectionString",
+            "FirebirdConnection",
             boost::python::init<
+                sql::Environment&,
+                const sql::string&,
+                const sql::string&,
+                const sql::string&
+            >()
+        );
+
+        // Export mySQL connection string class.
+    boost::python::class_<
+        sql::mysql::Connection,
+        boost::python::bases< sql::Driver >,
+        boost::noncopyable
+        >
+        mysqlconnection (
+            "MySqlConnection",
+            boost::python::init<
+                sql::Environment&,
                 const sql::string&,
                 const sql::string&,
                 const sql::string&
@@ -158,12 +156,13 @@ BOOST_PYTHON_MODULE(pysql)
 
         // Export sqlite connection string class.
     boost::python::class_<
-        sql::sqlite::ConnectionString,
-        boost::python::bases< sql::ConnectionString >
+        sql::sqlite::Connection,
+        boost::python::bases< sql::Driver >,
+        boost::noncopyable
         >
         sqliteconnection (
             "SqliteConnectionString",
-            boost::python::init<const sql::string&>()
+            boost::python::init<sql::Environment&,const sql::string&>()
             );
 
 }
