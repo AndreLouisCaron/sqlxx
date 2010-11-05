@@ -24,4 +24,38 @@ namespace sql { namespace odbc {
         }
     }
 
+    sql::string browse
+        ( sql::Connection& connection, const sql::string& how )
+    {
+            // Query the length of the output string.
+        ::SQLSMALLINT size = 0;
+        ::SQLRETURN result = ::SQLBrowseConnect(
+            connection.handle().value(),
+            const_cast<character*>(how.data()), SQL_NTS, 0, 0, &size
+            );
+        
+            // The connection string might have been complete.
+        if ( result == SQL_SUCCESS ) {
+            return (sql::string());
+        }
+            // Anything else indicates an error.
+        if ( result != SQL_NEED_DATA ) {
+            throw (Diagnostic(connection.handle()));
+        }
+        
+            // Allocate the output string and try again.
+        sql::string missing(size);
+        result = ::SQLBrowseConnect(
+            connection.handle().value(),
+            const_cast<character*>(how.data()), SQL_NTS,
+            const_cast<character*>(missing.data()), SQL_NTS, &size
+            );
+        if ( result != SQL_NEED_DATA ) {
+            throw (Diagnostic(connection.handle()));
+        }
+        
+            // Notify the caller of missing information.
+        return (missing);
+    }
+
 } }

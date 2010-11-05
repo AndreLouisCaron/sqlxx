@@ -12,9 +12,6 @@
 
 // Query list of available data sources by using: SQLDataSources().
 //
-// SQLBrowseConnect() is useful for building connection string in an
-//   interactive fashon but is hard to wrap in a general setup.
-//
 // SQLDrivers() lists installed drivers and their attributes.
 
 namespace sql { namespace odbc {
@@ -29,6 +26,12 @@ namespace sql { namespace odbc {
             const string& username, const string& password
             );
     };
+
+        // Attempt a connection and return a non-empty string describing
+        // missing parameters if connection string is incomplete. Returns
+        // an empty string if the connection was successful.
+    sql::string browse
+        ( sql::Connection& connection, const sql::string& how );
 
 } }
 
