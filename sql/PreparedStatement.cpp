@@ -51,7 +51,7 @@ namespace sql {
 
     void PreparedStatement::bind ( const int8& value )
     {
-        int32 length = 0;
+        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_STINYINT,
             SQL_TINYINT, 0, 0, const_cast<int8*>(&value), 0, &length
@@ -64,7 +64,7 @@ namespace sql {
 
     void PreparedStatement::bind ( const uint8& value )
     {
-        int32 length = 0;
+        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_UTINYINT,
             SQL_TINYINT, 0, 0, const_cast<uint8*>(&value), 0, &length
@@ -77,7 +77,7 @@ namespace sql {
 
     void PreparedStatement::bind ( const int16& value )
     {
-        int32 length = 0;
+        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_SSHORT,
             SQL_SMALLINT, 0, 0, const_cast<int16*>(&value), 0, &length
@@ -90,7 +90,7 @@ namespace sql {
 
     void PreparedStatement::bind ( const uint16& value )
     {
-        int32 length = 0;
+        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_USHORT,
             SQL_SMALLINT, 0, 0, const_cast<uint16*>(&value), 0, &length
@@ -103,7 +103,7 @@ namespace sql {
 
     void PreparedStatement::bind ( const int32& value )
     {
-        int32 length = 0;
+        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_SLONG, SQL_INTEGER,
             0, 0, const_cast<int32*>(&value), 0, &length
@@ -116,7 +116,7 @@ namespace sql {
 
     void PreparedStatement::bind ( const uint32& value )
     {
-        int32 length = 0;
+        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER,
             0, 0, const_cast<uint32*>(&value), 0, &length
@@ -129,7 +129,7 @@ namespace sql {
 
     void PreparedStatement::bind ( const int64& value )
     {
-        int32 length = 0;
+        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_SBIGINT,
             SQL_BIGINT, 0, 0, const_cast<int64*>(&value), 0, &length
@@ -142,7 +142,7 @@ namespace sql {
 
     void PreparedStatement::bind ( const uint64& value )
     {
-        int32 length = 0;
+        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_UBIGINT,
             SQL_BIGINT, 0, 0, const_cast<uint64*>(&value), 0, &length
@@ -155,7 +155,7 @@ namespace sql {
 
     void PreparedStatement::bind ( const float& value )
     {
-        int32 length = 0;
+        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_REAL,
             0, 0, const_cast<float*>(&value), 0, &length
@@ -168,7 +168,7 @@ namespace sql {
 
     void PreparedStatement::bind ( const double& value )
     {
-        int32 length = 0;
+        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_DOUBLE, SQL_DOUBLE,
             0, 0, const_cast<double*>(&value), 0, &length
@@ -181,7 +181,7 @@ namespace sql {
 
     void PreparedStatement::bind ( const string& value )
     {
-        int32 length = SQL_NTS;
+        ::SQLLEN length = SQL_NTS;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_CHAR,
             value.length(), 0, const_cast<character*>(value.data()), 0, &length
@@ -194,7 +194,7 @@ namespace sql {
 
     void PreparedStatement::bind ( const wstring& value )
     {
-        int32 length = SQL_NTS;
+        ::SQLLEN length = SQL_NTS;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_WCHAR, SQL_WCHAR,
             value.length(), 0, const_cast<wcharacter*>(value.data()), 0, &length
@@ -207,7 +207,7 @@ namespace sql {
 
     void PreparedStatement::bind ( const Date& date )
     {
-        int32 length = 0;
+        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_TYPE_DATE,
             SQL_TYPE_TIME, sizeof(::SQL_DATE_STRUCT), 0,
@@ -221,7 +221,7 @@ namespace sql {
 
     void PreparedStatement::bind ( const Guid& guid )
     {
-        int32 length = 0;
+        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_GUID,
             SQL_GUID, sizeof(::SQLGUID), 0,
@@ -235,7 +235,7 @@ namespace sql {
 
     void PreparedStatement::bind ( const Numeric& numeric )
     {
-        int32 length = 0;
+        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_NUMERIC,
             SQL_NUMERIC, sizeof(::SQL_NUMERIC_STRUCT), 0,
@@ -249,7 +249,7 @@ namespace sql {
 
     void PreparedStatement::bind ( const Time& time )
     {
-        int32 length = 0;
+        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_TYPE_TIME,
             SQL_TYPE_TIME, sizeof(::SQL_TIME_STRUCT), 0,
@@ -263,7 +263,7 @@ namespace sql {
 
     void PreparedStatement::bind ( const Timestamp& timestamp )
     {
-        int32 length = 0;
+        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_TYPE_TIMESTAMP,
             SQL_TYPE_TIMESTAMP, sizeof(::SQL_TIMESTAMP_STRUCT), 0,

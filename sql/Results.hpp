@@ -126,8 +126,7 @@ namespace sql {
              * memory for an array of objects, or take particular action based
              * on the number of results, etc.
              */
-            // Use something else than long?
-        long rows () const;
+        size_t rows () const;
 
         /* operators. */
     public:

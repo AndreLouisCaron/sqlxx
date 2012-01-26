@@ -78,9 +78,9 @@ namespace sql {
         return (State(myBits | other.myBits));
     }
 
-    long Results::rows () const
+    size_t Results::rows () const
     {
-        long count = 0;
+        ::SQLLEN count = 0;
         const ::SQLRETURN result = ::SQLRowCount(
             myStatement.handle().value(), &count
             );
