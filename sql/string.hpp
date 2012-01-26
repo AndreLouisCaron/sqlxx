@@ -9,7 +9,7 @@
 // online at "http://www.opensource.org/licenses/artistic-license-2.0.php".
 
 #include "__configure__.hpp"
-#include <sql/types.hpp>
+#include "types.hpp"
 #include <algorithm>
 #include <ostream>
 #include <string>

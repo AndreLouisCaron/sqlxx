@@ -9,9 +9,9 @@
 // online at "http://www.opensource.org/licenses/artistic-license-2.0.php".
 
 #include "__configure__.hpp"
-#include <sql/types.hpp>
-#include <sql/string.hpp>
-#include <sql/Connection.hpp>
+#include "types.hpp"
+#include "string.hpp"
+#include "Connection.hpp"
 
 namespace sql {
 

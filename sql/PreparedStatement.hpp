@@ -9,14 +9,14 @@
 // online at "http://www.opensource.org/licenses/artistic-license-2.0.php".
 
 #include "__configure__.hpp"
-#include <sql/types.hpp>
-#include <sql/string.hpp>
-#include <sql/Date.hpp>
-#include <sql/Guid.hpp>
-#include <sql/Numeric.hpp>
-#include <sql/Statement.hpp>
-#include <sql/Time.hpp>
-#include <sql/Timestamp.hpp>
+#include "types.hpp"
+#include "string.hpp"
+#include "Date.hpp"
+#include "Guid.hpp"
+#include "Numeric.hpp"
+#include "Statement.hpp"
+#include "Time.hpp"
+#include "Timestamp.hpp"
 
 namespace sql {
 

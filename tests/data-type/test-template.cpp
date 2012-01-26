@@ -5,7 +5,7 @@
 // this software package (see "license.rtf"). If not, the license is available
 // online at "http://www.opensource.org/licenses/artistic-license-2.0.php".
 
-#include <sql/__tests__/unit-test.hpp>
+#include "../unit-test.hpp"
 #include <sstream>
 
 namespace {
@@ -71,4 +71,4 @@ namespace {
 
 }
 
-#include <sql/__tests__/unit-test.cpp>
+#include "../unit-test.cpp"

@@ -5,7 +5,7 @@
 // this software package (see "license.rtf"). If not, the license is available
 // online at "http://www.opensource.org/licenses/artistic-license-2.0.php".
 
-#include <sql/Guid.hpp>
+#include <sql.hpp>
 
 namespace {
 
@@ -20,4 +20,4 @@ namespace {
 
 }
 
-#include <sql/__tests__/data-type/test-template.cpp>
+#include "test-template.cpp"

@@ -9,9 +9,9 @@
 // for more details.
 //
 
-#include <sql/PreparedStatement.hpp>
-#include <sql/Connection.hpp>
-#include <sql/Diagnostic.hpp>
+#include "PreparedStatement.hpp"
+#include "Connection.hpp"
+#include "Diagnostic.hpp"
 
 // Since ::SQLBindParameter() does not have a const-correct interface. It's 3rd
 // parameter indicates if it should read or write to the given location. If this

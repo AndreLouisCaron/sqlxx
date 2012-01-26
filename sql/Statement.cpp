@@ -5,8 +5,8 @@
 // this software package (see "license.rtf"). If not, the license is available
 // online at "http://www.opensource.org/licenses/artistic-license-2.0.php".
 
-#include <sql/Statement.hpp>
-#include <sql/Diagnostic.hpp>
+#include "Statement.hpp"
+#include "Diagnostic.hpp"
 
 namespace {
 

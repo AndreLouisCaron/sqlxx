@@ -8,9 +8,9 @@
 // this software package (see "license.rtf"). If not, the license is available
 // online at "http://www.opensource.org/licenses/artistic-license-2.0.php".
 
-#include <sql/types.hpp>
-#include <sql/Connection.hpp>
-#include <sql/NotCopyable.hpp>
+#include "types.hpp"
+#include "Connection.hpp"
+#include "NotCopyable.hpp"
 
 namespace sql {
 

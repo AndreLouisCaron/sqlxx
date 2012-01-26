@@ -9,9 +9,9 @@
 // online at "http://www.opensource.org/licenses/artistic-license-2.0.php".
 
 #include "__configure__.hpp"
-#include <sql/Environment.hpp>
-#include <sql/Handle.hpp>
-#include <sql/NotCopyable.hpp>
+#include "Environment.hpp"
+#include "Handle.hpp"
+#include "NotCopyable.hpp"
 
 // TODO: Implement connection classes to use SQLConnect() and
 // SQLBrowseConnect(). The former uses ODBC data sources registered on the
