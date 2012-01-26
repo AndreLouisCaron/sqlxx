@@ -15,9 +15,9 @@
 // unit test source file which defines all symbols prototyped in
 // "unit-test.hpp".
 
-#include <sql/firebird.hpp>
-#include <sql/mysql.hpp>
-#include <sql/sqlite.hpp>
+#include "firebird.hpp"
+#include "mysql.hpp"
+#include "sqlite.hpp"
 #include <algorithm>
 #include <cstring>
 #include <exception>
@@ -43,10 +43,10 @@ namespace {
         sql::string path(argv[0]);
         sql::string user(argv[1]);
         sql::string password(argv[2]);
-        sql::firebird::ConnectionString string(path,user,password);
 
             // Connect to the database.
-        sql::Driver connection(environment,string);
+        sql::firebird::Connection connection
+            (environment, path, user, password);
 
             // Run the unit test.
         run(connection);
@@ -69,10 +69,9 @@ namespace {
 
             // Group information required for the connection.
         sql::string path(argv[0]);
-        sql::sqlite::ConnectionString string(path);
 
             // Connect to the database.
-        sql::Driver connection(environment,string);
+        sql::sqlite::Connection connection(environment, path);
 
             // Run the unit test.
         run(connection);
@@ -97,10 +96,10 @@ namespace {
         sql::string database(argv[0]);
         sql::string user(argv[1]);
         sql::string password(argv[2]);
-        sql::mysql::LocalConnectionString string(database,user,password);
 
             // Connect to the database.
-        sql::Driver connection(environment,string);
+        sql::mysql::Connection connection
+            (environment, database, user, password);
 
             // Run the unit test.
         run(connection);

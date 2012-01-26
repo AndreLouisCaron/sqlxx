@@ -5,7 +5,7 @@
 // this software package (see "license.rtf"). If not, the license is available
 // online at "http://www.opensource.org/licenses/artistic-license-2.0.php".
 
-#include <sql/mysql.hpp>
+#include "firebird.hpp"
 #include <sstream>
 
 namespace {
@@ -14,18 +14,17 @@ namespace {
         const sql::string& username, const sql::string& password )
     {
         std::ostringstream how;
-        how << "Driver={MySQL ODBC 5.1 Driver};"
-            << "Server=localhost;"
-            << "Database=" << database << ';'
-            << "User=" << username << ';'
-            << "Password=" << password << ';'
-            << "Option=3;";
+        how << "DRIVER={Firebird/Interbase(r) Driver (*.fdb)};"
+            << "DATABASE=" << database << ';'
+            << "USER=" << username << ';'
+            << "PASSWORD=" << password << ';'
+            << "CHARSET=WIN1250;";
         return (how.str());
     }
 
 }
 
-namespace sql { namespace mysql {
+namespace sql { namespace firebird {
 
     Connection::Connection ( Environment& environment, const string& database,
         const string& username, const string& password )

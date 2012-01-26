@@ -1,0 +1,54 @@
+# cb64 library.
+
+set(headers
+  Connection.hpp
+  Date.hpp
+  Diagnostic.hpp
+  Driver.hpp
+  Environment.hpp
+  execute.hpp
+  Guid.hpp
+  Handle.hpp
+  NotCopyable.hpp
+  Numeric.hpp
+  PreparedStatement.hpp
+  Results.hpp
+  Row.hpp
+  Statement.hpp
+  Status.hpp
+  Time.hpp
+  Timestamp.hpp
+  Version.hpp
+  firebird.hpp
+  mysql.hpp
+  sql.hpp
+  sqlite.hpp
+  string.hpp
+  types.hpp
+)
+set(sources
+  Connection.cpp
+  Date.cpp
+  Diagnostic.cpp
+  Driver.cpp
+  Environment.cpp
+  execute.cpp
+  Guid.cpp
+  Handle.cpp
+  PreparedStatement.cpp
+  Results.cpp
+  Row.cpp
+  Statement.cpp
+  Status.cpp
+  Time.cpp
+  Timestamp.cpp
+  Version.cpp
+  firebird.cpp
+  mysql.cpp
+  sqlite.cpp
+)
+add_library(sql
+  STATIC
+  ${sources}
+  ${headers}
+)

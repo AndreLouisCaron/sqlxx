@@ -15,8 +15,7 @@ namespace {
         std::ostringstream update;
         update << "create table entries ( entry " << DataType << " )";
         std::cerr << "Creating table: '" << update.str() << "'." << std::endl;
-        sql::DirectStatement statement(connection,update.str());
-        statement.execute();
+        sql::execute(connection, update.str());
     }
 
     void insert ( sql::Connection& connection )
@@ -24,7 +23,7 @@ namespace {
         std::cerr << "Inserting values." << std::endl;
         static const std::size_t count = sizeof(values)/sizeof(values[0]);
         const sql::string update("insert into entries ( entry ) values (?)");
-        sql::PreparedUpdate statement(connection,update);
+        sql::PreparedStatement statement(connection, update);
         for ( std::size_t i = 0; (i < count); ++i )
         {
             statement << values[i];
@@ -36,10 +35,10 @@ namespace {
     {
         std::cerr << "Querying stuff." << std::endl;
         const sql::string query("select entry from entries");
-        sql::DirectStatement statement(connection, query);
+        sql::PreparedStatement statement(connection, query);
         statement.execute();
 
-        sql::ResultSet results(statement); Value value;
+        sql::Results results(statement); Value value;
         for ( std::size_t i = 0; (results >> sql::row); ++i ) {
             assert((results >> value) && (value == values[i]));
         }
@@ -49,7 +48,7 @@ namespace {
     {
         std::cerr << "Removing traces." << std::endl;
         const sql::string update("drop table entries");
-        sql::DirectStatement statement(connection,update);
+        sql::PreparedStatement statement(connection, update);
         statement.execute();
     }
 
