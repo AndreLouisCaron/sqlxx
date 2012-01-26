@@ -5,10 +5,10 @@
 // this software package (see "license.rtf"). If not, the license is available
 // online at "http://www.opensource.org/licenses/artistic-license-2.0.php".
 
-#include <sql/execute.hpp>
-#include <sql/Connection.hpp>
-#include <sql/Diagnostic.hpp>
-#include <sql/Statement.hpp>
+#include "execute.hpp"
+#include "Connection.hpp"
+#include "Diagnostic.hpp"
+#include "Statement.hpp"
 
 namespace sql {
 
