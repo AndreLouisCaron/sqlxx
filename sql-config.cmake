@@ -30,14 +30,14 @@
 if(NOT DEFINED sql_FOUND)
 
   # Locate library headers.
-  find_path(sql_include_dirs
+  find_path(sql_include_dir
     NAMES sql.hpp
     PATHS ${sql_DIR}/code
   )
 
   # Common name for exported library targets.
   set(sql_libraries
-    sql
+    sql odbc32.lib
     CACHE INTERNAL "sql library" FORCE
   )
 
@@ -45,7 +45,7 @@ if(NOT DEFINED sql_FOUND)
   include(FindPackageHandleStandardArgs)
   find_package_handle_standard_args(
     sql DEFAULT_MSG
-    sql_include_dirs
+    sql_include_dir
     sql_libraries
   )
 
