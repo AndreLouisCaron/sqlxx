@@ -44,6 +44,20 @@ namespace sql {
         }
     }
 
+    Driver::Driver ( Environment& environment, const wstring& how )
+        : Connection(environment)
+    {
+        wcharacter outbuf[256];
+        ::SQLSMALLINT end = 0;
+        const ::SQLRETURN result = ::SQLDriverConnectW(
+            handle().value(), NULL, const_cast<wcharacter*>(how.data()),
+            SQL_NTS, outbuf, 256, &end, SQL_DRIVER_NOPROMPT
+            );
+        if ( result != SQL_SUCCESS ) {
+            throw (Diagnostic(handle()));
+        }
+    }
+
     Driver::~Driver ()
     {
         ::SQLDisconnect(handle().value());

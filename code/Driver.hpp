@@ -59,6 +59,8 @@ namespace sql {
              */
         Driver ( Environment& environment, const string& how );
 
+        Driver ( Environment& environment, const wstring& how );
+
             /*!
              * @brief Closes the connection to the database.
              *
