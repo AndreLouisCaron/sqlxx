@@ -32,22 +32,15 @@ cmake_minimum_required(VERSION 2.6)
 
 project(sql)
 
-function(add_api_documentation target)
-  if(DOXYGEN_EXECUTABLE)
-    add_custom_target(
-      ${target}
-      COMMAND
-        ${DOXYGEN_EXECUTABLE}
-      WORKING_DIRECTORY
-        ${CMAKE_CURRENT_BINARY_DIR}
-      COMMENT
-        "Compiling documentation."
-      VERBATIM
-    )
-  endif()
-endfunction()
+# Resolve custom CMake packages.
+set(CMAKE_MODULE_PATH
+  ${CMAKE_CURRENT_SOURCE_DIR}/site
+)
 
-enable_testing()
+# Set compiler options.
+find_package(MSVCExtras)
+msvc_configure_runtime()
+msvc_enable_se_handling()
 
 if(MSVC)
   add_definitions(
@@ -67,6 +60,7 @@ if(${PROJECT_NAME} STREQUAL ${CMAKE_PROJECT_NAME})
 
   # Build API documentation.
   find_package(Doxygen QUIET)
+  find_package(DoxygenExtras)
   configure_file(
     ${CMAKE_SOURCE_DIR}/help/Doxyfile
     ${CMAKE_BINARY_DIR}/Doxyfile @ONLY)
@@ -75,6 +69,8 @@ if(${PROJECT_NAME} STREQUAL ${CMAKE_PROJECT_NAME})
   include_directories(${CMAKE_CURRENT_SOURCE_DIR}/code)
   #add_subdirectory(demo)
 
+  # Build test suite.
+  enable_testing()
   add_subdirectory(test)
 
 endif()
