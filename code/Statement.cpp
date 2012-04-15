@@ -55,20 +55,22 @@ namespace sql {
         return (myHandle);
     }
 
-    void Statement::execute ()
+    Statement& Statement::execute ()
     {
         ::SQLRETURN result = ::SQLExecute(handle().value());
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
         }
+        return (*this);
     }
 
-    void Statement::cancel ()
+    Statement& Statement::cancel ()
     {
         ::SQLRETURN result = ::SQLCancel(handle().value());
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
         }
+        return (*this);
     }
 
 }

@@ -54,13 +54,15 @@ namespace sql {
         }
     }
 
-    void PreparedStatement::execute ()
+    PreparedStatement& PreparedStatement::execute ()
     {
             // Execute query with currently bound parameters.
         Statement::execute();
         
             // Prepare for re-execution of the same query.
         reset();
+
+        return (*this);
     }
 
     void PreparedStatement::reset ()
@@ -296,8 +298,12 @@ namespace sql {
 
     PreparedStatement& reset ( PreparedStatement& update )
     {
-        update.reset();
-        return (update);
+        return (update.reset());
+    }
+
+    PreparedStatement& execute ( PreparedStatement& update )
+    {
+        return (update.execute());
     }
 
 }

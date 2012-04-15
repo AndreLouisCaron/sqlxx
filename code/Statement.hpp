@@ -77,12 +77,12 @@ namespace sql {
         const Handle& handle () const throw();
 
             // Not sure when this is useful...
-        void cancel ();
+        Statement& cancel ();
 
             /*!
              * @brief Executes as a prepared statement, and \c reset()s.
              */
-        virtual void execute ();
+        virtual Statement& execute ();
     };
 
 }

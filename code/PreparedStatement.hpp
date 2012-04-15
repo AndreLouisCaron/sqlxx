@@ -170,15 +170,15 @@ namespace sql {
             /*!
              * @brief Executes as a prepared statement, and \c reset()s.
              */
-        void execute ();
+        PreparedStatement& execute ();
     };
 
         /*!
          * @brief Binds any supported value to the next available parameter.
          */
     template<typename Value>
-        inline
-    PreparedStatement& operator<< ( PreparedStatement& update, const Value& value )
+    PreparedStatement& operator<<
+        ( PreparedStatement& update, const Value& value )
     {
         update.bind(value);
         return (update);
@@ -188,6 +188,11 @@ namespace sql {
          * @brief Make the next binding operation bind to the first parameter.
          */
     PreparedStatement& reset ( PreparedStatement& update );
+
+        /*!
+         * @brief Send the query, then reset.
+         */
+    PreparedStatement& execute ( PreparedStatement& update );
 
 }
 
