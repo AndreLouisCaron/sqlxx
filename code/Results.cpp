@@ -40,9 +40,6 @@ namespace {
 
 namespace sql {
 
-    const Row row;
-    const Null null;
-
     const Results::State Results::State::good(0);
     const Results::State Results::State::null(1);
     const Results::State Results::State::fail(2);

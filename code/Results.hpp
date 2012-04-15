@@ -40,13 +40,7 @@
 
 namespace sql {
 
-    class Row {};
-
-    extern const Row row;
-
-    class Null {};
-
-    extern const Null null;
+    class Row {}; static const Row row;
 
     class Results;
 

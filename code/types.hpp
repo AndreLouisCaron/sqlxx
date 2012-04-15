@@ -44,6 +44,8 @@ namespace sql {
     typedef ::SQLBIGINT int64;
     typedef ::SQLUBIGINT uint64;
 
+    class Null {}; static const Null null;
+
 }
 
 #endif /* _sql_types_hpp_ */
