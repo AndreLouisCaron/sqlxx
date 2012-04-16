@@ -128,30 +128,3 @@ function(add_resource_only_library target sources)
     )
   endif()
 endfunction()
-
-# Compile managed (.NET) program.
-function(add_managed_executable target)
-  add_executable(${target} WIN32 ${ARGN})
-  if(MSVC)
-    # Fetch current compiler flags.
-    get_target_property(flags ${target} COMPILE_FLAG)
-    if(NOT ${flags})
-      set(flags "")
-    endif()
-    # Remove any reference
-    if(${flags} MATCHES "/RTC")
-      string(REGEX REPLACE "/RTC(.+)" "" flags "${flags}")
-    endif()
-    # Enable managed C++ extensions.
-    if(NOT "${flags}" MATCHES "/clr")
-      set(flags "${flags} /clr")
-    endif()
-    # Update compiler flags.
-    message(STATUS
-      "Managed compiler flags: '${flags}'."
-    )
-    set_target_properties(${target}
-      PROPERTIES COMPILE_FLAGS "${flags}"
-    )
-  endif()
-endfunction()
