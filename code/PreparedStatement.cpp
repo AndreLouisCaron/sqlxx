@@ -65,12 +65,25 @@ namespace sql {
         return (*this);
     }
 
-    void PreparedStatement::reset ()
+    PreparedStatement& PreparedStatement::reset ()
     {
-        myNext = 1;
+        myNext = 1; return (*this);
     }
 
-    void PreparedStatement::bind ( const int8& value )
+    PreparedStatement& PreparedStatement::bind ( const Null& )
+    {
+        ::SQLLEN length = SQL_NULL_DATA;
+        ::SQLRETURN result = ::SQLBindParameter(
+            handle().value(), myNext, SQL_PARAM_INPUT,
+            0, 0, 0, 0, 0, 0, &length
+            );
+        if ( result != SQL_SUCCESS ) {
+            throw (Diagnostic(handle()));
+        }
+        ++myNext; return (*this);
+    }
+
+    PreparedStatement& PreparedStatement::bind ( int8 value )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -80,10 +93,10 @@ namespace sql {
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
         }
-        ++myNext;
+        ++myNext; return (*this);
     }
 
-    void PreparedStatement::bind ( const uint8& value )
+    PreparedStatement& PreparedStatement::bind ( uint8 value )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -93,10 +106,10 @@ namespace sql {
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
         }
-        ++myNext;
+        ++myNext; return (*this);
     }
 
-    void PreparedStatement::bind ( const int16& value )
+    PreparedStatement& PreparedStatement::bind ( int16 value )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -106,10 +119,10 @@ namespace sql {
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
         }
-        ++myNext;
+        ++myNext; return (*this);
     }
 
-    void PreparedStatement::bind ( const uint16& value )
+    PreparedStatement& PreparedStatement::bind ( uint16 value )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -119,10 +132,10 @@ namespace sql {
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
         }
-        ++myNext;
+        ++myNext; return (*this);
     }
 
-    void PreparedStatement::bind ( const int32& value )
+    PreparedStatement& PreparedStatement::bind ( int32 value )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -132,10 +145,10 @@ namespace sql {
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
         }
-        ++myNext;
+        ++myNext; return (*this);
     }
 
-    void PreparedStatement::bind ( const uint32& value )
+    PreparedStatement& PreparedStatement::bind ( uint32 value )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -145,10 +158,10 @@ namespace sql {
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
         }
-        ++myNext;
+        ++myNext; return (*this);
     }
 
-    void PreparedStatement::bind ( const int64& value )
+    PreparedStatement& PreparedStatement::bind ( int64 value )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -158,10 +171,10 @@ namespace sql {
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
         }
-        ++myNext;
+        ++myNext; return (*this);
     }
 
-    void PreparedStatement::bind ( const uint64& value )
+    PreparedStatement& PreparedStatement::bind ( uint64 value )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -171,10 +184,10 @@ namespace sql {
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
         }
-        ++myNext;
+        ++myNext; return (*this);
     }
 
-    void PreparedStatement::bind ( const float& value )
+    PreparedStatement& PreparedStatement::bind ( float value )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -184,10 +197,10 @@ namespace sql {
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
         }
-        ++myNext;
+        ++myNext; return (*this);
     }
 
-    void PreparedStatement::bind ( const double& value )
+    PreparedStatement& PreparedStatement::bind ( double value )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -197,10 +210,10 @@ namespace sql {
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
         }
-        ++myNext;
+        ++myNext; return (*this);
     }
 
-    void PreparedStatement::bind ( const string& value )
+    PreparedStatement& PreparedStatement::bind ( const string& value )
     {
         ::SQLLEN length = SQL_NTS;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -210,10 +223,10 @@ namespace sql {
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
         }
-        ++myNext;
+        ++myNext; return (*this);
     }
 
-    void PreparedStatement::bind ( const wstring& value )
+    PreparedStatement& PreparedStatement::bind ( const wstring& value )
     {
         ::SQLLEN length = SQL_NTS;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -223,10 +236,10 @@ namespace sql {
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
         }
-        ++myNext;
+        ++myNext; return (*this);
     }
 
-    void PreparedStatement::bind ( const Date& date )
+    PreparedStatement& PreparedStatement::bind ( const Date& date )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -237,10 +250,10 @@ namespace sql {
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
         }
-        ++myNext;
+        ++myNext; return (*this);
     }
 
-    void PreparedStatement::bind ( const Guid& guid )
+    PreparedStatement& PreparedStatement::bind ( const Guid& guid )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -251,10 +264,10 @@ namespace sql {
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
         }
-        ++myNext;
+        ++myNext; return (*this);
     }
 
-    void PreparedStatement::bind ( const Numeric& numeric )
+    PreparedStatement& PreparedStatement::bind ( const Numeric& numeric )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -265,10 +278,10 @@ namespace sql {
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
         }
-        ++myNext;
+        ++myNext; return (*this);
     }
 
-    void PreparedStatement::bind ( const Time& time )
+    PreparedStatement& PreparedStatement::bind ( const Time& time )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -279,10 +292,10 @@ namespace sql {
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
         }
-        ++myNext;
+        ++myNext; return (*this);
     }
 
-    void PreparedStatement::bind ( const Timestamp& timestamp )
+    PreparedStatement& PreparedStatement::bind ( const Timestamp& timestamp )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -293,17 +306,17 @@ namespace sql {
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
         }
-        ++myNext;
+        ++myNext; return (*this);
     }
 
-    PreparedStatement& reset ( PreparedStatement& update )
+    PreparedStatement& reset ( PreparedStatement& statement )
     {
-        return (update.reset());
+        return (statement.reset());
     }
 
-    PreparedStatement& execute ( PreparedStatement& update )
+    PreparedStatement& execute ( PreparedStatement& statement )
     {
-        return (update.execute());
+        return (statement.execute());
     }
 
 }

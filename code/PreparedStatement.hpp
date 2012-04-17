@@ -71,92 +71,97 @@ namespace sql {
              * You usually need this to call this between two different updates
              * on the same prepared update object.
              */
-        void reset ();
+        PreparedStatement& reset ();
+
+            /*!
+             * @brief Binds a parameter as null (no value).
+             */
+        PreparedStatement& bind ( const Null& );
 
             /*!
              * @brief Binds a signed 8-bit integer to the next parameter.
              */
-        void bind ( const int8& value );
+        PreparedStatement& bind ( int8 value );
 
             /*!
              * @brief Binds an unsigned 8-bit integer to the next parameter.
              */
-        void bind ( const uint8& value );
+        PreparedStatement& bind ( uint8 value );
 
             /*!
              * @brief Binds a signed 16-bit integer to the next parameter.
              */
-        void bind ( const int16& value );
+        PreparedStatement& bind ( int16 value );
 
             /*!
              * @brief Binds an unsigned 16-bit integer to the next parameter.
              */
-        void bind ( const uint16& value );
+        PreparedStatement& bind ( uint16 value );
 
             /*!
              * @brief Binds a signed 32-bit integer to the next parameter.
              */
-        void bind ( const int32& value );
+        PreparedStatement& bind ( int32 value );
 
             /*!
              * @brief Binds an unsigned 32-bit integer to the next parameter.
              */
-        void bind ( const uint32& value );
+        PreparedStatement& bind ( uint32 value );
 
             /*!
              * @brief Binds a signed 64-bit integer to the next parameter.
              */
-        void bind ( const int64& value );
+        PreparedStatement& bind ( int64 value );
 
             /*!
              * @brief Binds an unsigned 64-bit integer to the next parameter.
              */
-        void bind ( const uint64& value );
+        PreparedStatement& bind ( uint64 value );
 
             /*!
              * @brief Binds a 32-bit floating point to the next parameter.
              */
-        void bind ( const float& value );
+        PreparedStatement& bind ( float value );
 
             /*!
              * @brief Binds a 64-bit floating point to the next parameter.
              */
-        void bind ( const double& value );
+        PreparedStatement& bind ( double value );
 
             /*!
              * @brief Binds a string to the next parameter.
              */
-        void bind ( const string& value );
+        PreparedStatement& bind ( const string& value );
 
             /*!
              * @brief Binds a wide string to the next parameter.
              */
-        void bind ( const wstring& value );
+        PreparedStatement& bind ( const wstring& value );
 
             /*!
              * @brief Binds a date value to the next parameter.
              */
-        void bind ( const Date& date );
+        PreparedStatement& bind ( const Date& date );
 
             /*!
              * @brief Binds a unique identifier value to the next parameter.
              */
-        void bind ( const Guid& guid );
+        PreparedStatement& bind ( const Guid& guid );
 
             /*!
              * @brief Binds a numeric value to the next parameter.
              */
-        void bind ( const Numeric& numeric );
+        PreparedStatement& bind ( const Numeric& numeric );
 
             /*!
              * @brief Binds a time value to the next parameter.
              */
-        void bind ( const Time& time );
+        PreparedStatement& bind ( const Time& time );
 
             /*!
              * @brief Binds a timestamp value to the next parameter.
              */
-        void bind ( const Timestamp& timestamp );
+        PreparedStatement& bind ( const Timestamp& timestamp );
 
             /*!
              * @brief Applies a manipulator to the update object.
@@ -170,7 +175,7 @@ namespace sql {
             /*!
              * @brief Executes as a prepared statement, and \c reset()s.
              */
-        PreparedStatement& execute ();
+        virtual PreparedStatement& execute ();
     };
 
         /*!
@@ -178,21 +183,20 @@ namespace sql {
          */
     template<typename Value>
     PreparedStatement& operator<<
-        ( PreparedStatement& update, const Value& value )
+        ( PreparedStatement& statement, const Value& value )
     {
-        update.bind(value);
-        return (update);
+        return (statement.bind(value));
     }
 
         /*!
          * @brief Make the next binding operation bind to the first parameter.
          */
-    PreparedStatement& reset ( PreparedStatement& update );
+    PreparedStatement& reset ( PreparedStatement& statement );
 
         /*!
          * @brief Send the query, then reset.
          */
-    PreparedStatement& execute ( PreparedStatement& update );
+    PreparedStatement& execute ( PreparedStatement& statement );
 
 }
 
