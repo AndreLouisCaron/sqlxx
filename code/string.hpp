@@ -35,6 +35,18 @@
 
 namespace sql {
 
+    template<typename C> struct char_traits;
+
+    template<> struct char_traits<character>
+    {
+        typedef char std_char;
+    };
+
+    template<> struct char_traits<wcharacter>
+    {
+        typedef wchar_t std_char;
+    };
+
         /*!
          * @brief Replacement for std::string which does not allow to write
          *    directly into it's buffer because it wishes to support optional
@@ -49,6 +61,9 @@ namespace sql {
         typedef size_t size_type;
         typedef char_type * iterator;
         typedef const char_type * const_iterator;
+
+        typedef typename char_traits<char_type>::std_char std_char_type;
+        typedef std::basic_string<std_char_type> std_string_type;
 
     private:
             // To make this template class somewhat readable.
@@ -119,7 +134,7 @@ namespace sql {
             buffer.swap(*this);
         }
 
-        basic_string ( const std::string& other )
+        basic_string ( const std_string_type& other )
             : myCapacity(0), myData(0)
         {
             self_type buffer(other.capacity());
