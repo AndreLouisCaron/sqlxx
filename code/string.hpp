@@ -91,7 +91,7 @@ namespace sql {
         {
             const char *const termination = endof(value);
             self_type buffer(static_cast<size_type>(termination-value));
-            std::copy(value,termination,buffer.begin());
+            *std::copy(value,termination,buffer.begin()) = 0;
             buffer.swap(*this);
         }
 
@@ -103,7 +103,7 @@ namespace sql {
         {
             const char_type *const termination = endof(value);
             self_type buffer(static_cast<size_type>(termination-value));
-            std::copy(value,termination,buffer.begin());
+            *std::copy(value,termination,buffer.begin()) = 0;
             buffer.swap(*this);
         }
 
@@ -121,7 +121,7 @@ namespace sql {
             : myCapacity(0), myData(0)
         {
             self_type buffer(other.capacity());
-            std::copy(other.begin(),other.end(),buffer.begin());
+            *std::copy(other.begin(),other.end(),buffer.begin()) = 0;
             buffer.swap(*this);
         }
 
@@ -130,15 +130,15 @@ namespace sql {
             : myCapacity(0), myData(0)
         {
             self_type buffer(other.capacity());
-            std::copy(other.begin(),other.end(),buffer.begin());
+            *std::copy(other.begin(),other.end(),buffer.begin()) = 0;
             buffer.swap(*this);
         }
 
-        basic_string ( const std_string_type& other )
+        explicit basic_string ( const std_string_type& other )
             : myCapacity(0), myData(0)
         {
             self_type buffer(other.capacity());
-            std::copy(other.begin(),other.end(),buffer.begin());
+            *std::copy(other.begin(),other.end(),buffer.begin()) = 0;
             buffer.swap(*this);
         }
 
@@ -221,6 +221,14 @@ namespace sql {
             return ((myData != 0)? myData : empty);
         }
 
+        std_char_type * c_str () throw () {
+            return (reinterpret_cast<std_char_type*>(data()));
+        }
+
+        const std_char_type * c_str () const throw () {
+            return (reinterpret_cast<const std_char_type*>(data()));
+        }
+
             /*!
              * @brief Returns an iterator to the first element.
              */
@@ -254,9 +262,9 @@ namespace sql {
              */
         void reserve ( size_type minimum )
         {
-            if ((minimum+1) > myCapacity ) {
+            if ( minimum > myCapacity ) {
                 self_type other(minimum);
-                std::copy(begin(),end(),other.begin());
+                *std::copy(begin(),end(),other.begin()) = 0;
                 other.swap(*this);
             }
         }
@@ -268,6 +276,20 @@ namespace sql {
         {
             std::swap(myData,other.myData);
             std::swap(myCapacity,other.myCapacity);
+        }
+
+        template<typename Iterator>
+        void append (Iterator begin, Iterator end)
+        {
+            reserve(length()+std::distance(begin,end));
+            *std::copy(begin,end,this->end()) = 0;
+        }
+
+        template<typename Iterator>
+        void assign (Iterator begin, Iterator end)
+        {
+            reserve(std::distance(begin,end));
+            *std::copy(begin,end,this->begin()) = 0;
         }
 
         /* operators. */
@@ -283,7 +305,7 @@ namespace sql {
         {
             const char_type * last = endof(value);
             reserve(last-value);
-            std::copy(value,last+1,end());
+            *std::copy(value,last,end()) = 0;
             return (*this);
         }
 
@@ -291,14 +313,14 @@ namespace sql {
         {
             const char * last = endof(value);
             reserve(last-value);
-            std::copy(value,last+1,end());
+            *std::copy(value,last,end()) = 0;
             return (*this);
         }
 
         self_type& operator+= ( const self_type& suffix )
         {
             reserve(length()+suffix.length());
-            std::copy(suffix.begin(),suffix.end()+1,end());
+            *std::copy(suffix.begin(),suffix.end(),end()) = 0;
             return (*this);
         }
 
@@ -306,7 +328,7 @@ namespace sql {
         {
             const_iterator last = endof(suffix);
             reserve(length()+(last-suffix));
-            std::copy(suffix,last+1,end());
+            *std::copy(suffix,last,end()) = 0;
             return (*this);
         }
     };

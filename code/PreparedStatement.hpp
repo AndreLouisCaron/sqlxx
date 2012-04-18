@@ -81,52 +81,52 @@ namespace sql {
             /*!
              * @brief Binds a signed 8-bit integer to the next parameter.
              */
-        PreparedStatement& bind ( int8 value );
+        PreparedStatement& bind ( const int8& value );
 
             /*!
              * @brief Binds an unsigned 8-bit integer to the next parameter.
              */
-        PreparedStatement& bind ( uint8 value );
+        PreparedStatement& bind ( const uint8& value );
 
             /*!
              * @brief Binds a signed 16-bit integer to the next parameter.
              */
-        PreparedStatement& bind ( int16 value );
+        PreparedStatement& bind ( const int16& value );
 
             /*!
              * @brief Binds an unsigned 16-bit integer to the next parameter.
              */
-        PreparedStatement& bind ( uint16 value );
+        PreparedStatement& bind ( const uint16& value );
 
             /*!
              * @brief Binds a signed 32-bit integer to the next parameter.
              */
-        PreparedStatement& bind ( int32 value );
+        PreparedStatement& bind ( const int32& value );
 
             /*!
              * @brief Binds an unsigned 32-bit integer to the next parameter.
              */
-        PreparedStatement& bind ( uint32 value );
+        PreparedStatement& bind ( const uint32& value );
 
             /*!
              * @brief Binds a signed 64-bit integer to the next parameter.
              */
-        PreparedStatement& bind ( int64 value );
+        PreparedStatement& bind ( const int64& value );
 
             /*!
              * @brief Binds an unsigned 64-bit integer to the next parameter.
              */
-        PreparedStatement& bind ( uint64 value );
+        PreparedStatement& bind ( const uint64& value );
 
             /*!
              * @brief Binds a 32-bit floating point to the next parameter.
              */
-        PreparedStatement& bind ( float value );
+        PreparedStatement& bind ( const float& value );
 
             /*!
              * @brief Binds a 64-bit floating point to the next parameter.
              */
-        PreparedStatement& bind ( double value );
+        PreparedStatement& bind ( const double& value );
 
             /*!
              * @brief Binds a string to the next parameter.

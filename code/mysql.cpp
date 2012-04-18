@@ -39,7 +39,7 @@ namespace {
             << "User=" << username << ';'
             << "Password=" << password << ';'
             << "Option=3;";
-        return (how.str());
+        return (sql::string(how.str()));
     }
 
 }

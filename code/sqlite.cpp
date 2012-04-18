@@ -34,7 +34,7 @@ namespace {
         std::ostringstream how;
         how << "Driver={SQLite ODBC Driver};"
             << "Database=" << database << ';';
-        return (how.str());
+        return (sql::string(how.str()));
     }
 
 }

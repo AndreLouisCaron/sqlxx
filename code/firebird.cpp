@@ -38,7 +38,7 @@ namespace {
             << "USER=" << username << ';'
             << "PASSWORD=" << password << ';'
             << "CHARSET=WIN1250;";
-        return (how.str());
+        return (sql::string(how.str()));
     }
 
 }

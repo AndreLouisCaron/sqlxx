@@ -60,9 +60,7 @@ namespace sql {
         Statement::execute();
         
             // Prepare for re-execution of the same query.
-        reset();
-
-        return (*this);
+        return (reset());
     }
 
     PreparedStatement& PreparedStatement::reset ()
@@ -83,7 +81,7 @@ namespace sql {
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( int8 value )
+    PreparedStatement& PreparedStatement::bind ( const int8& value )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -96,7 +94,7 @@ namespace sql {
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( uint8 value )
+    PreparedStatement& PreparedStatement::bind ( const uint8& value )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -109,7 +107,7 @@ namespace sql {
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( int16 value )
+    PreparedStatement& PreparedStatement::bind ( const int16& value )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -122,7 +120,7 @@ namespace sql {
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( uint16 value )
+    PreparedStatement& PreparedStatement::bind ( const uint16& value )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -135,7 +133,7 @@ namespace sql {
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( int32 value )
+    PreparedStatement& PreparedStatement::bind ( const int32& value )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -148,7 +146,7 @@ namespace sql {
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( uint32 value )
+    PreparedStatement& PreparedStatement::bind ( const uint32& value )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -161,7 +159,7 @@ namespace sql {
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( int64 value )
+    PreparedStatement& PreparedStatement::bind ( const int64& value )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -174,7 +172,7 @@ namespace sql {
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( uint64 value )
+    PreparedStatement& PreparedStatement::bind ( const uint64& value )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -187,7 +185,7 @@ namespace sql {
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( float value )
+    PreparedStatement& PreparedStatement::bind ( const float& value )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
@@ -200,7 +198,7 @@ namespace sql {
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( double value )
+    PreparedStatement& PreparedStatement::bind ( const double& value )
     {
         ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
