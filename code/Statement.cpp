@@ -26,6 +26,7 @@
 
 #include "Statement.hpp"
 #include "Diagnostic.hpp"
+#include <iostream>
 
 namespace {
 
@@ -58,7 +59,8 @@ namespace sql {
     Statement& Statement::execute ()
     {
         ::SQLRETURN result = ::SQLExecute(handle().value());
-        if ( result != SQL_SUCCESS ) {
+        if ((result != SQL_SUCCESS) && (result != SQL_SUCCESS_WITH_INFO))
+        {
             throw (Diagnostic(handle()));
         }
         return (*this);
