@@ -31,6 +31,11 @@ namespace sql {
 
     const Status Status::none;
 
+    const Status Status::connection_rejected ()
+    {
+        return (Status((const character*)"08004"));
+    }
+
     Status::Status () throw ()
     {
         std::memset(myValue,0,6*sizeof(character));
@@ -65,6 +70,12 @@ namespace sql {
     {
         std::memcpy(myValue,value,5*sizeof(character));
         myValue[5] = '\0';
+    }
+
+    bool operator== ( const Status& lhs, const Status& rhs )
+    {
+        return (std::strcmp((const char*)lhs.raw(),
+                            (const char*)rhs.raw()) == 0);
     }
 
     std::ostream& operator<< ( std::ostream& out, const Status& status )

@@ -47,6 +47,8 @@ namespace sql {
     public:
         static const Status none;
 
+        static const Status connection_rejected ();
+
         /* data. */
     private:
             // Standard 5 characters, plus a null terminator.
@@ -92,6 +94,8 @@ namespace sql {
              */
         void raw ( const character * value ) throw();
     };
+
+    bool operator== ( const Status& lhs, const Status& rhs );
 
         /*!
          * @brief Puts the status to a stream.
