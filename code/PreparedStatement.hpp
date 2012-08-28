@@ -40,6 +40,7 @@
 namespace sql {
 
     class Connection;
+    class Parameter;
 
         /*!
          * @brief Fast, safe and convenient way to write queries.
@@ -64,6 +65,35 @@ namespace sql {
 
         /* methods. */
     public:
+        /*!
+         * @brief Count the number of placeholder parameters in the query.
+         * @return The number of placeholder parameters in the query.
+         *
+         * The @c bind() function must be called repeatedly to fill in each
+         * parameter.
+         */
+        int16 parameter_count () const;
+
+        /*!
+         * @brief Count the number of columns in the result.
+         * @return The number of columns affected by a select query.
+         *
+         * Each row will have this number of items.
+         *
+         * @see generated_results()
+         */
+        int16 column_count () const;
+
+        /*!
+         * @brief Check if execution generated results.
+         * @return @c column_count()==0.
+         *
+         * @see column_count()
+         * @see PreparedStatement& execute(PreparedStatement&)
+         * @see Reader
+         */
+        bool generated_results () const;
+
             /*!
              * @brief Makes the next call to \c bind() bind the value to the
              *    first parameter.
@@ -176,6 +206,11 @@ namespace sql {
              * @brief Executes as a prepared statement, and \c reset()s.
              */
         virtual PreparedStatement& execute ();
+
+        /* operators. */
+    public:
+        friend PreparedStatement& operator>> (PreparedStatement& statement,
+                                              Parameter& parameter);
     };
 
         /*!
@@ -193,10 +228,160 @@ namespace sql {
          */
     PreparedStatement& reset ( PreparedStatement& statement );
 
-        /*!
-         * @brief Send the query, then reset.
-         */
+    /*!
+     * @brief Send the query, then reset.
+     * @see PreparedStatement::generated_results()
+     */
     PreparedStatement& execute ( PreparedStatement& statement );
+
+    /*!
+     * @brief
+     */
+    class Parameter
+    {
+    friend class PreparedStatement;
+
+        /* data. */
+    private:
+        ::SQLSMALLINT myType;
+        ::SQLULEN mySize;
+        ::SQLSMALLINT myBits;
+        ::SQLSMALLINT myNull;
+
+        /* construction. */
+    public:
+        /*!
+         * @see PreparedStatement& operator>>(PreparedStatement&,Parameter&);
+         */
+        Parameter ();
+
+        /* methods. */
+    public:
+        /*!
+         * @brief Obtains the parameter's type code.
+         *
+         * @see is_unknown_type()
+         * @see is_int8()
+         * @see is_int16()
+         * @see is_int32()
+         * @see is_int64()
+         * @see is_float()
+         * @see is_double()
+         * @see is_numeric()
+         * @see is_bytes()
+         * @see is_string()
+         * @see is_guid()
+         * @see is_date()
+         * @see is_time()
+         * @see is_timestamp()
+         */
+        int16 type () const;
+
+        size_t size () const;
+        int16 bits () const;
+
+        /*!
+         * @brief Check if the parameter is nullable.
+         * @return @c false if the parameter is not nullable of if the driver
+         *  cannot determine nullability.
+         */
+        bool nullable () const;
+
+        /*!
+         * @return @c true if the driver cannot determine the parameter's type.
+         * @see type()
+         */
+        bool is_unknown_type () const;
+
+        /*!
+         * @brief Check if the parameter is a @c int8 value.
+         * @see type()
+         */
+        bool is_int8 () const;
+
+        /*!
+         * @brief Check if the parameter is a @c int16 value.
+         * @see type()
+         */
+        bool is_int16 () const;
+
+        /*!
+         * @brief Check if the parameter is a @c int32 value.
+         * @see type()
+         */
+        bool is_int32 () const;
+
+        /*!
+         * @brief Check if the parameter is a @c int64 value.
+         * @see type()
+         */
+        bool is_int64 () const;
+
+        /*!
+         * @brief Check if the parameter is a @c float value.
+         * @see type()
+         */
+        bool is_float () const;
+
+        /*!
+         * @brief Check if the parameter is a @c double value.
+         * @see type()
+         */
+        bool is_double () const;
+
+        /*!
+         * @brief Check if the parameter is a @c Numeric value.
+         * @see type()
+         */
+        bool is_numeric () const;
+
+        /*!
+         * @todo Factor this into @c is_bytes() or @c is_string().
+         * @see type()
+         */
+        bool is_varchar () const;
+
+        /*!
+         * @brief Check if the parameter is a @c bytes value.
+         * @see type()
+         */
+        bool is_bytes () const;
+
+        /*!
+         * @brief Check if the parameter is a @c string value.
+         * @see type()
+         */
+        bool is_string () const;
+
+        /*!
+         * @brief Check if the parameter is a @c Guid value.
+         * @see type()
+         */
+        bool is_guid () const;
+
+        /*!
+         * @brief Check if the parameter is a @c Date value.
+         * @see type()
+         */
+        bool is_date () const;
+
+        /*!
+         * @brief Check if the parameter is a @c Time value.
+         * @see type()
+         */
+        bool is_time () const;
+
+        /*!
+         * @brief Check if the parameter is a @c Timestamp value.
+         * @see type()
+         */
+        bool is_timestamp () const;
+
+        /* operators. */
+    public:
+        friend PreparedStatement& operator>> (PreparedStatement& statement,
+                                              Parameter& parameter);
+    };
 
 }
 

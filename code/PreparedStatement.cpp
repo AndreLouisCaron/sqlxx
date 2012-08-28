@@ -75,6 +75,31 @@ namespace sql {
         return (reset());
     }
 
+    int16 PreparedStatement::parameter_count () const
+    {
+        ::SQLSMALLINT count = 0;
+        const ::SQLRETURN result = ::SQLNumParams(handle().value(), &count);
+        if (result != SQL_SUCCESS) {
+            throw (Diagnostic(handle()));
+        }
+        return (count);
+    }
+
+    int16 PreparedStatement::column_count () const
+    {
+        ::SQLSMALLINT count = 0;
+        const ::SQLRETURN result = ::SQLNumResultCols(handle().value(), &count);
+        if (result != SQL_SUCCESS) {
+            throw (Diagnostic(handle()));
+        }
+        return (count);
+    }
+
+    bool PreparedStatement::generated_results () const
+    {
+        return (column_count() > 0);
+    }
+
     PreparedStatement& PreparedStatement::reset ()
     {
         myNext = 1; return (*this);
@@ -303,6 +328,19 @@ namespace sql {
         ++myNext; return (*this);
     }
 
+    PreparedStatement& operator>> (PreparedStatement& statement,
+                                   Parameter& parameter)
+    {
+        const ::SQLRETURN result = ::SQLDescribeParam(
+            statement.handle().value(), statement.myNext,
+            &parameter.myType, &parameter.mySize,
+            &parameter.myBits, &parameter.myNull);
+        if (result != SQL_SUCCESS) {
+            throw (Diagnostic(statement.handle()));
+        }
+        ++statement.myNext; return (statement);
+    }
+
     PreparedStatement& reset ( PreparedStatement& statement )
     {
         return (statement.reset());
@@ -311,6 +349,109 @@ namespace sql {
     PreparedStatement& execute ( PreparedStatement& statement )
     {
         return (statement.execute());
+    }
+
+    Parameter::Parameter ()
+        : myType(SQL_UNKNOWN_TYPE)
+        , mySize(0)
+        , myBits(0)
+        , myNull(0)
+    {
+    }
+
+    int16 Parameter::type () const
+    {
+        return (myType);
+    }
+
+    size_t Parameter::size () const
+    {
+        return (mySize);
+    }
+
+    int16 Parameter::bits () const
+    {
+        return (myBits);
+    }
+
+    bool Parameter::nullable () const
+    {
+        return (myNull == SQL_NULLABLE);
+    }
+
+    bool Parameter::is_unknown_type () const
+    {
+        return (myType == SQL_UNKNOWN_TYPE);
+    }
+
+    bool Parameter::is_int8 () const
+    {
+        return (myType == SQL_TINYINT);
+    }
+
+    bool Parameter::is_int16 () const
+    {
+        return (myType == SQL_SMALLINT);
+    }
+
+    bool Parameter::is_int32 () const
+    {
+        return (myType == SQL_INTEGER);
+    }
+
+    bool Parameter::is_int64 () const
+    {
+        return (myType == SQL_BIGINT);
+    }
+
+    bool Parameter::is_float () const
+    {
+        return (myType == SQL_REAL);
+    }
+
+    bool Parameter::is_double () const
+    {
+        return (myType == SQL_DOUBLE);
+    }
+
+    bool Parameter::is_numeric () const
+    {
+        return (myType == SQL_NUMERIC);
+    }
+
+    bool Parameter::is_varchar () const
+    {
+        return (myType == SQL_VARCHAR);
+    }
+
+    bool Parameter::is_bytes () const
+    {
+        return (myType == SQL_CHAR);
+    }
+
+    bool Parameter::is_string () const
+    {
+        return (myType == SQL_WCHAR);
+    }
+
+    bool Parameter::is_guid () const
+    {
+        return (myType == SQL_GUID);
+    }
+
+    bool Parameter::is_date () const
+    {
+        return (myType == SQL_TYPE_DATE);
+    }
+
+    bool Parameter::is_time () const
+    {
+        return (myType == SQL_TYPE_TIME);
+    }
+
+    bool Parameter::is_timestamp () const
+    {
+        return (myType == SQL_TYPE_TIMESTAMP);
     }
 
 }
