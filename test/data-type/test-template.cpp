@@ -34,7 +34,7 @@ namespace {
         std::ostringstream update;
         update << "create table entries ( entry " << DataType << " )";
         std::cerr << "Creating table: '" << update.str() << "'." << std::endl;
-        sql::execute(connection, update.str());
+        sql::execute(connection, update.str().c_str());
     }
 
     void insert ( sql::Connection& connection )
