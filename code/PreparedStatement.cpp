@@ -38,6 +38,18 @@
 // write-access to the value. Do not be surprised to see const casts to discard
 // qualifiers.
 
+namespace {
+
+    // Shared between all null values.  Must be available between calls
+    // to PreparedStatement::bind() and PreparedStatement::execute().
+    ::SQLLEN null_value = SQL_NULL_DATA;
+
+    // Shared between all string parameters.  Must be available between calls
+    // to PreparedStatement::bind() and PreparedStatement::execute().
+    ::SQLLEN null_terminated = SQL_NTS;
+
+}
+
 namespace sql {
 
     PreparedStatement::PreparedStatement (
@@ -70,10 +82,9 @@ namespace sql {
 
     PreparedStatement& PreparedStatement::bind ( const Null& )
     {
-        ::SQLLEN length = SQL_NULL_DATA;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT,
-            0, 0, 0, 0, 0, 0, &length
+            0, 0, 0, 0, 0, 0, &::null_value
             );
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
@@ -83,10 +94,9 @@ namespace sql {
 
     PreparedStatement& PreparedStatement::bind ( const int8& value )
     {
-        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_STINYINT,
-            SQL_TINYINT, 0, 0, const_cast<int8*>(&value), 0, &length
+            SQL_TINYINT, 0, 0, const_cast<int8*>(&value), 0, 0
             );
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
@@ -96,10 +106,9 @@ namespace sql {
 
     PreparedStatement& PreparedStatement::bind ( const uint8& value )
     {
-        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_UTINYINT,
-            SQL_TINYINT, 0, 0, const_cast<uint8*>(&value), 0, &length
+            SQL_TINYINT, 0, 0, const_cast<uint8*>(&value), 0, 0
             );
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
@@ -109,10 +118,9 @@ namespace sql {
 
     PreparedStatement& PreparedStatement::bind ( const int16& value )
     {
-        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_SSHORT,
-            SQL_SMALLINT, 0, 0, const_cast<int16*>(&value), 0, &length
+            SQL_SMALLINT, 0, 0, const_cast<int16*>(&value), 0, 0
             );
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
@@ -122,10 +130,9 @@ namespace sql {
 
     PreparedStatement& PreparedStatement::bind ( const uint16& value )
     {
-        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_USHORT,
-            SQL_SMALLINT, 0, 0, const_cast<uint16*>(&value), 0, &length
+            SQL_SMALLINT, 0, 0, const_cast<uint16*>(&value), 0, 0
             );
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
@@ -135,10 +142,9 @@ namespace sql {
 
     PreparedStatement& PreparedStatement::bind ( const int32& value )
     {
-        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
-            handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_SLONG, SQL_INTEGER,
-            0, 0, const_cast<int32*>(&value), 0, &length
+            handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_SLONG,
+            SQL_INTEGER, 0, 0, const_cast<int32*>(&value), 0, 0
             );
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
@@ -148,10 +154,9 @@ namespace sql {
 
     PreparedStatement& PreparedStatement::bind ( const uint32& value )
     {
-        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER,
-            0, 0, const_cast<uint32*>(&value), 0, &length
+            0, 0, const_cast<uint32*>(&value), 0, 0
             );
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
@@ -161,10 +166,9 @@ namespace sql {
 
     PreparedStatement& PreparedStatement::bind ( const int64& value )
     {
-        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_SBIGINT,
-            SQL_BIGINT, 0, 0, const_cast<int64*>(&value), 0, &length
+            SQL_BIGINT, 0, 0, const_cast<int64*>(&value), 0, 0
             );
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
@@ -174,10 +178,9 @@ namespace sql {
 
     PreparedStatement& PreparedStatement::bind ( const uint64& value )
     {
-        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_UBIGINT,
-            SQL_BIGINT, 0, 0, const_cast<uint64*>(&value), 0, &length
+            SQL_BIGINT, 0, 0, const_cast<uint64*>(&value), 0, 0
             );
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
@@ -187,10 +190,9 @@ namespace sql {
 
     PreparedStatement& PreparedStatement::bind ( const float& value )
     {
-        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_REAL,
-            0, 0, const_cast<float*>(&value), 0, &length
+            0, 0, const_cast<float*>(&value), 0, 0
             );
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
@@ -200,10 +202,9 @@ namespace sql {
 
     PreparedStatement& PreparedStatement::bind ( const double& value )
     {
-        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_DOUBLE, SQL_DOUBLE,
-            0, 0, const_cast<double*>(&value), 0, &length
+            0, 0, const_cast<double*>(&value), 0, 0
             );
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
@@ -213,10 +214,10 @@ namespace sql {
 
     PreparedStatement& PreparedStatement::bind ( const string& value )
     {
-        ::SQLLEN length = SQL_NTS;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_CHAR,
-            value.length(), 0, const_cast<character*>(value.data()), 0, &length
+            value.length(), 0, const_cast<character*>(value.data()), 0,
+            &::null_terminated
             );
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
@@ -226,10 +227,10 @@ namespace sql {
 
     PreparedStatement& PreparedStatement::bind ( const wstring& value )
     {
-        ::SQLLEN length = SQL_NTS;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_WCHAR, SQL_WCHAR,
-            value.length(), 0, const_cast<wcharacter*>(value.data()), 0, &length
+            value.length(), 0, const_cast<wcharacter*>(value.data()), 0,
+            &::null_terminated
             );
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
@@ -239,11 +240,10 @@ namespace sql {
 
     PreparedStatement& PreparedStatement::bind ( const Date& date )
     {
-        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_TYPE_DATE,
-            SQL_TYPE_TIME, sizeof(::SQL_DATE_STRUCT), 0,
-            const_cast<::SQL_DATE_STRUCT*>(&date.value()), 0, &length
+            SQL_TYPE_DATE, SQL_DATE_LEN, 0,
+            const_cast<::SQL_DATE_STRUCT*>(&date.value()), 0, 0
             );
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
@@ -253,11 +253,10 @@ namespace sql {
 
     PreparedStatement& PreparedStatement::bind ( const Guid& guid )
     {
-        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_GUID,
             SQL_GUID, sizeof(::SQLGUID), 0,
-            const_cast<::SQLGUID*>(&guid.value()), 0, &length
+            const_cast<::SQLGUID*>(&guid.value()), 0, 0
             );
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
@@ -267,11 +266,10 @@ namespace sql {
 
     PreparedStatement& PreparedStatement::bind ( const Numeric& numeric )
     {
-        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_NUMERIC,
             SQL_NUMERIC, sizeof(::SQL_NUMERIC_STRUCT), 0,
-            const_cast<::SQL_NUMERIC_STRUCT*>(&numeric.value()), 0, &length
+            const_cast<::SQL_NUMERIC_STRUCT*>(&numeric.value()), 0, 0
             );
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
@@ -281,11 +279,10 @@ namespace sql {
 
     PreparedStatement& PreparedStatement::bind ( const Time& time )
     {
-        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_TYPE_TIME,
-            SQL_TYPE_TIME, sizeof(::SQL_TIME_STRUCT), 0,
-            const_cast<::SQL_TIME_STRUCT*>(&time.value()), 0, &length
+            SQL_TYPE_TIME, SQL_TIME_LEN, 0,
+            const_cast<::SQL_TIME_STRUCT*>(&time.value()), 0, 0
             );
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
@@ -295,11 +292,10 @@ namespace sql {
 
     PreparedStatement& PreparedStatement::bind ( const Timestamp& timestamp )
     {
-        ::SQLLEN length = 0;
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_TYPE_TIMESTAMP,
             SQL_TYPE_TIMESTAMP, sizeof(::SQL_TIMESTAMP_STRUCT), 0,
-            const_cast<::SQL_TIMESTAMP_STRUCT*>(&timestamp.value()), 0, &length
+            const_cast<::SQL_TIMESTAMP_STRUCT*>(&timestamp.value()), 0, 0
             );
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
