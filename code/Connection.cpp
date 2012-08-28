@@ -60,6 +60,32 @@ namespace sql {
         return (myHandle);
     }
 
+    void Connection::enable_autocommit ()
+    {
+        const ::SQLINTEGER attribute = SQL_ATTR_AUTOCOMMIT;
+        const ::SQLPOINTER data =
+            reinterpret_cast<SQLPOINTER>(SQL_AUTOCOMMIT_ON);
+        const ::SQLINTEGER size = SQL_IS_UINTEGER;
+        const ::SQLRETURN result = ::SQLSetConnectAttr
+            (handle().value(), attribute, data, size);
+        if ( result != SQL_SUCCESS ) {
+            throw (Diagnostic(handle()));
+        }
+    }
+
+    void Connection::disable_autocommit ()
+    {
+        const ::SQLINTEGER attribute = SQL_ATTR_AUTOCOMMIT;
+        const ::SQLPOINTER data =
+            reinterpret_cast<SQLPOINTER>(SQL_AUTOCOMMIT_OFF);
+        const ::SQLINTEGER size = SQL_IS_UINTEGER;
+        const ::SQLRETURN result = ::SQLSetConnectAttr
+            (handle().value(), attribute, data, size);
+        if ( result != SQL_SUCCESS ) {
+            throw (Diagnostic(handle()));
+        }
+    }
+
     void Connection::commit ()
     {
         ::SQLRETURN result = ::SQLEndTran(

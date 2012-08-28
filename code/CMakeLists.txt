@@ -42,6 +42,7 @@ set(headers
   Status.hpp
   Time.hpp
   Timestamp.hpp
+  Transaction.hpp
   Version.hpp
   firebird.hpp
   mysql.hpp
@@ -66,6 +67,7 @@ set(sources
   Status.cpp
   Time.cpp
   Timestamp.cpp
+  Transaction.cpp
   Version.cpp
   firebird.cpp
   mysql.cpp

@@ -93,6 +93,9 @@ namespace sql {
              */
         const Handle& handle () const throw();
 
+        void enable_autocommit ();
+        void disable_autocommit ();
+
             /*!
              * @brief Commits all changes made through this connection.
              */

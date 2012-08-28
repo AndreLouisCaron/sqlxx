@@ -1,6 +1,3 @@
-#ifndef _sql_hpp__
-#define _sql_hpp__
-
 // Copyright (c) 2009-2012, Andre Caron (andre.l.caron@gmail.com)
 // All rights reserved.
 //
@@ -27,25 +24,33 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-namespace sql {}
-
-#include "Connection.hpp"
-#include "Date.hpp"
-#include "Diagnostic.hpp"
-#include "Driver.hpp"
-#include "Environment.hpp"
-#include "execute.hpp"
-#include "Guid.hpp"
-#include "Handle.hpp"
-#include "Numeric.hpp"
-#include "PreparedStatement.hpp"
-#include "Results.hpp"
-#include "Row.hpp"
-#include "Statement.hpp"
-#include "Status.hpp"
-#include "Time.hpp"
-#include "Timestamp.hpp"
 #include "Transaction.hpp"
-#include "Version.hpp"
+#include "Connection.hpp"
+#include <iostream>
 
-#endif /* _sql_hpp__ */
+namespace sql {
+
+    Transaction::Transaction (Connection& connection)
+        : myConnection(connection)
+        , myCommitFlag(false)
+    {
+        myConnection.disable_autocommit();
+    }
+
+    Transaction::~Transaction ()
+    {
+        if (myCommitFlag) {
+            myConnection.commit();
+        }
+        else {
+            myConnection.rollback();
+        }
+        myConnection.enable_autocommit();
+    }
+
+    void Transaction::commit ()
+    {
+        myCommitFlag = true;
+    }
+
+}

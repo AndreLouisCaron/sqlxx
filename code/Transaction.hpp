@@ -1,5 +1,5 @@
-#ifndef _sql_hpp__
-#define _sql_hpp__
+#ifndef _sql_Transaction_hpp__
+#define _sql_Transaction_hpp__
 
 // Copyright (c) 2009-2012, Andre Caron (andre.l.caron@gmail.com)
 // All rights reserved.
@@ -27,25 +27,31 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-namespace sql {}
+#include "__configure__.hpp"
+#include "NotCopyable.hpp"
 
-#include "Connection.hpp"
-#include "Date.hpp"
-#include "Diagnostic.hpp"
-#include "Driver.hpp"
-#include "Environment.hpp"
-#include "execute.hpp"
-#include "Guid.hpp"
-#include "Handle.hpp"
-#include "Numeric.hpp"
-#include "PreparedStatement.hpp"
-#include "Results.hpp"
-#include "Row.hpp"
-#include "Statement.hpp"
-#include "Status.hpp"
-#include "Time.hpp"
-#include "Timestamp.hpp"
-#include "Transaction.hpp"
-#include "Version.hpp"
+namespace sql {
 
-#endif /* _sql_hpp__ */
+    class Connection;
+
+    class Transaction :
+        private NotCopyable
+    {
+        /* data. */
+    private:
+        Connection& myConnection;
+        bool myCommitFlag;
+
+        /* construction. */
+    public:
+        Transaction (Connection& connection);
+        ~Transaction ();
+
+        /* methods. */
+    public:
+        void commit ();
+    };
+
+}
+
+#endif /* _sql_Transaction_hpp__ */
