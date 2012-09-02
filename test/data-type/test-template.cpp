@@ -29,62 +29,63 @@
 
 namespace {
 
-    void create ( sql::Connection& connection )
+    void create (sql::Connection& connection)
     {
         std::ostringstream update;
-        update << "create table entries ( entry " << DataType << " )";
-        std::cerr << "Creating table: '" << update.str() << "'." << std::endl;
-        sql::execute(connection, update.str().c_str());
+        update << "create table entries ( entry " << DataType << " );";
+        std::cerr << update.str() << std::endl;
+        sql::execute(connection, sql::string(update.str()));
     }
 
-    void insert ( sql::Connection& connection )
+    void insert (sql::Connection& connection)
     {
         std::cerr << "Inserting values." << std::endl;
         static const std::size_t count = sizeof(values)/sizeof(values[0]);
-        const sql::string update("insert into entries ( entry ) values (?)");
+        const sql::string update("insert into entries ( entry ) values (?);");
+        std::cerr << update << std::endl;
         sql::PreparedStatement statement(connection, update);
-        for ( std::size_t i = 0; (i < count); ++i )
-        {
-            statement << values[i];
-            statement.execute();
+        for ( std::size_t i = 0; (i < count); ++i ) {
+            statement << values[i] << sql::execute;
         }
     }
 
-    void select ( sql::Connection& connection )
+    void select (sql::Connection& connection)
     {
         std::cerr << "Querying stuff." << std::endl;
-        const sql::string query("select entry from entries");
+        const sql::string query("select entry from entries;");
+        std::cerr << query << std::endl;
         sql::PreparedStatement statement(connection, query);
-        statement.execute();
-
-        sql::Results results(statement); Value value;
+        sql::Results results(statement<<sql::execute);
         for ( std::size_t i = 0; (results >> sql::row); ++i ) {
-            assert((results >> value) && (value == values[i]));
+            Value value; assert((results >> value) && (value == values[i]));
         }
     }
 
-    void drop ( sql::Connection& connection )
+    void drop (sql::Connection& connection)
     {
         std::cerr << "Removing traces." << std::endl;
-        const sql::string update("drop table entries");
-        sql::PreparedStatement statement(connection, update);
-        statement.execute();
+        const sql::string update("drop table entries;");
+        std::cerr << update << std::endl;
+        sql::execute(connection, update);
     }
 
-    void run ( sql::Connection& connection )
+}
+
+namespace {
+
+    int test (sql::Connection& connection, int argc, char ** argv)
+    try
     {
-        try {
-            create(connection);
-            insert(connection);
-            select(connection);
-        }
-        catch ( ... ) {
-            std::cerr << "Something failed." << std::endl;
-            drop(connection);
-            throw;
-        }
+        create(connection);
+        insert(connection);
+        select(connection);
         drop(connection);
-        std::cerr << std::endl;
+        return (EXIT_SUCCESS);
+    }
+    catch ( ... ) {
+        std::cerr << "Something failed." << std::endl;
+        //drop(connection);
+        throw;
     }
 
 }

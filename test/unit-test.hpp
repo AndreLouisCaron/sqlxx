@@ -40,17 +40,21 @@ namespace {
 
     void assert ( bool satisfied )
     {
-        if ( !satisfied ) {
+        if (!satisfied) {
             fail();
         }
     }
 
         /*!
          * @brief Function to implement when writing a unit test.
+         * @param connection Database connection.
+         * @param argc Program argument count.
+         * @param argv Program argument values.
+         * @return @c EXIT_SUCCESS or @c EXIT_FAILURE.
          *
          * This function will be called with an open connection to a database.
          */
-    void run ( sql::Connection& connection );
+    int test (sql::Connection& connection, int argc, char ** argv);
 
 }
 

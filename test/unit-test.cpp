@@ -45,85 +45,54 @@
 
 namespace {
 
-    int firebird ( int argc, char ** argv )
+    int firebird (int argc, char ** argv)
     {
-        if ( argc != 3 )
-        {
+        if (argc < 3) {
             std::cerr
-                << "firebird: Expecting database path, user name and password."
+                << "firebird: expecting filepath, username and password."
                 << std::endl;
             return (EXIT_FAILURE);
         }
 
-            // Allocate the environment.
+        // Connect to the database.
         sql::Environment environment;
-
-            // Group information required for the connection.
-        sql::string path(argv[0]);
-        sql::string user(argv[1]);
-        sql::string password(argv[2]);
-
-            // Connect to the database.
         sql::firebird::Connection connection
-            (environment, path, user, password);
+            (environment, argv[0], argv[1], argv[2]);
 
-            // Run the unit test.
-        run(connection);
-
-        return (EXIT_SUCCESS);
+        return (test(connection, argc-3, argv+3));
     }
 
-    int sqlite ( int argc, char ** argv )
+    int sqlite (int argc, char ** argv)
     {
-        if ( argc != 1 )
-        {
+        if (argc < 1) {
             std::cerr
-                << "sqlite: Expecting database path."
+                << "sqlite: expecting filepath."
                 << std::endl;
             return (EXIT_FAILURE);
         }
 
-            // Allocate the environment.
+        // Connect to the database.
         sql::Environment environment;
+        sql::sqlite::Connection connection(environment, argv[0]);
 
-            // Group information required for the connection.
-        sql::string path(argv[0]);
-
-            // Connect to the database.
-        sql::sqlite::Connection connection(environment, path);
-
-            // Run the unit test.
-        run(connection);
-
-        return (EXIT_SUCCESS);
+        return (test(connection, argc-1, argv+1));
     }
 
-    int mysql ( int argc, char ** argv )
+    int mysql (int argc, char ** argv)
     {
-        if ( argc != 3 )
-        {
+        if (argc < 3) {
             std::cerr
-                << "mysql: Expecting database name, user name and password."
+                << "mysql: expecting database, username and password."
                 << std::endl;
             return (EXIT_FAILURE);
         }
 
-            // Allocate the environment.
+        // Connect to the database.
         sql::Environment environment;
-
-            // Group information required for the connection.
-        sql::string database(argv[0]);
-        sql::string user(argv[1]);
-        sql::string password(argv[2]);
-
-            // Connect to the database.
         sql::mysql::Connection connection
-            (environment, database, user, password);
+            (environment, argv[0], argv[1], argv[2]);
 
-            // Run the unit test.
-        run(connection);
-
-        return (EXIT_SUCCESS);
+        return (test(connection, argc-3, argv+3));
     }
 
     typedef std::pair< const char*, int(*)(int,char**) > Provider;
@@ -146,64 +115,66 @@ namespace {
         }
     };
 
+    std::ostream& usage (std::ostream& stream)
+    {
+        stream
+            << "provider connection-parameters..."       << std::endl
+            << "  [firebird filepath username password]" << std::endl
+            << "  [mysql    database username password]" << std::endl
+            << "  [sqlite   filepath]"                   << std::endl;
+        return (stream);
+    }
+
 }
 
 int main ( int argc, char ** argv )
+try
 {
-    try
+    // Make sure we have something to handle.
+    if (argc < 2)
     {
-        if ( argc < 2 )
-        {
-            std::cerr
-                << "Expecting argument(s), use '--help' option for usage."
-                << std::endl;
-            return (EXIT_FAILURE);
-        }
-
-            // Dispatch based on connection method.
-        if ( std::strcmp(argv[1],"--provider") == 0 )
-        {
-            if ( argc < 3 ) {
-                std::cerr << "Expecting provider name." << std::endl;
-                return (EXIT_FAILURE);
-            }
-
-                // Find the requested provider.
-            const Provider * provider = std::find_if(
-                providers, providers+providercount, ::ProviderNameIs(argv[2])
-                );
-            if ( provider == (providers+providercount) )
-            {
-                std::cerr
-                    << "No such provider: '" << argv[2] << "'." << std::endl;
-                return (EXIT_FAILURE);
-            }
-
-                // Use the requested provider.
-            (*provider->second)(argc-3,argv+3);
-        }
-        else {
-            std::cerr
-                << "Invalid argument: '" << argv[1] << "'." << std::endl;
-            return (EXIT_FAILURE);
-         }
-    }
-    catch ( const sql::Diagnostic& diagnostic ) {
-        std::cerr << diagnostic << std::endl;
-        return (EXIT_FAILURE);
-    }
-    catch ( const sql::Environment::Failure& ) {
-        std::cerr << "Failed to initialize SQL/ODBC environment!" << std::endl;
-        return (EXIT_FAILURE);
-    }
-    catch ( const std::exception& error ) {
-        std::cerr << error.what() << std::endl;
-        return (EXIT_FAILURE);
-    }
-    catch ( ... ) {
-        std::cerr << "Unknown error!" << std::endl;
+        std::cerr
+            << "Expecting argument(s), use '--help' option for usage."
+            << std::endl;
         return (EXIT_FAILURE);
     }
 
-    return (EXIT_SUCCESS);
+    // Provide help if requested.
+    if (std::strcmp(argv[1],"--help") == 0)
+    {
+        std::cerr
+            << argv[0] << std::endl
+            << usage   << std::endl;
+        return (EXIT_FAILURE);
+    }
+
+    // Find the requested provider.
+    const Provider * provider = std::find_if(
+        providers, providers+providercount, ::ProviderNameIs(argv[1])
+        );
+    if (provider == (providers+providercount))
+    {
+        std::cerr
+            << "No such provider: '" << argv[1] << "'." << std::endl;
+        return (EXIT_FAILURE);
+    }
+
+    // Use the requested provider.
+    return ((*provider->second)(argc-2, argv+2));
+}
+catch ( const sql::Diagnostic& diagnostic ) {
+    std::cerr << diagnostic << std::endl;
+    return (EXIT_FAILURE);
+}
+catch ( const sql::Environment::Failure& ) {
+    std::cerr << "Failed to initialize SQL/ODBC environment!" << std::endl;
+    return (EXIT_FAILURE);
+}
+catch ( const std::exception& error ) {
+    std::cerr << error.what() << std::endl;
+    return (EXIT_FAILURE);
+}
+catch ( ... ) {
+    std::cerr << "Unknown error!" << std::endl;
+    return (EXIT_FAILURE);
 }
