@@ -59,9 +59,15 @@ namespace sql {
     Statement& Statement::execute ()
     {
         ::SQLRETURN result = ::SQLExecute(handle().value());
-        if ((result != SQL_SUCCESS) && (result != SQL_SUCCESS_WITH_INFO))
+        if ((result != SQL_SUCCESS) && (result != SQL_NO_DATA))
         {
-            throw (Diagnostic(handle()));
+            const Diagnostic diagnostic(handle());
+            std::cerr
+                << "SQLExecute(): " << diagnostic << "."
+                << std::endl;
+            if (result != SQL_SUCCESS_WITH_INFO) {
+                throw (diagnostic);
+            }
         }
         return (*this);
     }

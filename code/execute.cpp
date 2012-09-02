@@ -29,6 +29,8 @@
 #include "Diagnostic.hpp"
 #include "Statement.hpp"
 
+#include <iostream>
+
 namespace sql {
 
     void execute ( Connection& connection, const string& update )
@@ -38,8 +40,15 @@ namespace sql {
             statement.handle().value(),
             const_cast<character*>(update.data()), SQL_NTS
             );
-        if ( result != SQL_SUCCESS ) {
-            throw (Diagnostic(statement.handle()));
+        if ((result != SQL_SUCCESS) && (result != SQL_NO_DATA))
+        {
+            const Diagnostic diagnostic(statement.handle());
+            std::cerr
+                << "SQLExecDirect(): " << diagnostic << "."
+                << std::endl;
+            if (result != SQL_SUCCESS_WITH_INFO) {
+                throw (diagnostic);
+            }
         }
 
     }
