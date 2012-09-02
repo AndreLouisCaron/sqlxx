@@ -29,18 +29,34 @@
 
 #include "sql.hpp"
 
+namespace sql {
+
+    /*!
+     * @brief Support for SQLite.
+     *
+     * @see http://www.sqlite.org/
+     */
+    namespace sqlite {}
+
+}
+
 namespace sql { namespace sqlite {
 
-        /*!
-         * @brief Groups fields used in the connection string passed to the ODBC
-         *   driver to open the connection.
-         */
+    /*!
+     * @brief Connection to an SQLite database.
+     */
     class Connection :
         public Driver
     {
         /* construction. */
     public:
-        Connection ( Environment& environment, const string& database );
+        /*!
+         * @brief Establish a connection an SQLite database.
+         * @param environment The ODBC environment in which to connect.
+         * @param filepath The database's file path.  This can be the special
+         *  string ":memory:" to open an SQLite in-memory database.
+         */
+        Connection (Environment& environment, const string& filepath);
     };
 
 } }
