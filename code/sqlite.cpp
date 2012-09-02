@@ -29,20 +29,20 @@
 
 namespace {
 
-    sql::string format ( const sql::string& database )
+    sql::string format (const sql::string& filepath)
     {
-        std::ostringstream how;
-        how << "Driver={SQLite ODBC Driver};"
-            << "Database=" << database << ';';
-        return (sql::string(how.str()));
+        std::ostringstream settings;
+        settings << "DRIVER={SQLite3 ODBC Driver};"
+                 << "DATABASE=" << filepath << ';';
+        return (sql::string(settings.str()));
     }
 
 }
 
 namespace sql { namespace sqlite {
 
-    Connection::Connection ( Environment& environment, const string& database )
-        : Driver(environment, ::format(database))
+    Connection::Connection (Environment& environment, const string& filepath)
+        : Driver(environment, ::format(filepath))
     {
     }
 
