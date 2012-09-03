@@ -31,6 +31,7 @@
 #include "Environment.hpp"
 #include "Handle.hpp"
 #include "NotCopyable.hpp"
+#include "string.hpp"
 
 // TODO: Implement connection classes to use SQLConnect() and
 // SQLBrowseConnect(). The former uses ODBC data sources registered on the
@@ -44,6 +45,20 @@
 // http://msdn.microsoft.com/en-us/library/ms713605(VS.85).aspx
 
 namespace sql {
+
+    /*!
+     * @defgroup driver_information
+     * @brief Dynamic information on a connection's ODBC driver.
+     *
+     * @see http://msdn.microsoft.com/en-us/library/windows/desktop/ms711681.aspx
+     */
+
+    /*!
+     * @defgroup sql_support
+     * @brief Dynamic information on a data source's SQL support/compliance.
+     *
+     * @see http://msdn.microsoft.com/en-us/library/windows/desktop/ms711681.aspx
+     */
 
         /*!
          * @brief Connection to a database.
@@ -105,6 +120,33 @@ namespace sql {
              * @brief Rolls back all changes made through this connection.
              */
         void rollback ();
+
+        //! @ingroup driver_information
+        //! @{
+
+        /*!
+         * @brief Obtains the ODBC version supported by the driver.
+         */
+        string driver_odbc_version () const;
+        string driver_name () const;
+        string driver_version () const;
+        string database_name () const;
+        string host_name () const;
+        string user_name () const;
+        string data_source_name () const;
+        uint16 max_driver_connections () const;
+
+        //! @}
+
+        //! @ingroup sql_support
+        //! @{
+
+        /*!
+         * @todo Refactor this to extract specific aspects from the mask.
+         */
+        uint32 create_table_support () const;
+
+        //! @}
     };
 
 }

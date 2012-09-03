@@ -26,10 +26,10 @@
 
 #include "Connection.hpp"
 #include "Diagnostic.hpp"
+#include <iostream>
 
 namespace {
 
-        // Does the actual connection handle allocation.
     ::SQLHANDLE allocate ( sql::Environment& environment )
     {
         ::SQLHANDLE handle = SQL_NULL_HANDLE;
@@ -40,6 +40,90 @@ namespace {
             throw (sql::Diagnostic(environment.handle()));
         }
         return (handle);
+    }
+
+    ::SQLSMALLINT get_string_attribute_size
+        (::SQLHDBC connection, ::SQLUSMALLINT field)
+    {
+        ::SQLSMALLINT size = 0;
+        const ::SQLRETURN result = ::SQLGetInfoA
+            (connection, field, 0, 0, &size);
+        if ((result != SQL_SUCCESS) && (result != SQL_SUCCESS_WITH_INFO))
+        {
+            const sql::Handle handle(connection,
+                                     SQL_HANDLE_DBC,
+                                     &sql::Handle::proxy);
+            throw (sql::Diagnostic(handle));
+        }
+        return (size);
+    }
+
+    void get_string_attribute_data (::SQLHDBC connection, ::SQLUSMALLINT field,
+                                    ::SQLPOINTER data, ::SQLSMALLINT size)
+    {
+        ::SQLSMALLINT used = 0;
+        const ::SQLRETURN result = ::SQLGetInfoA
+            (connection, field, data, size, &used);
+        if (result != SQL_SUCCESS)
+        {
+            const sql::Handle handle(connection,
+                                     SQL_HANDLE_DBC,
+                                     &sql::Handle::proxy);
+            const sql::Diagnostic diagnostic(handle);
+            if (result != SQL_SUCCESS_WITH_INFO) {
+                throw (diagnostic);
+            }
+        }
+        // Enforce null terminator.
+        ((::SQLCHAR*)data)[used] = '\0';
+    }
+
+    sql::string get_string_attribute
+        (::SQLHDBC connection, ::SQLUSMALLINT field)
+    {
+        const ::SQLUSMALLINT size =
+            get_string_attribute_size(connection, field);
+        sql::string attribute(size);
+        get_string_attribute_data(connection, field, attribute.data(), size);
+        return (attribute);
+    }
+
+    ::SQLUSMALLINT get_uint16_attribute (::SQLHDBC connection,
+                                         ::SQLUSMALLINT field)
+    {
+        ::SQLUSMALLINT data = 0;
+        const ::SQLRETURN result = ::SQLGetInfoA
+            (connection, field, &data, 0, 0);
+        if (result != SQL_SUCCESS)
+        {
+            const sql::Handle handle(connection,
+                                     SQL_HANDLE_DBC,
+                                     &sql::Handle::proxy);
+            const sql::Diagnostic diagnostic(handle);
+            if (result != SQL_SUCCESS_WITH_INFO) {
+                throw (diagnostic);
+            }
+        }
+        return (data);
+    }
+
+    ::SQLUINTEGER get_uint32_attribute (::SQLHDBC connection,
+                                         ::SQLUSMALLINT field)
+    {
+        ::SQLUINTEGER data = 0;
+        const ::SQLRETURN result = ::SQLGetInfoA
+            (connection, field, &data, 0, 0);
+        if (result != SQL_SUCCESS)
+        {
+            const sql::Handle handle(connection,
+                                     SQL_HANDLE_DBC,
+                                     &sql::Handle::proxy);
+            const sql::Diagnostic diagnostic(handle);
+            if (result != SQL_SUCCESS_WITH_INFO) {
+                throw (diagnostic);
+            }
+        }
+        return (data);
     }
 
 }
@@ -104,6 +188,53 @@ namespace sql {
         if ( result != SQL_SUCCESS ) {
             throw (Diagnostic(handle()));
         }
+    }
+
+    string Connection::driver_odbc_version () const
+    {
+        return (get_string_attribute(handle().value(), SQL_DRIVER_ODBC_VER));
+    }
+
+    string Connection::driver_name () const
+    {
+        return (get_string_attribute(handle().value(), SQL_DRIVER_NAME));
+    }
+
+    string Connection::driver_version () const
+    {
+        return (get_string_attribute(handle().value(), SQL_DRIVER_VER));
+    }
+
+    string Connection::database_name () const
+    {
+        return (get_string_attribute(handle().value(), SQL_DATABASE_NAME));
+    }
+
+    string Connection::host_name () const
+    {
+        return (get_string_attribute(handle().value(), SQL_SERVER_NAME));
+    }
+
+    string Connection::user_name () const
+    {
+        return (get_string_attribute(handle().value(), SQL_USER_NAME));
+    }
+
+    string Connection::data_source_name () const
+    {
+        return (get_string_attribute(handle().value(), SQL_DATA_SOURCE_NAME));
+    }
+
+    uint16 Connection::max_driver_connections () const
+    {
+        return (get_uint16_attribute(handle().value(),
+                                    SQL_MAX_DRIVER_CONNECTIONS));
+    }
+
+    uint32 Connection::create_table_support () const
+    {
+        return (get_uint32_attribute(handle().value(),
+                                     SQL_CREATE_TABLE));
     }
 
 }

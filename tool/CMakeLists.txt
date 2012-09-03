@@ -24,56 +24,10 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-#
-# SQL (ODBC) wrappers for C++.
-#
+macro(add_tool_program name)
+  add_executable(${name} ${name}.cpp)
+  target_link_libraries(${name} sql odbc32.lib)
+  add_dependencies(${name} sql)
+endmacro()
 
-cmake_minimum_required(VERSION 2.6)
-
-project(sql)
-
-# Resolve custom CMake packages.
-set(CMAKE_MODULE_PATH
-  ${CMAKE_CURRENT_SOURCE_DIR}/site
-)
-
-# Set compiler options.
-find_package(MSVCExtras)
-msvc_configure_runtime()
-msvc_enable_se_handling()
-
-if(MSVC)
-  add_definitions(
-    -D_CRT_SECURE_NO_WARNINGS
-    -D_SCL_SECURE_NO_WARNINGS
-  )
-endif()
-
-# Put all libraries and executables in the build folder root.
-set(LIBRARY_OUTPUT_PATH    ${PROJECT_BINARY_DIR})
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
-
-add_subdirectory(code)
-
-# Optional targets (skip when building as a dependency).
-if(${PROJECT_NAME} STREQUAL ${CMAKE_PROJECT_NAME})
-
-  # Build API documentation.
-  find_package(Doxygen QUIET)
-  find_package(DoxygenExtras)
-  configure_file(
-    ${CMAKE_SOURCE_DIR}/help/Doxyfile
-    ${CMAKE_BINARY_DIR}/Doxyfile @ONLY)
-  add_api_documentation(doc)
-
-  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/code)
-  #add_subdirectory(demo)
-
-  # Build tools.
-  add_subdirectory(tool)
-
-  # Build test suite.
-  enable_testing()
-  add_subdirectory(test)
-
-endif()
+add_tool_program(driver-info)
