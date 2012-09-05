@@ -39,8 +39,8 @@ applications.
 
 The primary goal is to provide a light-weight database interface that supports:
 
-# prepared statements; and
-# transactions.
+#. prepared statements; and
+#. transactions.
 
 The project should be freely available and compile from source using CMake_ and
 be usable as a Git_ submodule.
@@ -152,18 +152,17 @@ Contributing
 If you wish to hack on ``sqlxx``, you may want to build in debug mode and
 compile the full API documentation:
 
-   ::
+::
 
-      git clone git://github.com/AndreLouisCaron/sqlxx.git
-      cd sqlxx
+   git clone git://github.com/AndreLouisCaron/sqlxx.git
+   cd sqlxx
 
-      mkdir work
-      cd work
-      cmake -G "NMake Makefiles" .. -DCMAKE_BUILD_TYPE=Debug
+   mkdir work
+   cd work
+   cmake -G "NMake Makefiles" .. -DCMAKE_BUILD_TYPE=Debug
 
-      nmake
-
-      nmake help
+   nmake
+   nmake help
 
 
 Tutorial
