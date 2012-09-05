@@ -37,7 +37,6 @@ set(headers
   Numeric.hpp
   PreparedStatement.hpp
   Results.hpp
-  Row.hpp
   Statement.hpp
   Status.hpp
   Time.hpp
@@ -62,7 +61,6 @@ set(sources
   Handle.cpp
   PreparedStatement.cpp
   Results.cpp
-  Row.cpp
   Statement.cpp
   Status.cpp
   Time.cpp

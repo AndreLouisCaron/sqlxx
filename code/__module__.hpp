@@ -40,7 +40,6 @@ namespace sql {}
 #include "Numeric.hpp"
 #include "PreparedStatement.hpp"
 #include "Results.hpp"
-#include "Row.hpp"
 #include "Statement.hpp"
 #include "Status.hpp"
 #include "Time.hpp"
