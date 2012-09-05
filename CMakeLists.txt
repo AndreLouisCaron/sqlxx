@@ -30,7 +30,7 @@
 
 cmake_minimum_required(VERSION 2.6)
 
-project(sql)
+project(sqlxx)
 
 # Resolve custom CMake packages.
 set(CMAKE_MODULE_PATH
@@ -61,10 +61,18 @@ if(${PROJECT_NAME} STREQUAL ${CMAKE_PROJECT_NAME})
   # Build API documentation.
   find_package(Doxygen QUIET)
   find_package(DoxygenExtras)
+  if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(CMAKE_PUBLIC_RELEASE YES)
+    set(CMAKE_INTERNAL_BUILD NO)
+  else()
+    set(CMAKE_PUBLIC_RELEASE NO)
+    set(CMAKE_INTERNAL_BUILD YES)
+  endif()
   configure_file(
     ${CMAKE_SOURCE_DIR}/help/Doxyfile
-    ${CMAKE_BINARY_DIR}/Doxyfile @ONLY)
-  add_api_documentation(doc)
+    ${CMAKE_BINARY_DIR}/Doxyfile @ONLY
+  )
+  add_api_documentation(help)
 
   include_directories(${CMAKE_CURRENT_SOURCE_DIR}/code)
   #add_subdirectory(demo)

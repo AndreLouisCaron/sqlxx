@@ -27,31 +27,31 @@
 # Library configuration file used by dependent projects
 # via find_package() built-in directive in "config" mode.
 
-if(NOT DEFINED sql_FOUND)
+if(NOT DEFINED sqlxx_FOUND)
 
-  # Locate library headers.
-  find_path(sql_include_dir
-    NAMES sql.hpp
-    PATHS ${sql_DIR}/code
-  )
+#  # Locate library headers.
+#  find_path(sqlxx_include_dir
+#    NAMES sql.hpp
+#    PATHS ${sqlxx_DIR}/code
+#  )
 
-  # Common name for exported library targets.
-  set(sql_libraries
-    sql odbc32.lib
-    CACHE INTERNAL "sql library" FORCE
-  )
+#  # Common name for exported library targets.
+#  set(sqlxx_libraries
+#    sqlxx odbc32.lib
+#    PARENT_SCOPE
+#  )
 
   # Usual "required" et. al. directive logic.
   include(FindPackageHandleStandardArgs)
   find_package_handle_standard_args(
-    sql DEFAULT_MSG
-    sql_include_dir
-    sql_libraries
+    sqlxx DEFAULT_MSG
+    sqlxx_include_dir
+    sqlxx_libraries
   )
 
   # Add targets to dependent project.
   add_subdirectory(
-    ${sql_DIR}
-    ${CMAKE_BINARY_DIR}/sql
+    ${sqlxx_DIR}
+    ${CMAKE_BINARY_DIR}/sqlxx
   )
 endif()

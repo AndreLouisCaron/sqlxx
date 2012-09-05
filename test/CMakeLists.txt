@@ -26,7 +26,7 @@
 
 macro(add_test_program name)
   add_executable(${name} ${name}.cpp)
-  target_link_libraries(${name} sql odbc32.lib)
+  target_link_libraries(${name} ${sqlxx_libraries})
   add_dependencies(${name} sql)
 endmacro()
 

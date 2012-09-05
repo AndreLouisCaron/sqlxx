@@ -71,8 +71,21 @@ set(sources
   mysql.cpp
   sqlite.cpp
 )
-add_library(sql
+add_library(sqlxx
   STATIC
   ${sources}
   ${headers}
+)
+
+# Export include folders.
+set(sqlxx_include_dirs
+  ${CMAKE_CURRENT_SOURCE_DIR}
+  PARENT_SCOPE
+)
+
+# Export library folders.
+set(sqlxx_libraries
+  sqlxx
+  odbc32
+  PARENT_SCOPE
 )
