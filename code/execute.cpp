@@ -33,7 +33,7 @@
 
 namespace sql {
 
-    void execute ( Connection& connection, const string& update )
+    void execute (Connection& connection, const string& update)
     {
         sql::Statement statement(connection);
         const ::SQLRETURN result = ::SQLExecDirect(

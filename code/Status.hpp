@@ -34,19 +34,25 @@
 
 namespace sql {
 
-        /*!
-         * @brief Generic 5 character SQL status code.
-         *
-         * The status can be obtained as soon as an error occurs. Note that
-         * there can be more than one diagnostic for a given error/status,
-         * although it is not clear when or how this happens...
-         */
+    /*!
+     * @brief Generic 5 character SQL status code.
+     *
+     * The status can be obtained as soon as an error occurs. Note that
+     * there can be more than one diagnostic for a given error/status,
+     * although it is not clear when or how this happens...
+     */
     class Status
     {
         /* class data. */
     public:
-        static const Status none;
+        /*!
+         * @brief Empty status code.
+         */
+        static const Status none ();
 
+        /*!
+         * @brief Server rejected the network connected.
+         */
         static const Status connection_rejected ();
 
         /* data. */
@@ -56,51 +62,65 @@ namespace sql {
 
         /* construction. */
     public:
-            /*!
-             * @brief Null status (equivalent to the empty string).
-             */
+        /*!
+         * @brief Null status (equivalent to the empty string).
+         */
         Status () throw ();
 
-            /*!
-             * @brief Creates a status from a 5-character status code.
-             *
-             * @param value 5-character status code, no terminator required.
-             */
-        explicit Status ( const character * value ) throw();
+        /*!
+         * @brief Creates a status from a 5-character status code.
+         *
+         * @param value 5-character status code, no terminator required.
+         */
+        explicit Status (const character * value) throw();
 
-            /*!
-             * @brief Obtains the 'n'th diagnostic for a given handle.
-             *
-             * @param culprit Handle to the resource which cause a problem.
-             * @param index Identifier for the diagnostic you want. Because
-             *    there is usually only one and that is the one you want, the
-             *    default is the first. These are numbers from 1, not 0.
-             */
-        explicit Status ( const Handle& culprit, int16 index = 1 ) throw();
+        /*!
+         * @brief Obtains the 'n'th diagnostic for a given handle.
+         *
+         * @param culprit Handle to the resource which cause a problem.
+         * @param index Identifier for the diagnostic you want. Because
+         *    there is usually only one and that is the one you want, the
+         *    default is the first. These are numbers from 1, not 0.
+         */
+        explicit Status (const Handle& culprit, int16 index = 1) throw();
 
         /* methods. */
     public:
-            /*!
-             * @brief Obtains the 5-character status code.
-             *
-             * @return Status code, always null terminated.
-             */
+        /*!
+         * @brief Obtains the 5-character status code.
+         *
+         * @return Status code, always null terminated.
+         */
         const character * raw () const throw();
 
-            /*!
-             * @brief Sets the 5-character status code.
-             *
-             * @param value 5-character code, no terminator required.
-             */
-        void raw ( const character * value ) throw();
+        /*!
+         * @brief Sets the 5-character status code.
+         *
+         * @param value 5-character code, no terminator required.
+         */
+        void raw (const character * value) throw();
     };
 
-    bool operator== ( const Status& lhs, const Status& rhs );
+    /*!
+     * @brief Compare two status codes for equality.
+     * @param lhs Left-hand-side argument.
+     * @param rhs Right-hand-side argument.
+     * @return @c true if @c lhs and @c rhs are an exact match.
+     */
+    bool operator== (const Status& lhs, const Status& rhs);
 
-        /*!
-         * @brief Puts the status to a stream.
-         */
-    std::ostream& operator<< ( std::ostream& out, const Status& status );
+    /*!
+     * @brief Compare two status codes for inequality.
+     * @param lhs Left-hand-side argument.
+     * @param rhs Right-hand-side argument.
+     * @return @c true if @c lhs and @c rhs are not an exact match.
+     */
+    bool operator!= (const Status& lhs, const Status& rhs);
+
+    /*!
+     * @brief Puts the status to a stream.
+     */
+    std::ostream& operator<< (std::ostream& stream, const Status& status);
 
 }
 

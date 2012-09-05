@@ -47,26 +47,36 @@ namespace sql {
     {
         /* construction. */
     public:
-            /*!
-             * @brief Attemps to open a database connection.
-             *
-             * @param environment General SQL/ODBC parameters.
-             * @param how Connection string which specifies which driver to
-             *    use and more parameters that depend strongly on that specific
-             *    driver. For drivers who support remote access (some don't),
-             *    the hostname or protocol information are required by the
-             *    driver to open the connection.
-             */
-        Driver ( Environment& environment, const string& how );
+        /*!
+         * @brief Attemps to open a database connection.
+         *
+         * @param environment General SQL/ODBC parameters.
+         * @param settings Connection string which specifies which driver to
+         *  use and more parameters that depend strongly on that specific
+         *  driver. For drivers who support remote access (some don't), the
+         *  hostname or protocol information are required by the driver to open
+         *  the connection.
+         */
+        Driver (Environment& environment, const string& settings);
 
-        Driver ( Environment& environment, const wstring& how );
+        /*!
+         * @brief Attemps to open a database connection.
+         *
+         * @param environment General SQL/ODBC parameters.
+         * @param settings Connection string which specifies which driver to
+         *  use and more parameters that depend strongly on that specific
+         *  driver. For drivers who support remote access (some don't), the
+         *  hostname or protocol information are required by the driver to open
+         *  the connection.
+         */
+        Driver (Environment& environment, const wstring& settings);
 
-            /*!
-             * @brief Closes the connection to the database.
-             *
-             * All operations, unless rolled back, will be commited
-             * automatically.
-             */
+        /*!
+         * @brief Closes the connection to the database.
+         *
+         * All operations, unless rolled back, will be commited automatically
+         * (see @c Connection::disable_autocommit() to change this behavior).
+         */
         virtual ~Driver ();
     };
 

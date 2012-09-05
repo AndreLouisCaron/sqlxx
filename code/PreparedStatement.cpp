@@ -52,16 +52,15 @@ namespace {
 
 namespace sql {
 
-    PreparedStatement::PreparedStatement (
-        Connection& connection, const string& query
-        )
+    PreparedStatement::PreparedStatement (Connection& connection,
+                                          const string& text)
         : Statement(connection), myNext(1)
     {
             // Indicate the statement will be using bound parameters.
         ::SQLRETURN result = ::SQLPrepare(
-            handle().value(), const_cast<character*>(query.data()), SQL_NTS
+            handle().value(), const_cast<character*>(text.data()), SQL_NTS
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
     }
@@ -105,224 +104,224 @@ namespace sql {
         myNext = 1; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( const Null& )
+    PreparedStatement& PreparedStatement::bind (const Null&)
     {
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT,
             0, 0, 0, 0, 0, 0, &::null_value
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( const int8& value )
+    PreparedStatement& PreparedStatement::bind (const int8& value)
     {
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_STINYINT,
             SQL_TINYINT, 0, 0, const_cast<int8*>(&value), 0, 0
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( const uint8& value )
+    PreparedStatement& PreparedStatement::bind (const uint8& value)
     {
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_UTINYINT,
             SQL_TINYINT, 0, 0, const_cast<uint8*>(&value), 0, 0
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( const int16& value )
+    PreparedStatement& PreparedStatement::bind (const int16& value)
     {
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_SSHORT,
             SQL_SMALLINT, 0, 0, const_cast<int16*>(&value), 0, 0
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( const uint16& value )
+    PreparedStatement& PreparedStatement::bind (const uint16& value)
     {
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_USHORT,
             SQL_SMALLINT, 0, 0, const_cast<uint16*>(&value), 0, 0
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( const int32& value )
+    PreparedStatement& PreparedStatement::bind (const int32& value)
     {
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_SLONG,
             SQL_INTEGER, 0, 0, const_cast<int32*>(&value), 0, 0
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( const uint32& value )
+    PreparedStatement& PreparedStatement::bind (const uint32& value)
     {
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_ULONG, SQL_INTEGER,
             0, 0, const_cast<uint32*>(&value), 0, 0
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( const int64& value )
+    PreparedStatement& PreparedStatement::bind (const int64& value)
     {
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_SBIGINT,
             SQL_BIGINT, 0, 0, const_cast<int64*>(&value), 0, 0
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( const uint64& value )
+    PreparedStatement& PreparedStatement::bind (const uint64& value)
     {
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_UBIGINT,
             SQL_BIGINT, 0, 0, const_cast<uint64*>(&value), 0, 0
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( const float& value )
+    PreparedStatement& PreparedStatement::bind (const float& value)
     {
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_FLOAT, SQL_REAL,
             0, 0, const_cast<float*>(&value), 0, 0
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( const double& value )
+    PreparedStatement& PreparedStatement::bind (const double& value)
     {
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_DOUBLE, SQL_DOUBLE,
             0, 0, const_cast<double*>(&value), 0, 0
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( const string& value )
+    PreparedStatement& PreparedStatement::bind (const string& value)
     {
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_CHAR, SQL_CHAR,
             value.length(), 0, const_cast<character*>(value.data()), 0,
             &::null_terminated
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( const wstring& value )
+    PreparedStatement& PreparedStatement::bind (const wstring& value)
     {
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_WCHAR, SQL_WCHAR,
             value.length(), 0, const_cast<wcharacter*>(value.data()), 0,
             &::null_terminated
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( const Date& date )
+    PreparedStatement& PreparedStatement::bind (const Date& date)
     {
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_TYPE_DATE,
             SQL_TYPE_DATE, SQL_DATE_LEN, 0,
             const_cast<::SQL_DATE_STRUCT*>(&date.value()), 0, 0
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( const Guid& guid )
+    PreparedStatement& PreparedStatement::bind (const Guid& guid)
     {
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_GUID,
             SQL_GUID, sizeof(::SQLGUID), 0,
             const_cast<::SQLGUID*>(&guid.value()), 0, 0
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( const Numeric& numeric )
+    PreparedStatement& PreparedStatement::bind (const Numeric& numeric)
     {
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_NUMERIC,
             SQL_NUMERIC, sizeof(::SQL_NUMERIC_STRUCT), 0,
             const_cast<::SQL_NUMERIC_STRUCT*>(&numeric.value()), 0, 0
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( const Time& time )
+    PreparedStatement& PreparedStatement::bind (const Time& time)
     {
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_TYPE_TIME,
             SQL_TYPE_TIME, SQL_TIME_LEN, 0,
             const_cast<::SQL_TIME_STRUCT*>(&time.value()), 0, 0
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
         ++myNext; return (*this);
     }
 
-    PreparedStatement& PreparedStatement::bind ( const Timestamp& timestamp )
+    PreparedStatement& PreparedStatement::bind (const Timestamp& timestamp)
     {
         ::SQLRETURN result = ::SQLBindParameter(
             handle().value(), myNext, SQL_PARAM_INPUT, SQL_C_TYPE_TIMESTAMP,
             SQL_TYPE_TIMESTAMP, sizeof(::SQL_TIMESTAMP_STRUCT), 0,
             const_cast<::SQL_TIMESTAMP_STRUCT*>(&timestamp.value()), 0, 0
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
         ++myNext; return (*this);
@@ -341,12 +340,12 @@ namespace sql {
         ++statement.myNext; return (statement);
     }
 
-    PreparedStatement& reset ( PreparedStatement& statement )
+    PreparedStatement& reset (PreparedStatement& statement)
     {
         return (statement.reset());
     }
 
-    PreparedStatement& execute ( PreparedStatement& statement )
+    PreparedStatement& execute (PreparedStatement& statement)
     {
         return (statement.execute());
     }

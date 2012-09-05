@@ -29,7 +29,10 @@
 
 namespace sql {
 
-    const Status Status::none;
+    const Status Status::none ()
+    {
+        return (Status());
+    }
 
     const Status Status::connection_rejected ()
     {
@@ -41,13 +44,13 @@ namespace sql {
         std::memset(myValue,0,6*sizeof(character));
     }
 
-    Status::Status ( const character * value ) throw()
+    Status::Status (const character * value) throw()
     {
         std::memcpy(myValue,value,5*sizeof(character));
         myValue[5] = '\0';
     }
 
-    Status::Status ( const Handle& culprit, int16 index ) throw()
+    Status::Status (const Handle& culprit, int16 index) throw()
     {
         ::SQLINTEGER nativeError = 0;
         ::SQLSMALLINT length = 0;
@@ -55,7 +58,7 @@ namespace sql {
             culprit.type(), culprit.value(), index, myValue,
             &nativeError, 0, 0, &length
             );
-        if ( result == SQL_NO_DATA ) {
+        if (result == SQL_NO_DATA) {
             std::memset(myValue,0,5*sizeof(character));
         }
         myValue[5] = '\0';
@@ -66,21 +69,27 @@ namespace sql {
         return (myValue);
     }
 
-    void Status::raw ( const character * value ) throw()
+    void Status::raw (const character * value) throw()
     {
         std::memcpy(myValue,value,5*sizeof(character));
         myValue[5] = '\0';
     }
 
-    bool operator== ( const Status& lhs, const Status& rhs )
+    bool operator== (const Status& lhs, const Status& rhs)
     {
         return (std::strcmp((const char*)lhs.raw(),
                             (const char*)rhs.raw()) == 0);
     }
 
-    std::ostream& operator<< ( std::ostream& out, const Status& status )
+    bool operator!= (const Status& lhs, const Status& rhs)
     {
-        return (out << status.raw());
+        return (std::strcmp((const char*)lhs.raw(),
+                            (const char*)rhs.raw()) != 0);
+    }
+
+    std::ostream& operator<< (std::ostream& stream, const Status& status)
+    {
+        return (stream << status.raw());
     }
 
 }

@@ -27,19 +27,59 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+/*!
+ * @file mysql.hpp
+ * @brief sqlxx MySQL support.
+ *
+ * @see sql::mysql
+ */
+
 #include "sql.hpp"
+
+namespace sql {
+
+    /*!
+     * @brief Support for MySQL.
+     *
+     * @see sql.hpp
+     * @see mysql.hpp
+     * @see http://www.mysql.com/
+     */
+    namespace mysql {}
+
+}
 
 namespace sql { namespace mysql {
 
+    /*!
+     * @brief Direct connection to a MySQL 5.1 database.
+     */
     class Connection :
         public Driver
     {
         /* construction. */
     public:
-        Connection (
-            Environment& environment, const string& database,
-            const string& username, const string& password
-            );
+        /*!
+         * @brief Connect to a MySQL database hosted on the current computer.
+         * @param environment ODBC environment.
+         * @param database Database name.
+         * @param username Credentials.
+         * @param password Credentials.
+         */
+        Connection (Environment& environment, const string& database,
+                    const string& username, const string& password);
+
+        /*!
+         * @brief Connect to a MySQL database hosted on a remote computer.
+         * @param environment ODBC environment.
+         * @param database Database name.
+         * @param username Credentials.
+         * @param password Credentials.
+         * @param hostname The server's host name or IP address.
+         */
+        Connection (Environment& environment,
+                    const string& database, const string& username,
+                    const string& password, const string& hostname);
     };
 
 } }

@@ -70,7 +70,7 @@ namespace sql {
              *
              * @param version ODBC Version to use, defaults to '3.x'.
              */
-        Environment ( const Version& version = Version::odbc3 );
+        Environment (const Version& version = Version::odbc3);
 
         /* methods. */
     public:

@@ -35,23 +35,23 @@ namespace {
 
     template<typename Char, class Traits>
     std::basic_ostream<Char, Traits>& h2
-        ( std::basic_ostream<Char, Traits>& out )
+        (std::basic_ostream<Char, Traits>& stream)
     {
-        return (out << std::setw(2) << std::setfill(out.widen('0')));
+        return (stream << std::setw(2) << std::setfill(stream.widen('0')));
     }
 
     template<typename Char, class Traits>
     std::basic_ostream<Char, Traits>& h4
-        ( std::basic_ostream<Char, Traits>& out )
+        (std::basic_ostream<Char, Traits>& stream)
     {
-        return (out << std::setw(4) << std::setfill(out.widen('0')));
+        return (stream << std::setw(4) << std::setfill(stream.widen('0')));
     }
 
     template<typename Char, class Traits>
     std::basic_ostream<Char, Traits>& h8
-        ( std::basic_ostream<Char, Traits>& out )
+        (std::basic_ostream<Char, Traits>& stream)
     {
-        return (out << std::setw(8) << std::setfill(out.widen('0')));
+        return (stream << std::setw(8) << std::setfill(stream.widen('0')));
     }
 
 }
@@ -65,11 +65,9 @@ namespace sql {
         std::memset(&myValue,0,sizeof(myValue));
     }
 
-    Guid::Guid (
-        uint32 a, uint16 b, uint16 c,
-        uint8 d, uint8 e, uint8 f, uint8 g,
-        uint8 h, uint8 i, uint8 j, uint8 k
-        )
+    Guid::Guid (uint32 a, uint16 b, uint16 c,
+                uint8 d, uint8 e, uint8 f, uint8 g,
+                uint8 h, uint8 i, uint8 j, uint8 k)
     {
         const ::SQLGUID value = {
             a, b, c, { d, e, f, g, h, i, j, k }
@@ -77,7 +75,7 @@ namespace sql {
         myValue = value;
     }
 
-    Guid::Guid ( const Value& value )
+    Guid::Guid (const Value& value)
         : myValue(value)
     {
     }
@@ -92,20 +90,20 @@ namespace sql {
         return (myValue);
     }
 
-    Guid& Guid::operator= ( const Value& value )
+    Guid& Guid::operator= (const Value& value)
     {
         myValue = value;
         return (*this);
     }
 
-    bool Guid::operator== ( const Guid& other ) const
+    bool Guid::operator== (const Guid& rhs) const
     {
-        return (std::memcmp(&myValue,&other.myValue,sizeof(Value)) == 0);
+        return (std::memcmp(&myValue,&rhs.myValue,sizeof(Value)) == 0);
     }
 
-    bool Guid::operator!= ( const Guid& other ) const
+    bool Guid::operator!= (const Guid& rhs) const
     {
-        return ( !((*this) == other) );
+        return (std::memcmp(&myValue,&rhs.myValue,sizeof(Value)) == 1);
     }
 
     Guid::operator std::string() const
@@ -122,38 +120,42 @@ namespace sql {
         return (stream.str());
     }
 
-    std::ostream& operator<< ( std::ostream& out, const Guid& guid )
+    std::ostream& operator<< (std::ostream& stream, const Guid& guid)
     {
         const Guid::Value& value = guid.value();
-        out << std::hex << h8 << value.Data1 << '-'
-            << h4 << value.Data2 << '-'
-            << h4 << value.Data3 << '-'
-            << h2 << value.Data4[0]
-            << h2 << value.Data4[1] << '-'
-            << h2 << value.Data4[2]
-            << h2 << value.Data4[3]
-            << h2 << value.Data4[4]
-            << h2 << value.Data4[5]
-            << h2 << value.Data4[6]
-            << h2 << value.Data4[7] << std::dec;
-        return (out);
+        stream << std::hex
+               << h8 << value.Data1 << '-'
+               << h4 << value.Data2 << '-'
+               << h4 << value.Data3 << '-'
+               << h2 << value.Data4[0]
+               << h2 << value.Data4[1] << '-'
+               << h2 << value.Data4[2]
+               << h2 << value.Data4[3]
+               << h2 << value.Data4[4]
+               << h2 << value.Data4[5]
+               << h2 << value.Data4[6]
+               << h2 << value.Data4[7]
+               << std::dec;
+        return (stream);
     }
 
-    std::wostream& operator<< ( std::wostream& out, const Guid& guid )
+    std::wostream& operator<< (std::wostream& stream, const Guid& guid)
     {
         const Guid::Value& value = guid.value();
-        out << std::hex << h8 << value.Data1 << L'-'
-            << h4 << value.Data2 << L'-'
-            << h4 << value.Data3 << L'-'
-            << h2 << value.Data4[0]
-            << h2 << value.Data4[1] << L'-'
-            << h2 << value.Data4[2]
-            << h2 << value.Data4[3]
-            << h2 << value.Data4[4]
-            << h2 << value.Data4[5]
-            << h2 << value.Data4[6]
-            << h2 << value.Data4[7] << std::dec;
-        return (out);
+        stream << std::hex
+               << h8 << value.Data1 << L'-'
+               << h4 << value.Data2 << L'-'
+               << h4 << value.Data3 << L'-'
+               << h2 << value.Data4[0]
+               << h2 << value.Data4[1] << L'-'
+               << h2 << value.Data4[2]
+               << h2 << value.Data4[3]
+               << h2 << value.Data4[4]
+               << h2 << value.Data4[5]
+               << h2 << value.Data4[6]
+               << h2 << value.Data4[7]
+               << std::dec;
+        return (stream);
     }
 
 }

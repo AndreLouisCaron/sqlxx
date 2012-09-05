@@ -31,28 +31,29 @@
 
 namespace sql {
 
-        /*!
-         * @brief Enumeration of ODBC Versions.
-         */
+    /*!
+     * @brief Enumeration of ODBC Versions.
+     */
     class Version
     {
         /* nested types. */
     public:
-            /*!
-             * @brief Native representation of version values.
-             */
+        /*!
+         * @internal
+         * @brief Native representation of version values.
+         */
         typedef ::SQLPOINTER Value;
 
         /* class data. */
     public:
-            /*!
-             * @brief Version 2.x style calls.
-             */
+        /*!
+         * @brief Version 2.x style calls.
+         */
         static const Version odbc2;
 
-            /*!
-             * @brief Version 3.x style calls.
-             */
+        /*!
+         * @brief Version 3.x style calls.
+         */
         static const Version odbc3;
 
         /* members. */
@@ -61,15 +62,20 @@ namespace sql {
 
         /* construction. */
     private:
-        explicit Version ( Value value ) throw();
+        /*!
+         * @internal
+         * @brief Build a version from its native enumeration value.
+         */
+        explicit Version (Value value) throw();
 
         /* methods. */
     public:
-            /*!
-             * @brief Obtains the version's value, in it's native API
-             *    representation.
-             * @return The version's native value.
-             */
+        /*!
+         * @internal
+         * @brief Obtains the version's value, in it's native API
+         *    representation.
+         * @return The version's native value.
+         */
         Value value () const throw();
     };
 

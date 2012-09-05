@@ -45,22 +45,22 @@ namespace sql {
         return (stream.str());
     }
 
-    std::ostream& operator<< ( std::ostream& out, const Time& time )
+    std::ostream& operator<< (std::ostream& stream, const Time& time)
     {
         const Time::Value& value = time.value();
-        out << std::setw(2) << std::setfill('0') << value.hour << ":"
-            << std::setw(2) << std::setfill('0') << value.minute << ":"
-            << std::setw(2) << std::setfill('0') << value.second;
-        return (out);
+        stream << std::setw(2) << std::setfill('0') << value.hour << ":"
+               << std::setw(2) << std::setfill('0') << value.minute << ":"
+               << std::setw(2) << std::setfill('0') << value.second;
+        return (stream);
     }
 
-    std::wostream& operator<< ( std::wostream& out, const Time& time )
+    std::wostream& operator<< (std::wostream& stream, const Time& time)
     {
         const Time::Value& value = time.value();
-        out << std::setw(2) << std::setfill(L'0') << value.hour << L':'
-            << std::setw(2) << std::setfill(L'0') << value.minute << L':'
-            << std::setw(2) << std::setfill(L'0') << value.second;
-        return (out);
+        stream << std::setw(2) << std::setfill(L'0') << value.hour << L':'
+               << std::setw(2) << std::setfill(L'0') << value.minute << L':'
+               << std::setw(2) << std::setfill(L'0') << value.second;
+        return (stream);
     }
 
 }

@@ -36,7 +36,7 @@ namespace {
         const ::SQLRETURN result = ::SQLAllocHandle(
             SQL_HANDLE_ENV, SQL_NULL_HANDLE, &handle
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (sql::Environment::Failure());
         }
         return (handle);
@@ -46,13 +46,13 @@ namespace {
 
 namespace sql {
 
-    Environment::Environment ( const Version& version )
+    Environment::Environment (const Version& version)
         : myHandle(::allocate(), SQL_HANDLE_ENV, &Handle::claim)
     {
         const ::SQLRETURN result = ::SQLSetEnvAttr(
             myHandle.value(), SQL_ATTR_ODBC_VERSION, version.value(), 0
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(myHandle));
         }
     }
@@ -67,7 +67,7 @@ namespace sql {
         const ::SQLRETURN result = ::SQLEndTran(
             handle().type(), handle().value(), SQL_COMMIT
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
     }
@@ -77,7 +77,7 @@ namespace sql {
         const ::SQLRETURN result = ::SQLEndTran(
             handle().type(), handle().value(), SQL_ROLLBACK
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
     }

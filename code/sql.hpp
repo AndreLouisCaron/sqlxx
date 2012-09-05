@@ -24,4 +24,14 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+/*!
+ * @file sql.hpp
+ * @brief sqlxx library header.
+ *
+ * @see firebird.hpp
+ * @see mysql.hpp
+ * @see odbc.hpp
+ * @see sqlite.hpp
+ */
+
 #include "__module__.hpp"

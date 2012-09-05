@@ -30,30 +30,30 @@
 
 namespace sql {
 
-    Driver::Driver ( Environment& environment, const string& how )
+    Driver::Driver (Environment& environment, const string& settings)
         : Connection(environment)
     {
         character outbuf[256];
         ::SQLSMALLINT end = 0;
         const ::SQLRETURN result = ::SQLDriverConnect(
-            handle().value(), NULL, const_cast<character*>(how.data()),
+            handle().value(), NULL, const_cast<character*>(settings.data()),
             SQL_NTS, outbuf, 256, &end, SQL_DRIVER_NOPROMPT
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
     }
 
-    Driver::Driver ( Environment& environment, const wstring& how )
+    Driver::Driver (Environment& environment, const wstring& settings)
         : Connection(environment)
     {
         wcharacter outbuf[256];
         ::SQLSMALLINT end = 0;
         const ::SQLRETURN result = ::SQLDriverConnectW(
-            handle().value(), NULL, const_cast<wcharacter*>(how.data()),
+            handle().value(), NULL, const_cast<wcharacter*>(settings.data()),
             SQL_NTS, outbuf, 256, &end, SQL_DRIVER_NOPROMPT
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
     }

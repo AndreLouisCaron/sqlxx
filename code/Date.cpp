@@ -45,22 +45,22 @@ namespace sql {
         return (stream.str());
     }
 
-    std::ostream& operator<< ( std::ostream& out, const Date& date )
+    std::ostream& operator<< (std::ostream& stream, const Date& date)
     {
         const Date::Value& value = date.value();
-        out << value.year << '-'
-            << std::setfill('0') << std::setw(2) << value.month << '-'
-            << std::setfill('0') << std::setw(2) << value.day;
-        return (out);
+        stream << value.year << '-'
+               << std::setfill('0') << std::setw(2) << value.month << '-'
+               << std::setfill('0') << std::setw(2) << value.day;
+        return (stream);
     }
 
-    std::wostream& operator<< ( std::wostream& out, const Date& date )
+    std::wostream& operator<< (std::wostream& stream, const Date& date)
     {
         const Date::Value& value = date.value();
-        out << value.year << L'-'
-            << std::setfill(L'0') << std::setw(2) << value.month << L'-'
-            << std::setfill(L'0') << std::setw(2) << value.day;
-        return (out);
+        stream << value.year << L'-'
+               << std::setfill(L'0') << std::setw(2) << value.month << L'-'
+               << std::setfill(L'0') << std::setw(2) << value.day;
+        return (stream);
     }
 
 }

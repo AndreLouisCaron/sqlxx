@@ -32,8 +32,37 @@
 
 namespace sql {
 
+    /*!
+     * @defgroup transactions SQL transaction support.
+     * @brief Support for commit-or-rollback of multiple updates.
+     */
+
     class Connection;
 
+    /*!
+     * @ingroup transactions
+     * @brief Commit-or-rollback for a group of SQL statements.
+     *
+     * The typical use case for transactions is the following:
+     * @code
+     *  sql::Connection& connection = ...;
+     *  { sql::Transaction transaction(connection);
+     *
+     *    // Run a group of related queries and/or updates that should either
+     *    // all occur or all be cancelled if any error occurs.
+     *    sql::execute(connection, ...);
+     *    sql::execute(connection, ...);
+     *    //  ...
+     *
+     *    // If an exception is thrown or a return statement is encountered,
+     *    // this line is never reached and the transaction is rolled back.
+     *    transaction.commit();
+     *  }
+     * @endcode
+     *
+     * @see Connection::enable_autocommit
+     * @see Connection::disable_autocommit
+     */
     class Transaction :
         private NotCopyable
     {
@@ -44,11 +73,27 @@ namespace sql {
 
         /* construction. */
     public:
+        /*!
+         * @brief Start a transaction.
+         * @param connection Connection over which statements will be issued.
+         */
         Transaction (Connection& connection);
+
+        /*!
+         * @brief End a transaction.
+         *
+         * @see commit()
+         */
         ~Transaction ();
 
         /* methods. */
     public:
+        /*!
+         * @brief Signals that the transaction should be commited.
+         *
+         * @note By default, the transaction is rolled back.  Call this to
+         *  trigger a commit when the transaction ends.
+         */
         void commit ();
     };
 

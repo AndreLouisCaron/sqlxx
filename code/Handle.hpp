@@ -32,31 +32,71 @@
 
 namespace sql {
 
-        /*!
-         * @brief Wrapper for SQL handle management.
-         *
-         * SQL handles are generic placeholders for any implementation of
-         * the SQL concepts of environment, connection, statement, etc. The
-         * handle contains all bookeeping data for the opaque object delivered
-         * by the driver and should be handled with care.
-         *
-         * Handles are not automatically freed, call the \c free() function to
-         * release the handle.
-         */
+    /*!
+     * @internal
+     * @brief Wrapper for SQL handle management.
+     *
+     * SQL handles are opaque "pointers" for any implementation of the SQL
+     * concepts of environment, connection, statement, etc.  The handle points
+     * to bookeeping data for the opaque object delivered by the driver and
+     * should be handled with care.
+     */
     class Handle :
         private NotCopyable
     {
         /* nested types. */
     public:
+        /*!
+         * @internal
+         * @brief Native representation for handles, opaque "pointer".
+         */
         typedef ::SQLHANDLE Value;
+
+        /*!
+         * @internal
+         * @brief Handle type code.
+         *
+         * Can be one of:
+         * - @c SQL_HANDLE_ENV;
+         * - @c SQL_HANDLE_DBC; or
+         * - @c SQL_HANDLE_STMT.
+         */
         typedef ::SQLSMALLINT Type;
 
-        typedef void(*Cleanup)(Value,Type);
+        /*!
+         * @internal
+         * @brief Cleanup function for handles.
+         * @param value Handle value.
+         * @param type Type of handle.
+         *
+         * @see claim
+         * @see proxy
+         */
+        typedef void(*Cleanup)(Value value, Type type);
 
         /* class methods. */
     public:
-        static void claim ( Value value, Type type );
-        static void proxy ( Value value, Type type );
+        /*!
+         * @internal
+         * @brief Release the handle.
+         * @param value Handle value.
+         * @param type Type of handle.
+         *
+         * @see Cleanup
+         * @see proxy
+         */
+        static void claim (Value value, Type type);
+
+        /*!
+         * @internal
+         * @brief Abandon the handle.
+         * @param value Handle value.
+         * @param type Type of handle.
+         *
+         * @see Cleanup
+         * @see claim
+         */
+        static void proxy (Value value, Type type);
 
         /* data. */
     private:
@@ -66,35 +106,45 @@ namespace sql {
 
         /* construction. */
     public:
-        Handle ( Value value, Type type, Cleanup cleanup );
+        /*!
+         * @brief Wrap a handle.
+         * @param value Environment, connection or statement handle.
+         * @param type Type code for @a value.
+         * @param cleanup Cleanup function for @a value.
+         *
+         * The handle will be released using @c cleanup(value,type).
+         */
+        Handle (Value value, Type type, Cleanup cleanup);
+
+        /*!
+         * @brief Release the handle using the cleanup function.
+         */
         ~Handle ();
 
         /* methods. */
     public:
-            /*!
-             * @brief Compares the handle's value to the generic placeholder
-             *    value for invalid handles.
-             */
+        /*!
+         * @brief Compares the handle's value to the generic placeholder value
+         *  for invalid handles.
+         */
         bool bad () const throw();
 
-            /*!
-             * @brief Checks the handle's value against the generic placeholder
-             *    value for invalid handles.
-             */
+        /*!
+         * @brief Checks the handle's value against the generic placeholder
+         *  value for invalid handles.
+         */
         bool ok () const throw();
 
-            /*!
-             * @brief Obtains the handle's value, in it's native API
-             *    representation.
-             * @return The handle's native value.
-             */
+        /*!
+         * @brief Obtains the handle's value, in it's native API representation.
+         * @return The handle's native value.
+         */
         Value value () const throw();
 
-            /*!
-             * @brief Obtains the typecode for the resource attached to the
-             *    handle.
-             * @return The handle's typecode.
-             */
+        /*!
+         * @brief Obtains the typecode for the resource attached to the handle.
+         * @return The handle's typecode.
+         */
         Type type () const throw();
     };
 

@@ -47,79 +47,114 @@
 namespace sql {
 
     /*!
-     * @defgroup driver_information
+     * @defgroup driver_information ODBC driver information.
      * @brief Dynamic information on a connection's ODBC driver.
      *
      * @see http://msdn.microsoft.com/en-us/library/windows/desktop/ms711681.aspx
      */
 
     /*!
-     * @defgroup sql_support
+     * @defgroup sql_support Data source SQL support.
      * @brief Dynamic information on a data source's SQL support/compliance.
      *
      * @see http://msdn.microsoft.com/en-us/library/windows/desktop/ms711681.aspx
      */
 
-        /*!
-         * @brief Connection to a database.
-         *
-         * Once your program has initialized SQL libraries by creating an
-         * Environment, you need to connect to a database. This class represents
-         * an active connection and allows you to manipulate it.
-         *
-         * This is an abstract class; to connect to a database, use one of the
-         * implementation classes.
-         */
+    /*!
+     * @brief Connection to a database.
+     *
+     * Once your program has initialized SQL libraries by creating an
+     * Environment, you need to connect to a database. This class represents
+     * an active connection and allows you to manipulate it.
+     *
+     * This is an abstract class; to connect to a database, use one of the
+     * implementation classes.
+     */
     class Connection :
         private NotCopyable
     {
         /* data. */
     private:
-            // Hold (and automagically release) the connection data.
+        // Hold (and automagically release) the connection data.
         Handle myHandle;
 
         /* construction. */
     protected:
-            /*!
-             * @brief Create a connection, using a given Environment.
-             *
-             * The environment object's lifetime must exceed that of this
-             * object, because the connection is directly associated to the
-             * environment.
-             *
-             * @param environment Environment to associate to the connection.
-             */
-        Connection ( Environment& environment );
+        /*!
+         * @internal
+         * @brief Create a connection.
+         * @param environment Environment to associate to the connection.
+         *
+         * The environment object's lifetime must exceed that of this
+         * object, because the connection is directly associated to the
+         * environment.
+         */
+        Connection (Environment& environment);
 
     public:
+        /*!
+         * @brief Release the database connection.
+         */
         virtual ~Connection ();
 
         /* methods. */
     public:
-            /*!
-             * @brief Obtains the Connection's Handle.
-             *
-             * Use the handle to implement any low-level operation this class
-             * does not implement directly. However, take great care when
-             * manipulating this object, because it grants you the power to
-             * break class invariants.
-             *
-             * @return The Connection Handle.
-             */
+        /*!
+         * @internal
+         * @brief Obtains the Connection's Handle.
+         * @return The Connection Handle.
+         *
+         * Use the handle to implement any low-level operation this class
+         * does not implement directly. However, take great care when
+         * manipulating this object, because it grants you the power to
+         * break class invariants.
+         */
         const Handle& handle () const throw();
 
+        //! @addtogroup transactions
+        //! @{
+
+        /*!
+         * @brief Enables auto-commit of SQL statements.
+         *
+         * @note There is usually no need to call this explicitly.  Use the
+         *  @c Transaction class instead.
+         *
+         * @see disable_autocommit()
+         */
         void enable_autocommit ();
+
+        /*!
+         * @brief Disables auto-commit of SQL statements.
+         *
+         * @note There is usually no need to call this explicitly.  Use the
+         *  @c Transaction class instead.
+         *
+         * @see enable_autocommit
+         */
         void disable_autocommit ();
 
-            /*!
-             * @brief Commits all changes made through this connection.
-             */
+        /*!
+         * @brief Commits all changes made through this connection.
+         *
+         * @note There is usually no need to call this explicitly.  Use the
+         *  @c Transaction class instead.
+         *
+         * @see rollback()
+         */
         void commit ();
 
-            /*!
-             * @brief Rolls back all changes made through this connection.
-             */
+        /*!
+         * @brief Rolls back all changes made through this connection.
+         *
+         * @note There is usually no need to call this explicitly.  Use the
+         *  @c Transaction class instead.
+         *
+         * @see commit()
+         */
         void rollback ();
+
+        //! @}
 
         //! @ingroup driver_information
         //! @{

@@ -60,7 +60,7 @@ namespace sql {
              *
              * @param connection Database to which the statement will talk.
              */
-        Statement ( Connection& connection );
+        Statement (Connection& connection);
 
         /* methods. */
     public:
@@ -76,7 +76,14 @@ namespace sql {
              */
         const Handle& handle () const throw();
 
-            // Not sure when this is useful...
+        /*!
+         * @brief Cancel asynchronous operation or paused execution.
+         *
+         * Statement execution is paused when using data at exection.
+         *
+         * @note Asynchronous operation is not yet supported.
+         * @note Data at execution is not yet supported.
+         */
         Statement& cancel ();
 
             /*!

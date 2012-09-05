@@ -29,8 +29,8 @@
 
 namespace {
 
-    sql::string format ( const sql::string& database,
-        const sql::string& username, const sql::string& password )
+    sql::string format (const sql::string& database,
+        const sql::string& username, const sql::string& password)
     {
         std::ostringstream how;
         how << "DRIVER={Firebird/Interbase(r) Driver (*.fdb)};"
@@ -45,8 +45,8 @@ namespace {
 
 namespace sql { namespace firebird {
 
-    Connection::Connection ( Environment& environment, const string& database,
-        const string& username, const string& password )
+    Connection::Connection (Environment& environment, const string& database,
+        const string& username, const string& password)
         : Driver(environment, ::format(database, username, password))
     {
     }

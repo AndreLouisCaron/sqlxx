@@ -60,14 +60,14 @@ namespace sql {
             /*!
              * @brief Reads Diagnostics for an error on a given Handle.
              */
-        Diagnostic ( const Handle& culprit ) throw();
+        Diagnostic (const Handle& culprit) throw();
 
             /*!
              * @brief Copies \c other's error code.
              *
              * @param other Object whose SQL error code is to be duplicated.
              */
-        Diagnostic ( const Diagnostic& other ) throw ();
+        Diagnostic (const Diagnostic& other) throw ();
 
         /* methods. */
     public:
@@ -92,15 +92,14 @@ namespace sql {
              *
              * @param other Object whose SQL error code is to be duplicated.
              */
-        Diagnostic& operator= ( const Diagnostic& other ) throw();
+        Diagnostic& operator= (const Diagnostic& other) throw();
     };
 
         /*!
          * @brief Puts the error diagnostic to a stream.
          */
-    std::ostream& operator<< (
-        std::ostream& out, const Diagnostic& diagnostic
-        );
+    std::ostream& operator<<
+        (std::ostream& stream, const Diagnostic& diagnostic);
 
 }
 

@@ -28,8 +28,8 @@
 
 namespace sql { namespace odbc {
 
-    Connection::Connection ( Environment& environment, const string& database,
-        const string& username, const string& password )
+    Connection::Connection (Environment& environment, const string& database,
+        const string& username, const string& password)
         : sql::Connection(environment)
     {
         const ::SQLRETURN result = ::SQLConnect(
@@ -38,13 +38,13 @@ namespace sql { namespace odbc {
             const_cast<character*>(username.data()), SQL_NTS,
             const_cast<character*>(password.data()), SQL_NTS
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
     }
 
     sql::string browse
-        ( sql::Connection& connection, const sql::string& how )
+        (sql::Connection& connection, const sql::string& how)
     {
             // Query the length of the output string.
         ::SQLSMALLINT size = 0;
@@ -54,11 +54,11 @@ namespace sql { namespace odbc {
             );
         
             // The connection string might have been complete.
-        if ( result == SQL_SUCCESS ) {
+        if (result == SQL_SUCCESS) {
             return (sql::string());
         }
             // Anything else indicates an error.
-        if ( result != SQL_NEED_DATA ) {
+        if (result != SQL_NEED_DATA) {
             throw (Diagnostic(connection.handle()));
         }
         
@@ -69,7 +69,7 @@ namespace sql { namespace odbc {
             const_cast<character*>(how.data()), SQL_NTS,
             const_cast<character*>(missing.data()), SQL_NTS, &size
             );
-        if ( result != SQL_NEED_DATA ) {
+        if (result != SQL_NEED_DATA) {
             throw (Diagnostic(connection.handle()));
         }
         

@@ -27,19 +27,47 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+/*!
+ * @file firebird.hpp
+ * @brief sqlxx Firebird support.
+ *
+ * @see sql::firebird
+ */
+
 #include "sql.hpp"
+
+namespace sql {
+
+    /*!
+     * @brief Support for Firebird.
+     *
+     * @see sql.hpp
+     * @see firebird.hpp
+     * @see http://www.firebirdsql.org/
+     */
+    namespace firebird {}
+
+}
 
 namespace sql { namespace firebird {
 
+    /*!
+     * @brief Direct connection to a Firbired 2.x database.
+     */
     class Connection :
         public Driver
     {
         /* construction. */
     public:
-        Connection (
-            Environment& environment, const string& database,
-            const string& username, const string& password
-            );
+        /*!
+         * @brief Connect to a Firebird database hosted on the current computer.
+         * @param environment ODBC environment.
+         * @param database Database name.
+         * @param username Credentials.
+         * @param password Credentials.
+         */
+        Connection (Environment& environment, const string& database,
+                    const string& username, const string& password);
     };
 
 } }

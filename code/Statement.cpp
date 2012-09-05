@@ -30,13 +30,13 @@
 
 namespace {
 
-    ::SQLHANDLE allocate ( sql::Connection& connection )
+    ::SQLHANDLE allocate (sql::Connection& connection)
     {
         ::SQLHANDLE value = SQL_NULL_HANDLE;
         const ::SQLRETURN result = ::SQLAllocHandle(
             SQL_HANDLE_STMT, connection.handle().value(), &value
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (sql::Diagnostic(connection.handle()));
         }
         return (value);
@@ -46,7 +46,7 @@ namespace {
 
 namespace sql {
 
-    Statement::Statement ( Connection& connection )
+    Statement::Statement (Connection& connection)
         : myHandle(::allocate(connection), SQL_HANDLE_STMT, &Handle::claim)
     {
     }
@@ -75,7 +75,7 @@ namespace sql {
     Statement& Statement::cancel ()
     {
         ::SQLRETURN result = ::SQLCancel(handle().value());
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
         return (*this);

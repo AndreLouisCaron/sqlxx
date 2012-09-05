@@ -31,13 +31,17 @@
 
 namespace sql {
 
-        /*!
-         * @brief Number with fixed precision and scale.
-         */
+    /*!
+     * @brief Number with fixed precision and scale.
+     */
     class Numeric
     {
         /* nested types. */
     public:
+        /*!
+         * @internal
+         * @brief Native representation.
+         */
         typedef ::SQL_NUMERIC_STRUCT Value;
 
         /* data. */
@@ -46,34 +50,70 @@ namespace sql {
 
         /* construction. */
     public:
+        /*!
+         * @brief Default-initialize to all zeroes.
+         */
         Numeric () {
             std::memset(&myValue,0,sizeof(myValue));
         }
 
-        Numeric ( const Value& value )
+        /*!
+         * @internal
+         * @brief Copy-initialize from the native representation.
+         */
+        Numeric (const Value& value)
             : myValue(value)
         {}
 
         /* methods. */
     public:
+        /*!
+         * @internal
+         * @brief Access the native representation.
+         * @return The wrapped value.
+         */
         Value& value () {
             return (myValue);
         }
 
+        /*!
+         * @internal
+         * @brief Access the native representation.
+         * @return The wrapped value.
+         */
         const Value& value () const {
             return (myValue);
         }
 
         /* operators. */
     public:
-        Numeric& operator= ( const Value& value )
+        /*!
+         * @internal
+         * @brief Assign directly from the native representation.
+         * @return @c *this, for method chaining.
+         */
+        Numeric& operator= (const Value& value)
         {
             myValue = value;
             return (*this);
         }
 
-        bool operator== ( const Numeric& other ) const {
-            return (std::memcmp(&myValue,&other.myValue,sizeof(Value)) == 0);
+        /*!
+         * @brief Compare two @c Numeric values for equality.
+         * @param rhs Right-hand-side argument to compare with.
+         * @return @c true if @c *this and @a rhs are an exact match.
+         */
+        bool operator== (const Numeric& rhs) const {
+            return (std::memcmp(&myValue,&rhs.myValue,sizeof(Value)) == 0);
+        }
+
+        /*!
+         * @brief Compare two @c Numeric values for inequality.
+         * @param rhs Right-hand-side argument to compare with.
+         * @return @c true if @c *this and @a rhs are not an exact match.
+         */
+        bool operator!= (const Numeric& rhs) const {
+            return (std::memcmp(&myValue,&rhs.myValue,sizeof(Value)) == 0);
         }
     };
 

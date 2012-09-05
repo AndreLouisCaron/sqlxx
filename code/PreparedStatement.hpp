@@ -61,7 +61,12 @@ namespace sql {
 
         /* construction. */
     public:
-        PreparedStatement ( Connection& connection, const string& query );
+        /*!
+         * @brief Prepare an SQL statement.
+         * @param connection Connection over which to execute the statement.
+         * @param text SQL statement (query/update) text.
+         */
+        PreparedStatement (Connection& connection, const string& text);
 
         /* methods. */
     public:
@@ -106,97 +111,97 @@ namespace sql {
             /*!
              * @brief Binds a parameter as null (no value).
              */
-        PreparedStatement& bind ( const Null& );
+        PreparedStatement& bind (const Null&);
 
             /*!
              * @brief Binds a signed 8-bit integer to the next parameter.
              */
-        PreparedStatement& bind ( const int8& value );
+        PreparedStatement& bind (const int8& value);
 
             /*!
              * @brief Binds an unsigned 8-bit integer to the next parameter.
              */
-        PreparedStatement& bind ( const uint8& value );
+        PreparedStatement& bind (const uint8& value);
 
             /*!
              * @brief Binds a signed 16-bit integer to the next parameter.
              */
-        PreparedStatement& bind ( const int16& value );
+        PreparedStatement& bind (const int16& value);
 
             /*!
              * @brief Binds an unsigned 16-bit integer to the next parameter.
              */
-        PreparedStatement& bind ( const uint16& value );
+        PreparedStatement& bind (const uint16& value);
 
             /*!
              * @brief Binds a signed 32-bit integer to the next parameter.
              */
-        PreparedStatement& bind ( const int32& value );
+        PreparedStatement& bind (const int32& value);
 
             /*!
              * @brief Binds an unsigned 32-bit integer to the next parameter.
              */
-        PreparedStatement& bind ( const uint32& value );
+        PreparedStatement& bind (const uint32& value);
 
             /*!
              * @brief Binds a signed 64-bit integer to the next parameter.
              */
-        PreparedStatement& bind ( const int64& value );
+        PreparedStatement& bind (const int64& value);
 
             /*!
              * @brief Binds an unsigned 64-bit integer to the next parameter.
              */
-        PreparedStatement& bind ( const uint64& value );
+        PreparedStatement& bind (const uint64& value);
 
             /*!
              * @brief Binds a 32-bit floating point to the next parameter.
              */
-        PreparedStatement& bind ( const float& value );
+        PreparedStatement& bind (const float& value);
 
             /*!
              * @brief Binds a 64-bit floating point to the next parameter.
              */
-        PreparedStatement& bind ( const double& value );
+        PreparedStatement& bind (const double& value);
 
             /*!
              * @brief Binds a string to the next parameter.
              */
-        PreparedStatement& bind ( const string& value );
+        PreparedStatement& bind (const string& value);
 
             /*!
              * @brief Binds a wide string to the next parameter.
              */
-        PreparedStatement& bind ( const wstring& value );
+        PreparedStatement& bind (const wstring& value);
 
             /*!
              * @brief Binds a date value to the next parameter.
              */
-        PreparedStatement& bind ( const Date& date );
+        PreparedStatement& bind (const Date& date);
 
             /*!
              * @brief Binds a unique identifier value to the next parameter.
              */
-        PreparedStatement& bind ( const Guid& guid );
+        PreparedStatement& bind (const Guid& guid);
 
             /*!
              * @brief Binds a numeric value to the next parameter.
              */
-        PreparedStatement& bind ( const Numeric& numeric );
+        PreparedStatement& bind (const Numeric& numeric);
 
             /*!
              * @brief Binds a time value to the next parameter.
              */
-        PreparedStatement& bind ( const Time& time );
+        PreparedStatement& bind (const Time& time);
 
             /*!
              * @brief Binds a timestamp value to the next parameter.
              */
-        PreparedStatement& bind ( const Timestamp& timestamp );
+        PreparedStatement& bind (const Timestamp& timestamp);
 
             /*!
              * @brief Applies a manipulator to the update object.
              */
-        PreparedStatement& operator<< ( Manipulator manipulator ) {
+        PreparedStatement& operator<< (Manipulator manipulator) {
             return ((*manipulator)(*this));
         }
 
@@ -213,12 +218,23 @@ namespace sql {
                                               Parameter& parameter);
     };
 
+    /*!
+     * @brief Extract information about the next parameter.
+     * @param statement Prepared statement from which to extract parameters.
+     * @param parameter Parmeter information.
+     * @return @a statement, for method chaining.
+     *
+     * @see PreparedStatement::parameter_count()
+     */
+    PreparedStatement& operator>> (PreparedStatement& statement,
+                                   Parameter& parameter);
+
         /*!
          * @brief Binds any supported value to the next available parameter.
          */
     template<typename Value>
     PreparedStatement& operator<<
-        ( PreparedStatement& statement, const Value& value )
+        (PreparedStatement& statement, const Value& value)
     {
         return (statement.bind(value));
     }
@@ -226,16 +242,16 @@ namespace sql {
         /*!
          * @brief Make the next binding operation bind to the first parameter.
          */
-    PreparedStatement& reset ( PreparedStatement& statement );
+    PreparedStatement& reset (PreparedStatement& statement);
 
     /*!
      * @brief Send the query, then reset.
      * @see PreparedStatement::generated_results()
      */
-    PreparedStatement& execute ( PreparedStatement& statement );
+    PreparedStatement& execute (PreparedStatement& statement);
 
     /*!
-     * @brief
+     * @brief Run-time type information for prepared statement parameters.
      */
     class Parameter
     {
@@ -277,7 +293,14 @@ namespace sql {
          */
         int16 type () const;
 
+        /*!
+         * @todo Figure out what information this returns.
+         */
         size_t size () const;
+
+        /*!
+         * @todo Figure out what information this returns.
+         */
         int16 bits () const;
 
         /*!

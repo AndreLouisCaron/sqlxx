@@ -33,7 +33,16 @@ namespace sql {
 
     class Connection;
 
-    void execute ( Connection& connection, const string& update );
+    /*!
+     * @brief Execute a simple update, drop results if any.
+     * @param connection Database connection.
+     * @param update SQL update statement.
+     *
+     * @note While nothing prevents you from executing queries with this
+     *  function, it makes little sense to execute a (side-effect free) query
+     *  and drop the results.
+     */
+    void execute (Connection& connection, const string& update);
 
 }
 

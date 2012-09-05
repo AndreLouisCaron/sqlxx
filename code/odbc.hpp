@@ -27,30 +27,69 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+/*!
+ * @file odbc.hpp
+ * @brief sqlxx ODBC support.
+ *
+ * @see sql::odbc
+ */
+
 #include <sql.hpp>
 
 // Query list of available data sources by using: SQLDataSources().
 //
 // SQLDrivers() lists installed drivers and their attributes.
 
+namespace sql {
+
+    /*!
+     * @brief Data source name (DSN)-based connection support.
+     *
+     * @see sql.hpp
+     * @see odbc.hpp
+     * @see http://en.wikipedia.org/wiki/ODBC
+     */
+    namespace odbc {}
+
+}
+
 namespace sql { namespace odbc {
 
+    /*!
+     * @brief Connection by data source name.
+     */
     class Connection :
         public sql::Connection
     {
         /* construction. */
     public:
-        Connection (
-            Environment& environment, const string& database,
-            const string& username, const string& password
-            );
+        /*!
+         * @brief Connect to a registered ODBC connection.
+         * @param environment ODBC environment.
+         * @param database Database name.
+         * @param username Credentials.
+         * @param password Credentials.
+         *
+         * @todo Verify that @a database is the data source name.
+         */
+        Connection (Environment& environment, const string& database,
+                    const string& username, const string& password);
     };
 
-        // Attempt a connection and return a non-empty string describing
-        // missing parameters if connection string is incomplete. Returns
-        // an empty string if the connection was successful.
-    sql::string browse
-        ( sql::Connection& connection, const sql::string& how );
+    /*!
+     * @brief Iteratively build a database connection string.
+     * @param connection Incomplete database connection.
+     * @param settings Existing settings.
+     * @return Additional settings to 
+     *
+     * Attempt a connection and return a non-empty string describing
+     * missing parameters if connection string is incomplete. Returns
+     * an empty string if the connection was successful.
+     *
+     * @todo Document the format used for @a settings and the return value.
+     */
+    sql::string browse (sql::Connection& connection,
+                        const sql::string& settings);
 
 } }
 

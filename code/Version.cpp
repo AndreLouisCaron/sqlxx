@@ -35,7 +35,7 @@ namespace sql {
         reinterpret_cast<::SQLPOINTER>(SQL_OV_ODBC3)
         );
 
-    Version::Version ( Value value ) throw()
+    Version::Version (Value value) throw()
         : myValue(value)
     {
     }

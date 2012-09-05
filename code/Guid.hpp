@@ -35,17 +35,24 @@
 
 namespace sql {
 
-        /*!
-         * @brief 128-bit globally unique identifier.
-         */
+    /*!
+     * @brief 128-bit globally unique identifier.
+     */
     class Guid
     {
         /* nested types. */
     public:
+        /*!
+         * @internal
+         * @brief Native representation.
+         */
         typedef ::SQLGUID Value;
 
         /* class data. */
     public:
+        /*!
+         * @brief All zeroes.
+         */
         static const Guid zero;
 
         /* data. */
@@ -54,32 +61,108 @@ namespace sql {
 
         /* construction. */
     public:
+        /*!
+         * @brief Default-initialize to all zeroes.
+         */
         Guid ();
-        Guid (
-            uint32 a, uint16 b, uint16 c,
-            uint8 d, uint8 e, uint8 f, uint8 g,
-            uint8 h, uint8 i, uint8 j, uint8 k
-            );
 
-        Guid ( const Value& value );
+        /*!
+         * @brief Value-initialize from its components.
+         * @param a 1st component: 8 hex digit.
+         * @param b 2nd component: 4 hex digit.
+         * @param c 3nd component: 4 hex digit.
+         * @param d 4th component: 2 hex digit.
+         * @param e 5th component: 2 hex digit.
+         * @param f 6th component: 2 hex digit.
+         * @param g 7th component: 2 hex digit.
+         * @param h 8th component: 2 hex digit.
+         * @param i 9th component: 2 hex digit.
+         * @param j 10th component: 2 hex digit.
+         * @param k 11th component: 2 hex digit.
+         *
+         * The format used is similar to that used by the Windows Registry.
+         */
+        Guid (uint32 a, uint16 b, uint16 c,
+              uint8 d, uint8 e, uint8 f, uint8 g,
+              uint8 h, uint8 i, uint8 j, uint8 k);
+
+        /*!
+         * @internal
+         * @brief Copy-initialize from the native representation.
+         */
+        Guid (const Value& value);
 
         /* methods. */
     public:
+        /*!
+         * @internal
+         * @brief Access the native representation.
+         * @return The wrapped value.
+         */
         Value& value ();
+
+        /*!
+         * @internal
+         * @brief Access the native representation.
+         * @return The wrapped value.
+         */
         const Value& value () const;
 
         /* operators. */
     public:
-        Guid& operator= ( const Value& value );
-        bool operator== ( const Guid& other ) const;
-        bool operator!= ( const Guid& other ) const;
+        /*!
+         * @internal
+         * @brief Assign directly from the native representation.
+         * @return @c *this, for method chaining.
+         */
+        Guid& operator= (const Value& value);
 
+        /*!
+         * @brief Compare two guids for equality.
+         * @param rhs Right-hand-side argument to compare with.
+         * @return @c true if @c *this and @a rhs are an exact match.
+         */
+        bool operator== (const Guid& rhs) const;
+
+        /*!
+         * @brief Compare two guids for equality.
+         * @param rhs Right-hand-side argument to compare with.
+         * @return @c true if @c *this and @a rhs are not an exact match.
+         */
+        bool operator!= (const Guid& rhs) const;
+
+        /*!
+         * @brief Convert the guid to a string.
+         * @return *this, formatted as a string.
+         *
+         * @see operator<<(std::ostream&,const Guid&)
+         */
         operator std::string() const;
+
+        /*!
+         * @brief Convert the guid to a string.
+         * @return *this, formatted as a string.
+         *
+         * @see operator<<(std::wostream&,const Guid&)
+         */
         operator std::wstring() const;
     };
 
-    std::ostream& operator<< ( std::ostream& out, const Guid& value );
-    std::wostream& operator<< ( std::wostream& out, const Guid& value );
+    /*!
+     * @brief Serialize the GUID.
+     * @param stream Destination output stream.
+     * @param value Value to write.
+     * @return @a stream, for method chaining.
+     */
+    std::ostream& operator<< (std::ostream& stream, const Guid& value);
+
+    /*!
+     * @brief Serialize the GUID.
+     * @param stream Destination output stream.
+     * @param value Value to write.
+     * @return @a stream, for method chaining.
+     */
+    std::wostream& operator<< (std::wostream& stream, const Guid& value);
 
 }
 

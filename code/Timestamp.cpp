@@ -30,11 +30,11 @@
 
 namespace sql {
 
-    std::ostream& operator<< ( std::ostream& out, const Timestamp& value )
+    std::ostream& operator<< (std::ostream& stream, const Timestamp& value)
     {
-        out << value.date() << " " << value.time() << "."
-            << std::setfill('0') << std::setw(4) << value.fraction();
-        return (out);
+        stream << value.date() << " " << value.time() << "."
+               << std::setfill('0') << std::setw(4) << value.fraction();
+        return (stream);
     }
 
 }

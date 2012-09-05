@@ -31,20 +31,76 @@
 
 namespace sql {
 
+    /*!
+     * @brief 8-bit character unit.
+     */
     typedef ::SQLCHAR character;
+
+    /*!
+     * @brief UTF-16 16-bit unit.
+     *
+     * It is guaranteed that 16-bit units cannot always represent a character.
+     * A single unit cannot represent code points outside the basic
+     * multilingual plain and cannot handle decomposed characters.  Moreoever,
+     * some code points may represent more than one "user-perceived character".
+     */
     typedef ::SQLWCHAR wcharacter;
+
+    /*!
+     * @brief Unsigned integral type used for representing sizes.
+     */
     typedef ::SQLLEN size_t;
 
+    /*!
+     * @brief 8-bit signed integer (SQL tiny integer).
+     */
     typedef ::SQLSCHAR int8;
+
+    /*!
+     * @brief 8-bit unsigned integer (SQL tiny integer).
+     */
     typedef ::SQLCHAR uint8;
+
+    /*!
+     * @brief 16-bit signed integer (SQL small integer).
+     */
     typedef ::SQLSMALLINT int16;
+
+    /*!
+     * @brief 16-bit unsigned signed integer (SQL small integer).
+     */
     typedef ::SQLUSMALLINT uint16;
+
+    /*!
+     * @brief 32-bit signed integer (SQL integer).
+     */
     typedef ::SQLINTEGER int32;
+
+    /*!
+     * @brief 32-bit unsigned integer (SQL integer).
+     */
     typedef ::SQLUINTEGER uint32;
+
+    /*!
+     * @brief 64-bit signed integer (SQL big integer).
+     */
     typedef ::SQLBIGINT int64;
+
+    /*!
+     * @brief 64-bit unsigned integer (SQL big integer).
+     */
     typedef ::SQLUBIGINT uint64;
 
-    class Null {}; static const Null null;
+    /*!
+     * @internal
+     * @brief Placeholder type for implementing @c null.
+     */
+    class Null {};
+
+    /*!
+     * @brief Placeholder for "null" database values.
+     */
+    static const Null null;
 
 }
 

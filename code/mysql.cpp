@@ -29,26 +29,41 @@
 
 namespace {
 
-    sql::string format ( const sql::string& database,
-        const sql::string& username, const sql::string& password )
+    sql::string settings (const sql::string& hostname,
+                          const sql::string& database,
+                          const sql::string& username,
+                          const sql::string& password)
     {
-        std::ostringstream how;
-        how << "Driver={MySQL ODBC 5.1 Driver};"
-            << "Server=localhost;"
-            << "Database=" << database << ';'
-            << "User=" << username << ';'
-            << "Password=" << password << ';'
-            << "Option=3;";
-        return (sql::string(how.str()));
+        std::ostringstream settings;
+        settings << "Driver={MySQL ODBC 5.1 Driver};"
+                 << "Server=" << hostname << ';'
+                 << "Database=" << database << ';'
+                 << "User=" << username << ';'
+                 << "Password=" << password << ';'
+                 << "Option=3;";
+        return (sql::string(settings.str()));
     }
 
 }
 
 namespace sql { namespace mysql {
 
-    Connection::Connection ( Environment& environment, const string& database,
-        const string& username, const string& password )
-        : Driver(environment, ::format(database, username, password))
+    Connection::Connection (Environment& environment,
+                            const string& database,
+                            const string& username,
+                            const string& password)
+        : Driver(environment, ::settings(database, username,
+                                         password, "localhost"))
+    {
+    }
+
+    Connection::Connection (Environment& environment,
+                            const string& database,
+                            const string& username,
+                            const string& password,
+                            const string& hostname)
+        : Driver(environment, ::settings(database, username,
+                                         password, hostname))
     {
     }
 

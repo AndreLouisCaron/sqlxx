@@ -29,7 +29,7 @@
 
 namespace sql {
 
-    Diagnostic::Diagnostic ( const Handle& culprit ) throw()
+    Diagnostic::Diagnostic (const Handle& culprit) throw()
     {
         character status[6]; status[5] = '\0';
         int32 error = 0;
@@ -38,17 +38,17 @@ namespace sql {
             culprit.type(), culprit.value(), 1, status,
             &error, myMessage, MessageLength-1, &length
             );
-        if ( result == SQL_NO_DATA ) {
+        if (result == SQL_NO_DATA) {
             std::memset(status,0,5*sizeof(character));
         }
-        if ( length > MessageLength-1 ) {
+        if (length > MessageLength-1) {
             length = MessageLength - 1;
         }
         myStatus.raw(status);
         myMessage[length] = '\0';
     }
 
-    Diagnostic::Diagnostic ( const Diagnostic& other ) throw ()
+    Diagnostic::Diagnostic (const Diagnostic& other) throw ()
         : myStatus(other.myStatus)
     {
         std::memcpy(myMessage,other.myMessage,sizeof(myMessage));
@@ -64,18 +64,17 @@ namespace sql {
         return (myMessage);
     }
 
-    Diagnostic& Diagnostic::operator= ( const Diagnostic& other ) throw()
+    Diagnostic& Diagnostic::operator= (const Diagnostic& other) throw()
     {
         myStatus = other.myStatus;
         std::memcpy(myMessage,other.myMessage,sizeof(myMessage));
         return (*this);
     }
 
-    std::ostream& operator<< (
-        std::ostream& out, const Diagnostic& diagnostic
-        )
+    std::ostream& operator<<
+        (std::ostream& stream, const Diagnostic& diagnostic)
     {
-        return (out << diagnostic.status() << ": " << diagnostic.what());
+        return (stream << diagnostic.status() << ": " << diagnostic.what());
     }
 
 }

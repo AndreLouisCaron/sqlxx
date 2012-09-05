@@ -28,18 +28,18 @@
 
 namespace sql {
 
-    void Handle::proxy ( Value value, Type type )
+    void Handle::proxy (Value value, Type type)
     {
     }
 
-    void Handle::claim ( Value value, Type type )
+    void Handle::claim (Value value, Type type)
     {
-        if ( value != SQL_NULL_HANDLE ) {
+        if (value != SQL_NULL_HANDLE) {
             ::SQLFreeHandle(type, value);
         }
     }
 
-    Handle::Handle ( Value value, Type type, Cleanup cleanup )
+    Handle::Handle (Value value, Type type, Cleanup cleanup)
         : myValue(value), myType(type), myCleanup(cleanup)
     {
     }

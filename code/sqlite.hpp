@@ -27,6 +27,13 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+/*!
+ * @file sqlite.hpp
+ * @brief sqlxx SQLite support.
+ *
+ * @see sql::sqlite
+ */
+
 #include "sql.hpp"
 
 namespace sql {
@@ -34,6 +41,8 @@ namespace sql {
     /*!
      * @brief Support for SQLite.
      *
+     * @see sql.hpp
+     * @see sqlite.hpp
      * @see http://www.sqlite.org/
      */
     namespace sqlite {}

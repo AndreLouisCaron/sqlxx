@@ -29,9 +29,10 @@
 
 namespace sql {
 
-        /*!
-         * @brief Inherit from this class to prevent copying and assignment.
-         */
+    /*!
+     * @internal
+     * @brief Inherit from this class to prevent copying and assignment.
+     */
     class NotCopyable
     {
         /* construction. */
@@ -40,11 +41,11 @@ namespace sql {
         }
 
     private:
-        NotCopyable ( const NotCopyable& );
+        NotCopyable (const NotCopyable&);
 
         /* operators. */
     private:
-        NotCopyable& operator= ( const NotCopyable& );
+        NotCopyable& operator= (const NotCopyable&);
     };
 
 }

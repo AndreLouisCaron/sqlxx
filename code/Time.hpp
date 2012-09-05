@@ -34,13 +34,17 @@
 
 namespace sql {
 
-        /*!
-         * @brief Time of day: group of (hour,minute,second) values.
-         */
+    /*!
+     * @brief Time of day: group of (hour,minute,second) values.
+     */
     class Time
     {
         /* nested types. */
     public:
+        /*!
+         * @internal
+         * @brief Native representation.
+         */
         typedef ::SQL_TIME_STRUCT Value;
 
         /* data. */
@@ -49,77 +53,165 @@ namespace sql {
 
         /* construction. */
     public:
+        /*!
+         * @brief Default-initialize to 00:00:00.
+         */
         Time () {
             myValue.hour = 0, myValue.minute = 0, myValue.second = 0;
         }
 
-        Time ( uint16 hour, uint16 minute, uint16 second )
+        /*!
+         * @brief Value-initialize to hh:mm:ss.
+         * @param hour Hour of the day.
+         * @param minute Minute in @a hour.
+         * @param second Second in @a minute.
+         */
+        Time (uint16 hour, uint16 minute, uint16 second)
         {
             myValue.hour = hour;
             myValue.minute = minute;
             myValue.second = second;
         }
 
-        Time ( const Value value )
+        /*!
+         * @internal
+         * @brief Copy-initialize from the native representation.
+         */
+        Time (const Value& value)
             : myValue(value)
         {}
 
         /* methods. */
     public:
+        /*!
+         * @internal
+         * @brief Access the native representation.
+         * @return The wrapped value.
+         */
         Value& value () {
             return (myValue);
         }
 
+        /*!
+         * @internal
+         * @brief Access the native representation.
+         * @return The wrapped value.
+         */
         const Value& value () const {
             return (myValue);
         }
 
+        /*!
+         * @brief Obtain the hour component.
+         * @return The current hour component.
+         */
         uint16 hour () const {
             return (myValue.hour);
         }
 
-        void hour ( uint16 value ) {
+        /*!
+         * @brief Change the hour component.
+         * @param value The new hour component.
+         */
+        void hour (uint16 value) {
             myValue.hour = value;
         }
 
+        /*!
+         * @brief Obtain the minute component.
+         * @return The current minute component.
+         */
         uint16 minute () const {
             return (myValue.minute);
         }
 
-        void minute ( uint16 value ) {
+        /*!
+         * @brief Change the minute component.
+         * @param value The new minute component.
+         */
+        void minute (uint16 value) {
             myValue.minute = value;
         }
 
+        /*!
+         * @brief Obtain the second component.
+         * @return The current second component.
+         */
         uint16 second () const {
             return (myValue.second);
         }
 
-        void second ( uint16 value ) {
+        /*!
+         * @brief Change the second component.
+         * @param value The new second component.
+         */
+        void second (uint16 value) {
             myValue.second = value;
         }
 
         /* operators. */
     public:
-        Time& operator= ( const Value& value )
+        /*!
+         * @internal
+         * @brief Assign directly from the native representation.
+         * @return @c *this, for method chaining.
+         */
+        Time& operator= (const Value& value)
         {
             myValue = value;
             return (*this);
         }
 
-        bool operator== ( const Time& other ) const {
-            return (std::memcmp(&myValue,&other.myValue,sizeof(Value)) == 0);
+        /*!
+         * @brief Compare two times of day for equality.
+         * @param rhs Time of day to compare with.
+         * @return @c *this, for method chaining.
+         */
+        bool operator== (const Time& rhs) const {
+            return (std::memcmp(&myValue,&rhs.myValue,sizeof(Value)) == 0);
         }
 
-        bool operator!= ( const Time& other ) const {
-            return (std::memcmp(&myValue,&other.myValue,sizeof(Value)) != 0);
+        /*!
+         * @brief Compare two times of day for inequality.
+         * @param rhs Time of day to compare with.
+         * @return @c *this, for method chaining.
+         */
+        bool operator!= (const Time& rhs) const {
+            return (std::memcmp(&myValue,&rhs.myValue,sizeof(Value)) != 0);
         }
 
-        operator std::string() const;
-        operator std::wstring() const;
+        /*!
+         * @brief Convert the time to a string.
+         * @return *this, formatted as a string.
+         *
+         * @see operator<<(std::ostream&,const Time&)
+         */
+        operator std::string () const;
+
+        /*!
+         * @brief Convert the time to a string.
+         * @return *this, formatted as a string.
+         *
+         * @see operator<<(std::wostream&,const Time&)
+         */
+        operator std::wstring () const;
     };
 
-    std::ostream& operator<< ( std::ostream& out, const Time& value );
-    std::wostream& operator<< ( std::wostream& out, const Time& value );
+    /*!
+     * @brief Serialize the time of day.
+     * @param stream Destination output stream.
+     * @param value Value to write.
+     * @return @a stream, for method chaining.
+     */
+    std::ostream& operator<< (std::ostream& stream, const Time& value);
+
+    /*!
+     * @brief Serialize the time of day.
+     * @param stream Destination output stream.
+     * @param value Value to write.
+     * @return @a stream, for method chaining.
+     */
+    std::wostream& operator<< (std::wostream& stream, const Time& value);
 
 }
 

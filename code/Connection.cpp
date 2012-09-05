@@ -30,13 +30,13 @@
 
 namespace {
 
-    ::SQLHANDLE allocate ( sql::Environment& environment )
+    ::SQLHANDLE allocate (sql::Environment& environment)
     {
         ::SQLHANDLE handle = SQL_NULL_HANDLE;
         const ::SQLRETURN result = ::SQLAllocHandle(
             SQL_HANDLE_DBC, environment.handle().value(), &handle
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (sql::Diagnostic(environment.handle()));
         }
         return (handle);
@@ -130,7 +130,7 @@ namespace {
 
 namespace sql {
 
-    Connection::Connection ( Environment& environment )
+    Connection::Connection (Environment& environment)
         : myHandle(::allocate(environment), SQL_HANDLE_DBC, &Handle::claim)
     {
     }
@@ -152,7 +152,7 @@ namespace sql {
         const ::SQLINTEGER size = SQL_IS_UINTEGER;
         const ::SQLRETURN result = ::SQLSetConnectAttr
             (handle().value(), attribute, data, size);
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
     }
@@ -165,7 +165,7 @@ namespace sql {
         const ::SQLINTEGER size = SQL_IS_UINTEGER;
         const ::SQLRETURN result = ::SQLSetConnectAttr
             (handle().value(), attribute, data, size);
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
     }
@@ -175,7 +175,7 @@ namespace sql {
         ::SQLRETURN result = ::SQLEndTran(
             handle().type(), handle().value(), SQL_COMMIT
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
     }
@@ -185,7 +185,7 @@ namespace sql {
         ::SQLRETURN result = ::SQLEndTran(
             handle().type(), handle().value(), SQL_ROLLBACK
             );
-        if ( result != SQL_SUCCESS ) {
+        if (result != SQL_SUCCESS) {
             throw (Diagnostic(handle()));
         }
     }
