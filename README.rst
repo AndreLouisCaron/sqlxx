@@ -61,6 +61,10 @@ The API documentation will be made available online shortly.
 Getting started
 ===============
 
+Check out the `project page`_, where you can find online API documentation.
+
+.. _`project page`: http://andrelouiscaron.github.com/sqlxx/
+
 Compiling
 ---------
 
