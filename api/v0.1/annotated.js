@@ -1,0 +1,28 @@
+var annotated =
+[
+    [ "sql::basic_string< Char >", "classsql_1_1basic__string.html", "classsql_1_1basic__string" ],
+    [ "sql::char_traits< character >", "structsql_1_1char__traits_3_01character_01_4.html", "structsql_1_1char__traits_3_01character_01_4" ],
+    [ "sql::char_traits< wcharacter >", "structsql_1_1char__traits_3_01wcharacter_01_4.html", "structsql_1_1char__traits_3_01wcharacter_01_4" ],
+    [ "sql::Connection", "classsql_1_1_connection.html", "classsql_1_1_connection" ],
+    [ "sql::Date", "classsql_1_1_date.html", "classsql_1_1_date" ],
+    [ "sql::Diagnostic", "classsql_1_1_diagnostic.html", "classsql_1_1_diagnostic" ],
+    [ "sql::Driver", "classsql_1_1_driver.html", "classsql_1_1_driver" ],
+    [ "sql::Environment", "classsql_1_1_environment.html", "classsql_1_1_environment" ],
+    [ "sql::Environment::Failure", "classsql_1_1_environment_1_1_failure.html", null ],
+    [ "sql::firebird::Connection", "classsql_1_1firebird_1_1_connection.html", "classsql_1_1firebird_1_1_connection" ],
+    [ "sql::Guid", "classsql_1_1_guid.html", "classsql_1_1_guid" ],
+    [ "sql::mysql::Connection", "classsql_1_1mysql_1_1_connection.html", "classsql_1_1mysql_1_1_connection" ],
+    [ "sql::Numeric", "classsql_1_1_numeric.html", "classsql_1_1_numeric" ],
+    [ "sql::odbc::Connection", "classsql_1_1odbc_1_1_connection.html", "classsql_1_1odbc_1_1_connection" ],
+    [ "sql::Parameter", "classsql_1_1_parameter.html", "classsql_1_1_parameter" ],
+    [ "sql::PreparedStatement", "classsql_1_1_prepared_statement.html", "classsql_1_1_prepared_statement" ],
+    [ "sql::Results", "classsql_1_1_results.html", "classsql_1_1_results" ],
+    [ "sql::Results::State", "classsql_1_1_results_1_1_state.html", "classsql_1_1_results_1_1_state" ],
+    [ "sql::sqlite::Connection", "classsql_1_1sqlite_1_1_connection.html", "classsql_1_1sqlite_1_1_connection" ],
+    [ "sql::Statement", "classsql_1_1_statement.html", "classsql_1_1_statement" ],
+    [ "sql::Status", "classsql_1_1_status.html", "classsql_1_1_status" ],
+    [ "sql::Time", "classsql_1_1_time.html", "classsql_1_1_time" ],
+    [ "sql::Timestamp", "classsql_1_1_timestamp.html", "classsql_1_1_timestamp" ],
+    [ "sql::Transaction", "classsql_1_1_transaction.html", "classsql_1_1_transaction" ],
+    [ "sql::Version", "classsql_1_1_version.html", "classsql_1_1_version" ]
+];
