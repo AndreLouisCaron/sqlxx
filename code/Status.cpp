@@ -39,6 +39,11 @@ namespace sql {
         return (Status((const character*)"08004"));
     }
 
+    const Status Status::string_truncated ()
+    {
+        return (Status((const character*)"01004"));
+    }
+
     Status::Status () throw ()
     {
         std::memset(myValue,0,6*sizeof(character));

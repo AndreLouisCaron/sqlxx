@@ -45,6 +45,7 @@ set(headers
   Version.hpp
   firebird.hpp
   mysql.hpp
+  odbc.hpp
   sql.hpp
   sqlite.hpp
   string.hpp
@@ -70,6 +71,7 @@ set(sources
   firebird.cpp
   mysql.cpp
   sqlite.cpp
+  odbc.cpp
 )
 add_library(sqlxx
   STATIC

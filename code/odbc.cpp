@@ -26,6 +26,8 @@
 
 #include "odbc.hpp"
 
+#include <iostream>
+
 namespace sql { namespace odbc {
 
     Connection::Connection (Environment& environment, const string& database,
@@ -75,6 +77,62 @@ namespace sql { namespace odbc {
         
             // Notify the caller of missing information.
         return (missing);
+    }
+
+    DataSources::Type DataSources::user ()
+    {
+        return (SQL_FETCH_FIRST_USER);
+    }
+
+    DataSources::Type DataSources::system ()
+    {
+        return (SQL_FETCH_FIRST_SYSTEM);
+    }
+
+    DataSources::Type DataSources::all ()
+    {
+        return (SQL_FETCH_FIRST);
+    }
+
+    DataSources::DataSources (Environment& environment, Type type)
+        : myEnvironment(environment)
+        , myDirection(type)
+        , myName(SQL_MAX_DSN_LENGTH)
+        , myInfo(SQL_MAX_DSN_LENGTH)
+    {
+    }
+
+    bool DataSources::next ()
+    {
+        ::SQLRETURN result = SQL_NO_DATA;
+        do {
+            ::SQLSMALLINT name_size = 0;
+            ::SQLSMALLINT info_size = 0;
+
+            result = ::SQLDataSources(
+                myEnvironment.handle().value(),
+                myDirection,
+                myName.data(), myName.capacity()+1, &name_size,
+                myInfo.data(), myInfo.capacity()+1, &info_size);
+            if (result == SQL_SUCCESS) {
+                myDirection = SQL_FETCH_NEXT;
+                return (true);
+            }
+            if (result == SQL_NO_DATA) {
+                return (false);
+            }
+            if (result == SQL_SUCCESS_WITH_INFO) {
+                const Diagnostic diagnostic(myEnvironment.handle());
+                if (diagnostic.status() != Status::string_truncated()) {
+                    throw (diagnostic);
+                }
+                myName.reserve(name_size);
+                myInfo.reserve(info_size);
+            }
+        }
+        while (result != SQL_ERROR);
+
+        throw (Diagnostic(myEnvironment.handle()));
     }
 
 } }

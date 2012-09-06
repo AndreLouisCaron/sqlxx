@@ -34,11 +34,7 @@
  * @see sql::odbc
  */
 
-#include <sql.hpp>
-
-// Query list of available data sources by using: SQLDataSources().
-//
-// SQLDrivers() lists installed drivers and their attributes.
+#include "sql.hpp"
 
 namespace sql {
 
@@ -90,6 +86,100 @@ namespace sql { namespace odbc {
      */
     sql::string browse (sql::Connection& connection,
                         const sql::string& settings);
+
+    /*!
+     * @brief Enumerator for named ODBC data sources.
+     *
+     * Enumeration of data sources typically looks like:
+     * @code
+     *  Environment& environment = ...;
+     *  DataSources data_sources(environment);
+     *  while (data_sources.next()) {
+     *    std::cout
+     *      << data_sources.name() << ": "
+     *      << data_sources.info() << "."
+     *      << std::endl;
+     *  }
+     * @endcode
+     */
+    class DataSources
+    {
+        /* nested types. */
+    public:
+        /*!
+         * @brief Enumeration type for categories of data sources.
+         *
+         * @see DataSources::DataSources(Environment&,Type)
+         * @see user()
+         * @see system()
+         * @see all()
+         */
+        typedef ::SQLUSMALLINT Type;
+
+        /* class methods. */
+    public:
+        /*!
+         * @brief List all data sources configured for the current user.
+         */
+        static Type user ();
+
+        /*!
+         * @brief List all data sources configured for the system.
+         */
+        static Type system ();
+
+        /*!
+         * @brief List all data sources.
+         */
+        static Type all ();
+
+        /* data. */
+    private:
+        Environment& myEnvironment;
+        ::SQLUSMALLINT myDirection;
+
+        string myName;
+        string myInfo;
+
+        /* construction. */
+    public:
+        /*!
+         * @brief Prepare enumeration of data sources in @a environment.
+         * @param environment Environment in which to look for data sources.
+         * @param type Type of sources to enumerate.
+         *
+         * @see user()
+         * @see system()
+         * @see all()
+         */
+        DataSources (Environment& environment, Type type=all());
+
+        /* methods. */
+    public:
+        /*!
+         * @brief Fetch information about the next data source.
+         * @return @c true if @c name() and @c info() are valid.
+         */
+        bool next ();
+
+        /*!
+         * @brief Get the data source name.
+         * @return The data source name.
+         * @pre @c next() just returned @c true.
+         */
+        const string& name () const {
+            return (myName);
+        }
+
+        /*!
+         * @brief Get the data source driver name.
+         * @return The data source driver name.
+         * @pre @c next() just returned @c true.
+         */
+        const string& info () const {
+            return (myInfo);
+        }
+    };
 
 } }
 

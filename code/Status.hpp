@@ -55,6 +55,11 @@ namespace sql {
          */
         static const Status connection_rejected ();
 
+        /*!
+         * @brief Buffer too small, partial result returned.
+         */
+        static const Status string_truncated ();
+
         /* data. */
     private:
             // Standard 5 characters, plus a null terminator.
