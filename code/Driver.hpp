@@ -80,6 +80,66 @@ namespace sql {
         virtual ~Driver ();
     };
 
+    /*!
+     * @brief Enumerator for ODBC database drivers.
+     *
+     * Enumeration of drivers typically looks like:
+     * @code
+     *  Environment& environment = ...;
+     *  Drivers drivers(environment);
+     *  while (drivers.next()) {
+     *    std::cout
+     *      << drivers.name() << ": "
+     *      << drivers.info() << "."
+     *      << std::endl;
+     *  }
+     * @endcode
+     */
+    class Drivers
+    {
+        /* data. */
+    private:
+        Environment& myEnvironment;
+        ::SQLUSMALLINT myDirection;
+
+        string myName;
+        string myInfo;
+
+        /* construction. */
+    public:
+        /*!
+         * @brief Prepare enumeration of drivers for @a environment.
+         * @param environment Environment in which to look for drivers.
+         */
+        Drivers (Environment& environment);
+
+        /* methods. */
+    public:
+        /*!
+         * @brief Fetch information about the next driver.
+         * @return @c true if @c name() and @c info() are valid.
+         */
+        bool next ();
+
+        /*!
+         * @brief Get the driver name.
+         * @return The driver name.
+         * @pre @c next() just returned @c true.
+         */
+        const string& name () const {
+            return (myName);
+        }
+
+        /*!
+         * @brief Get the driver driver name.
+         * @return The driver driver name.
+         * @pre @c next() just returned @c true.
+         */
+        const string& info () const {
+            return (myInfo);
+        }
+    };
+
 }
 
 #endif /* _sql_Driver_hpp__ */

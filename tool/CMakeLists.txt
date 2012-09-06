@@ -32,3 +32,4 @@ endmacro()
 
 add_tool_program(driver-info)
 add_tool_program(odbc-data-sources)
+add_tool_program(odbc-drivers)
