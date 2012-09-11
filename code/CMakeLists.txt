@@ -43,6 +43,7 @@ set(headers
   Timestamp.hpp
   Transaction.hpp
   Version.hpp
+  catalog.hpp
   firebird.hpp
   mysql.hpp
   odbc.hpp
@@ -68,6 +69,7 @@ set(sources
   Timestamp.cpp
   Transaction.cpp
   Version.cpp
+  catalog.cpp
   firebird.cpp
   mysql.cpp
   sqlite.cpp

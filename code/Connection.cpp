@@ -237,4 +237,22 @@ namespace sql {
                                      SQL_CREATE_TABLE));
     }
 
+    uint16 Connection::max_catalog_name_size () const
+    {
+        return (get_uint16_attribute(handle().value(),
+                                     SQL_MAX_CATALOG_NAME_LEN));
+    }
+
+    uint16 Connection::max_schema_name_size () const
+    {
+        return (get_uint16_attribute(handle().value(),
+                                     SQL_MAX_SCHEMA_NAME_LEN));
+    }
+
+    uint16 Connection::max_table_name_size () const
+    {
+        return (get_uint16_attribute(handle().value(),
+                                     SQL_MAX_TABLE_NAME_LEN));
+    }
+
 }

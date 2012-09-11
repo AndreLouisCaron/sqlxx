@@ -32,6 +32,7 @@
  */
 namespace sql {}
 
+#include "catalog.hpp"
 #include "Connection.hpp"
 #include "Date.hpp"
 #include "Diagnostic.hpp"

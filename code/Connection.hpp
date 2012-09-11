@@ -182,6 +182,33 @@ namespace sql {
         uint32 create_table_support () const;
 
         //! @}
+
+        /*!
+         * @brief Queries the driver for the maximum catalog name length.
+         * @return The maximum catalog name length.
+         *
+         * Use this to reserve memory for result strings returned by the @c
+         * Catalogs enumerator.
+         */
+        uint16 max_catalog_name_size () const;
+
+        /*!
+         * @brief Queries the driver for the maximum schema name length.
+         * @return The maximum schema name length.
+         *
+         * Use this to reserve memory for result strings returned by the @c
+         * Schemas enumerator.
+         */
+        uint16 max_schema_name_size () const;
+
+        /*!
+         * @brief Queries the driver for the maximum table name length.
+         * @return The maximum table name length.
+         *
+         * Use this to reserve memory for result strings returned by the @c
+         * Tables enumerator.
+         */
+        uint16 max_table_name_size () const;
     };
 
 }
