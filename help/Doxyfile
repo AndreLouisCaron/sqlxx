@@ -49,7 +49,7 @@ PROJECT_NUMBER         = @PROJECT_VERSION@
 PROJECT_BRIEF          = "C++ wrappers for ODBC C API."
 PROJECT_LOGO           = 
 
-OUTPUT_DIRECTORY       = @CMAKE_CURRENT_BINARY_DIR@/help/
+OUTPUT_DIRECTORY       = @CMAKE_BINARY_DIR@/help/
 CREATE_SUBDIRS         = NO
 OUTPUT_LANGUAGE        = English
 
