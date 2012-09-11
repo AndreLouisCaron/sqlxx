@@ -51,6 +51,20 @@ namespace sql {
      */
     static const Row row;
 
+    class Results;
+
+    /*!
+     * @brief Skip the next result in the current row.
+     * @param results Result set in which to skip a result.
+     * @return @a results, for method chaining.
+     *
+     * This is a @c Results::Manipulator.
+     *
+     * @see Results::skip()
+     * @see Results::operator>>(Results::Manipulator)
+     */
+    Results& skip (Results& results);
+
     /*!
      * @brief Convenient utility for reading the results returned by an SQL
      *    query.
@@ -62,6 +76,8 @@ namespace sql {
     class Results :
         private NotCopyable
     {
+        friend Results& skip (Results& results);
+
         /* nested types. */
     public:
         /*!
@@ -243,6 +259,18 @@ namespace sql {
          * on the number of results, etc.
          */
         size_t rows () const;
+
+        /*!
+         * @brief Skip the next result in the current row.
+         * @return @a *this, for method chaining.
+         *
+         * This is typically used indirectly through @c skip(Results&), a
+         * stream @c Manipulator.
+         *
+         * @see operator>>(Manipulator)
+         * @see skip(Results&)
+         */
+        Results& skip ();
 
         /* operators. */
     public:

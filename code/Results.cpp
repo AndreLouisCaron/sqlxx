@@ -108,6 +108,16 @@ namespace sql {
         return (count);
     }
 
+    Results& Results::skip ()
+    {
+        if (!myState) {
+            return (*this);
+        }
+
+        ++myColumn;
+        return (*this);
+    }
+
     Results& Results::operator>> (const Row&)
     {
         if (!myState) {
@@ -465,6 +475,11 @@ namespace sql {
         }
         ++myColumn;
         return (*this);
+    }
+
+    Results& skip (Results& results)
+    {
+        return (results.skip());
     }
 
 }
