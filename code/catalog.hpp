@@ -99,6 +99,38 @@ namespace sql {
         Tables (Connection& connection);
     };
 
+    /*!
+     * @brief Enumerates all primary keys in a table.
+     */
+    class PrimaryKeys :
+        public Statement
+    {
+        /* construction. */
+    public:
+        /*!
+         * @brief Enumerate primary key columns in @a table.
+         * @param connection Connection to the data source of interest.
+         * @param table Table name.
+         */
+        PrimaryKeys (Connection& connection, const string& table);
+    };
+
+    /*!
+     * @brief Enumerates all foreign keys in a table.
+     */
+    class ForeignKeys :
+        public Statement
+    {
+        /* construction. */
+    public:
+        /*!
+         * @brief Enumerate foreign key columns in @a table.
+         * @param connection Connection to the data source of interest.
+         * @param table Table name.
+         */
+        ForeignKeys (Connection& connection, const string& table);
+    };
+
 }
 
 #endif /* _sql_catalog_hpp__ */

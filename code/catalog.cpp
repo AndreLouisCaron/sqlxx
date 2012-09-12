@@ -93,5 +93,38 @@ namespace sql {
         }
     }
 
+    PrimaryKeys::PrimaryKeys (Connection& connection, const string& table)
+        : Statement(connection)
+    {
+        ::SQLCHAR any[] = "";
+        const ::SQLRETURN result = ::SQLPrimaryKeys(
+            handle().value(),
+            any, SQL_NTS, // catalog name.
+            any, SQL_NTS, // schema name.
+            (::SQLCHAR*)table.data(), SQL_NTS); // table name.
+        if ((result != SQL_SUCCESS) && (result != SQL_SUCCESS_WITH_INFO))
+        {
+            throw (Diagnostic(handle()));
+        }
+    }
+
+    ForeignKeys::ForeignKeys (Connection& connection, const string& table)
+        : Statement(connection)
+    {
+        ::SQLCHAR any[] = "";
+        const ::SQLRETURN result = ::SQLForeignKeys(
+            handle().value(),
+            any, SQL_NTS, // pk table catalog name.
+            any, SQL_NTS, // pk table schema name.
+            any, SQL_NTS, // pk table table name.
+            any, SQL_NTS, // fk table catalog name.
+            any, SQL_NTS, // fk table schema name.
+            (::SQLCHAR*)table.data(), SQL_NTS); // fk table name.
+        if ((result != SQL_SUCCESS) && (result != SQL_SUCCESS_WITH_INFO))
+        {
+            throw (Diagnostic(handle()));
+        }
+    }
+
 }
 

@@ -96,6 +96,35 @@ namespace {
               std::cout
                   << "Table: '" << table << "'."
                   << std::endl;
+              { sql::PrimaryKeys keys(connection, table);
+                sql::Results results(keys);
+                sql::string pk_column(256);
+                while ((results >> sql::row) &&
+                       (results >> sql::skip) && // catalog name.
+                       (results >> sql::skip) && // schema name.
+                       (results >> sql::skip) && // table name.
+                       (results >> pk_column))
+                {
+                    std::cout
+                        << "  pk: '" << pk_column << "'."
+                        << std::endl;
+                }
+              }
+              { sql::ForeignKeys keys(connection, table);
+                sql::Results results(keys);
+                sql::string fk_table(256);
+                sql::string fk_column(256);
+                while ((results >> sql::row) &&
+                       (results >> sql::skip) && // catalog name.
+                       (results >> sql::skip) && // schema name.
+                       (results >> fk_table) &&
+                       (results >> fk_column))
+                {
+                    std::cout
+                        << "  fk: '" << fk_table << "'@'" << fk_column << "'."
+                        << std::endl;
+                }
+              }
           }
         }
 
