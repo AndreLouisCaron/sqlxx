@@ -39,6 +39,11 @@ namespace sql {
         return (Status((const character*)"08004"));
     }
 
+    const Status Status::host_unreachable ()
+    {
+        return (Status((const character*)"08001"));
+    }
+
     const Status Status::string_truncated ()
     {
         return (Status((const character*)"01004"));

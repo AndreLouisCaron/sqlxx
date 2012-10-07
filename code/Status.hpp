@@ -54,6 +54,7 @@ namespace sql {
          * @brief Server rejected the network connected.
          */
         static const Status connection_rejected ();
+        static const Status host_unreachable ();
 
         /*!
          * @brief Buffer too small, partial result returned.
