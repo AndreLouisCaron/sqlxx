@@ -29,17 +29,17 @@
 
 if(NOT DEFINED sqlxx_FOUND)
 
-#  # Locate library headers.
-#  find_path(sqlxx_include_dir
-#    NAMES sql.hpp
-#    PATHS ${sqlxx_DIR}/code
-#  )
+  # Locate library headers.
+  find_path(sqlxx_include_dir
+    NAMES sql.hpp
+    PATHS ${sqlxx_DIR}/code
+  )
 
-#  # Common name for exported library targets.
-#  set(sqlxx_libraries
-#    sqlxx odbc32.lib
-#    PARENT_SCOPE
-#  )
+  # Common name for exported library targets.
+  set(sqlxx_libraries
+    sqlxx
+    odbc32
+  )
 
   # Usual "required" et. al. directive logic.
   include(FindPackageHandleStandardArgs)
